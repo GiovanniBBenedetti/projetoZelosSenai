@@ -1,8 +1,8 @@
-import { read, deleteRecord, create } from "../config/database.js";
+import { read, create } from "../config/database.js";
 
-const obterUsuario = async (email) => {
+const obterUsuario = async (numeroRegistro) => {
     try {
-        return await read('usuarios', `numeroRegistro = '${email}'`);
+        return await read('usuarios', `numeroRegistro = '${numeroRegistro}'`);
     } catch (err) {
         console.error('Erro ao obter usuário por Numero de Registro: ', err);
         throw err;
