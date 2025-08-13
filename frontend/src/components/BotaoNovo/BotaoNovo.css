@@ -1,0 +1,55 @@
+.button-wrapper {
+    display: inline-block;
+}
+
+.custom-button {
+    background: rgb(181, 0, 12);
+    color: white;
+    font-family: inherit;
+    padding: 0.35em 3.3em 0.35em 1.2em;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 20px;
+    border: none;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    height: 2.8em;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: all 0.3s;
+}
+
+.custom-button .icon {
+    background: white;
+    margin-left: 1em;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.2em;
+    width: 2.2em;
+    border-radius: 20px;
+    right: 0.3em;
+    transition: all 0.3s;
+}
+
+.custom-button:hover .icon {
+    width: calc(100% - 0.6em);
+}
+
+.custom-button .icon svg {
+    width: 1.1em;
+    transition: transform 0.3s;
+    color: rgb(181, 0, 12);
+}
+
+.custom-button:hover .icon svg {
+    transform: translateX(0.1em);
+}
+
+.custom-button:active .icon {
+    transform: scale(0.95);
+}

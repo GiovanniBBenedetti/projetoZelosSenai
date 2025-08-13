@@ -1,7 +1,6 @@
 import express from 'express';
 import passport from '../config/ldap.js';
-import { loginSucesso } from '../controllers/authController.js';
-
+import { loginSucessoController } from "../controllers/AuthController.js"
 const router = express.Router();
 
 router.post('/login', (req, res, next) => {
@@ -20,7 +19,7 @@ router.post('/login', (req, res, next) => {
           return res.status(500).json({ error: 'Erro ao criar sessão' });
         }
 
-        await loginSucesso(req, res); 
+        await loginSucessoController(req, res); 
       });
     } catch (error) {
       res.status(500).json({ error: 'Erro inesperado no servidor' });

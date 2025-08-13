@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config/jwt.js";
 import generateHashedPassword from "../hashPassword.js"
 
-const loginSucesso = async (req, res) => {
+const loginSucessoController = async (req, res) => {
   try {
     const email = req.user.userPrincipalName;
     const nome = req.user.displayName;
@@ -33,7 +33,8 @@ const loginSucesso = async (req, res) => {
 
 
     const token = jwt.sign(
-      { id: usuario.id, nome: usuario.nome, email: usuario.email },
+      { id: usuario.id, nome: usuario.nome, email: usuario.email, numeroRegistro: usuario.numeroRegistro, descricao: usuario.descricao
+       },
       JWT_SECRET,
       { expiresIn: "1h" }
     );
@@ -53,4 +54,4 @@ const loginSucesso = async (req, res) => {
     return res.status(500).json({ error: "Erro interno ao salvar usuário" });
   }
 };
- export {loginSucesso}
+ export {loginSucessoController}
