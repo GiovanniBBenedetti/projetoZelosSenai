@@ -3,8 +3,8 @@ import { listarDuvidas, obterDuvidaPorId, criarDuvida, excluirDuvida} from '../m
 
 const listarDuvidasController = async (req, res) => {
     try {
-        const livros = await listarDuvidas()
-        res.status(200).json(livros)
+        const duvidas = await listarDuvidas()
+        res.status(200).json(duvidas)
     } catch (err) {
         console.error('Erro ao listar Duvídas: ', err)
         res.status(500).json({ mensagem: 'Erro ao listar Duvídas' })

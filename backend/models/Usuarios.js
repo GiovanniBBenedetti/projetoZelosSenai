@@ -1,4 +1,4 @@
-import { read, create } from "../config/database.js";
+import { read, create, readAll } from "../config/database.js";
 
 const obterUsuario = async (numeroRegistro) => {
     try {
@@ -18,6 +18,15 @@ const criarUsuario = async (dados) =>{
     }
 }
 
+const listarTodosUsuarios = async () => {
+    try {
+        return await readAll('usuarios')
+    } catch (err) {
+        console.error('Erro ao listar usuarios: ', err)
+        throw err
+    }
+};
 
 
-export { obterUsuario, criarUsuario };
+
+export { obterUsuario, criarUsuario, listarTodosUsuarios};
