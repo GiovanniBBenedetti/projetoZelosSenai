@@ -9,18 +9,11 @@ export default function Login() {
   const [mensagem, setMensagem] = useState('');
 
   async function handleLogin() {
-    const dados = JSON.stringify({
-      username: rm,
-      password: senha,
-    });
-
     try {
       const response = await fetch('http://localhost:8080/auth/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: dados,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: rm, password: senha }),
       });
 
       const data = await response.json();
@@ -28,54 +21,55 @@ export default function Login() {
       if (response.ok) {
         setCookie('token', data.token);
         alert(data.message);
-        console.log(data)
       } else {
-        setMensagem(data.error);
-        alert(mensagem);
+        setMensagem(data.error || 'Credenciais inválidas.');
+        alert(data.error || 'Credenciais inválidas.');
       }
     } catch (error) {
       console.error('Erro ao realizar login:', error);
       setMensagem('Erro ao conectar com o servidor.');
+      alert('Erro ao conectar com o servidor.');
     }
   }
 
   return (
     <div className="tudo">
-      <div className="d-flex justify-content-start flex-wrap">
-        <img className="Logos" src="./img/Logos.png" alt="Logo Senai" />
-      </div>
+      {/* Logo fixa no canto superior esquerdo */}
+      <img className="Logos" src="./img/Logos.png" alt="Logo Senai" />
 
-      <div className="container d-flex justify-content-center align-items-center">
-        <div className="mt-5">
-          <div className="form-container">
-            <p className="title">Login</p>
-            <p className="descricao">Bem-vindo à plataforma Zelos!</p>
+      {/* Formulário centralizado */}
+      <div className="loginContainer">
+        <div className="form-container">
+          <p className="title">Login</p>
+          <p className="descricao">Bem-vindo à plataforma Zelos!</p>
 
-            <form className="form">
-              <div className="input-group">
-                <input
-                  placeholder="Registro de Matrícula"
-                  type="text"
-                  name="rm"
-                  value={rm}
-                  onChange={(e) => setRm(e.target.value)}
-                  className="input"
-                />
-                <input
-                  placeholder="Senha"
-                  type="password"
-                  name="Senha"
-                  value={senha}
-                  onChange={(e) => setSenha(e.target.value)}
-                  className="input"
-                />
-              </div>
-
-              <button type="button" className="sign" onClick={handleLogin}>
-                Login!
-              </button>
-            </form>
-          </div>
+          <form
+            className="form"
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleLogin();
+            }}
+          >
+            <div className="input-group">
+              <input
+                placeholder="Registro de Matrícula"
+                type="text"
+                value={rm}
+                onChange={(e) => setRm(e.target.value)}
+                className="input"
+              />
+              <input
+                placeholder="Senha"
+                type="password"
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+                className="input"
+              />
+            </div>
+            <button type="submit" className="sign">
+              Login!
+            </button>
+          </form>
         </div>
       </div>
     </div>

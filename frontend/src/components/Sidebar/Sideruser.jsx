@@ -1,7 +1,7 @@
 import './sideuser.css';
 
 import LogoutUser from '../LogoutUser/LogoutUser';
-
+import Link from 'next/link';
 const nomePerfil = 'Giulia Berraquero Ventre';
 const partes = nomePerfil.trim().split(' ');
 const iniciais =
@@ -15,7 +15,7 @@ export default function Sideuser() {
       {/* Nav Computador */}
       <div className="d-none d-md-block">
         <aside className="sidebar">
-          <img src="/logotipos/logoEscritaBranca.png" className="logo" alt="" />
+         <Link href='/usuario'><img src="/logotipos/logoEscritaBranca.png" className="logo" alt="" /></Link> 
           <div className="sidebtns">
             <a href="">
               <button className="sidepage perfil">
