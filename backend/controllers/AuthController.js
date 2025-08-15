@@ -33,7 +33,7 @@ const loginSucessoController = async (req, res) => {
 
 
     const token = jwt.sign(
-      { id: usuario.id, nome: usuario.nome, email: usuario.email, numeroRegistro: usuario.numeroRegistro, descricao: usuario.descricao
+      { nome: usuario.nome, email: usuario.email, numeroRegistro: usuario.numeroRegistro, descricao: usuario.descricao, funcao: usuario.funcao
        },
       JWT_SECRET,
       { expiresIn: "1h" }
@@ -46,7 +46,8 @@ const loginSucessoController = async (req, res) => {
         numeroRegistro: usuario.numeroRegistro,
         displayName: usuario.nome,
         email: usuario.email,
-        curso:usuario.descricao
+        curso:usuario.descricao,
+        funcao:usuario.funcao
       }
     });
   } catch (error) {

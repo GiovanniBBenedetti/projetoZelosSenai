@@ -1,0 +1,19 @@
+.content {
+    width: 80%;
+}
+
+.titulo-user {
+    color: var(--vermelhoEscuro);
+    font-weight: bold;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.cards-resolvidos {
+    background-color: var(--vermelhoEscuro);
+    border-radius: 15px;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+}

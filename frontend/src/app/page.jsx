@@ -2,11 +2,12 @@
 import './login.css';
 import { useState } from 'react';
 import { setCookie } from 'cookies-next/client';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Login() {
   const [rm, setRm] = useState('');
   const [senha, setSenha] = useState('');
-  const [mensagem, setMensagem] = useState('');
 
   async function handleLogin() {
     try {
@@ -20,20 +21,36 @@ export default function Login() {
 
       if (response.ok) {
         setCookie('token', data.token);
-        alert(data.message);
+        setCookie('funcao', data.user.funcao)
+        setCookie('nome', data.user.displayName)
+          if (data.user.funcao === 'usuario') {
+            window.location.href = '/usuario';
+          } else if (data.user.funcao ==='admin'){
+            window.location.href = '/admin';
+          }else{
+            window.location.href = '/tecnico'
+          }
+      
       } else {
-        setMensagem(data.error || 'Credenciais inválidas.');
-        alert(data.error || 'Credenciais inválidas.');
+        toast.error('Número de cadastro ou senha incorreto', {
+          position: 'top-right',
+          autoClose: 3000,
+        });
       }
     } catch (error) {
       console.error('Erro ao realizar login:', error);
-      setMensagem('Erro ao conectar com o servidor.');
-      alert('Erro ao conectar com o servidor.');
+      toast.error('Erro ao conectar com o servidor.', {
+        position: 'top-right',
+        autoClose: 3000,
+      });
     }
   }
 
   return (
     <div className="tudo">
+      {/* Toast container */}
+      <ToastContainer />
+
       {/* Logo fixa no canto superior esquerdo */}
       <img className="Logos" src="./img/Logos.png" alt="Logo Senai" />
 

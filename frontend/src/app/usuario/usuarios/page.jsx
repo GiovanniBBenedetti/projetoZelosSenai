@@ -15,7 +15,6 @@ const columns = [
     { field: 'nome', headerName: 'Nome', width: 200, disableColumnMenu: true },
     { field: 'numeroRegistro', headerName: 'Nº Registro', width: 100, disableColumnMenu: true },
     { field: 'email', headerName: 'Email', width: 190, disableColumnMenu: true },
-    { field: 'senha', headerName: 'Senha', width: 90, disableColumnMenu: true },
     { field: 'funcao', headerName: 'Função', width: 110, disableColumnMenu: true },
     { field: 'criadoEm', headerName: 'Criado em', width: 120, disableColumnMenu: true },
     { field: 'atualizadoEm', headerName: 'Atualizado em', width: 120, disableColumnMenu: true },
@@ -85,7 +84,6 @@ export default function TabelaPatrimonios() {
                     nome: usuario.nome,
                     numeroRegistro: String(usuario.numeroRegistro),
                     email: usuario.email,
-                    senha: '****', // nunca exibir a senha real
                     funcao: usuario.funcao || '—',
                     criadoEm: new Date(usuario.criado_em).toLocaleDateString('pt-BR'),
                     atualizadoEm: new Date(usuario.atualizado_em).toLocaleDateString('pt-BR'),

@@ -1,18 +1,39 @@
-import './sideuser.css';
+'use client';
 
+import './sideuser.css';
+import { getCookie } from 'cookies-next';
 import LogoutUser from '../LogoutUser/LogoutUser';
 import Link from 'next/link';
-const nomePerfil = 'Giulia Berraquero Ventre';
-const partes = nomePerfil.trim().split(' ');
-const iniciais =
-  partes[0].charAt(0).toUpperCase() +
-  partes[partes.length - 1].charAt(0).toUpperCase();
-const nomeExibido = `${partes[0]} ${partes[partes.length - 1]}`;
+import { useEffect, useState } from 'react';
 
 export default function Sideuser() {
+  const [nomePerfil, setNomePerfil] = useState('');
+
+  useEffect(() => {
+    const nome = getCookie('nome');
+    if (nome) {
+      setNomePerfil(nome);
+    }
+  }, []);
+
+
+const partes = nomePerfil.trim().split(' ');
+const nomeFormatado = partes
+  .map(parte => parte.charAt(0).toUpperCase() + parte.slice(1).toLowerCase())
+  .join(' ');
+const iniciais =
+  (partes[0]?.charAt(0).toUpperCase() || '') +
+  (partes[partes.length - 1]?.charAt(0).toUpperCase() || '');
+const nomeExibido = `${partes[0].charAt(0).toUpperCase() + partes[0].slice(1).toLowerCase()} ${
+  partes[partes.length - 1]
+    ? partes[partes.length - 1].charAt(0).toUpperCase() + partes[partes.length - 1].slice(1).toLowerCase()
+    : ''
+}`;
+
+
   return (
     <>
-      {/* Nav Computador */}
+
       <div className="d-none d-md-block">
         <aside className="sidebar">
          <Link href='/usuario'><img src="/logotipos/logoEscritaBranca.png" className="logo" alt="" /></Link> 
