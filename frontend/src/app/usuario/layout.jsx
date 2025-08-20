@@ -22,7 +22,7 @@ export const metadata = {
 
 export default function usuarioLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Sideuser/>
         {children}

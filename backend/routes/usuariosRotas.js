@@ -1,10 +1,10 @@
 import express from 'express'
 import { listarUsuariosController } from '../controllers/UsuariosController.js' 
-
+import authMiddleware from '../middlewares/authMiddleware.js'
 const router = express.Router()
 
 
-router.get('/', listarUsuariosController)
+router.get('/', authMiddleware, listarUsuariosController)
 
 router.options('/', (req, res) => {
     res.setHeader('Allow', 'GET, OPTIONS');

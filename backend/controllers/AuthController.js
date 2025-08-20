@@ -7,7 +7,7 @@ const loginSucessoController = async (req, res) => {
   try {
     const email = req.user.userPrincipalName;
     const nome = req.user.displayName;
-    const numeroRegistro = req.user.sAMAccountName; 
+    const numeroRegistro = req.user.sAMAccountName;
     const password = req.body.password
     const descricao = req.user.description
 
@@ -32,12 +32,17 @@ const loginSucessoController = async (req, res) => {
 
 
 
-    const token = jwt.sign(
-      { nome: usuario.nome, email: usuario.email, numeroRegistro: usuario.numeroRegistro, descricao: usuario.descricao, funcao: usuario.funcao
-       },
+  const token =  jwt.sign(
+      {
+        id: usuario.id,
+        nome: usuario.nome,
+        numeroRegistro: usuario.numeroRegistro,
+        funcao: usuario.funcao
+      },
       JWT_SECRET,
       { expiresIn: "1h" }
     );
+
 
     return res.json({
       message: "Autenticado com sucesso",
@@ -46,8 +51,8 @@ const loginSucessoController = async (req, res) => {
         numeroRegistro: usuario.numeroRegistro,
         displayName: usuario.nome,
         email: usuario.email,
-        curso:usuario.descricao,
-        funcao:usuario.funcao
+        curso: usuario.descricao,
+        funcao: usuario.funcao
       }
     });
   } catch (error) {
@@ -55,4 +60,4 @@ const loginSucessoController = async (req, res) => {
     return res.status(500).json({ error: "Erro interno ao salvar usuário" });
   }
 };
- export {loginSucessoController}
+export { loginSucessoController }

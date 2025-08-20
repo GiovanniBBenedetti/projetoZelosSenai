@@ -1,16 +1,16 @@
-import Sideuser from '@/components/Sidebar/Sideruser';
-import Footer from '@/components/Footer/Footer';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import "../globals.css";
+import Sideuser from "@/components/Sidebar/Sideruser";
+import Footer from "@/components/Footer/Footer";
 
-export default function admLayout({ children }) {
+export default function usuarioLayout({ children }) {
   return (
-    <>
-      <html lang="pt-br">
-        <body>
-          <Sideuser />
-          <div className="body-content">{children}</div>
-          <Footer />
-        </body>
-      </html>
-    </>
+    <html lang="pt-BR">
+      <body>
+        <Sideuser/>
+        {children}
+       <Footer/>
+      </body>
+    </html>
   );
 }

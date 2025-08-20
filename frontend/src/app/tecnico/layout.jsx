@@ -4,7 +4,7 @@ import Footer from '@/components/Footer/Footer';
 export default function admLayoutTecnico({ children }) {
   return (
     <>
-      <html lang="pt-br">
+      <html lang="pt-BR">
         <body>
           <Sideuser />
           {children}

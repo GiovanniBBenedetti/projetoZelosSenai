@@ -1,9 +1,16 @@
-
+'use client';
 import './home.css';
+import { getCookie } from 'cookies-next';
+import { useEffect } from 'react';
 
 export default function UserHome() {
-
-
+  useEffect(() => {
+    const funcao = getCookie('funcao');
+    if (funcao !== 'usuario') {
+      window.location.href = '/';
+      
+    }
+  }, []);
 
   return (
     <>

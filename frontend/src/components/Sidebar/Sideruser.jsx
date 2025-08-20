@@ -1,181 +1,155 @@
 'use client';
 
 import './sideuser.css';
-import { getCookie } from 'cookies-next';
+import { getCookie, deleteCookie } from 'cookies-next';
 import LogoutUser from '../LogoutUser/LogoutUser';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 export default function Sideuser() {
   const [nomePerfil, setNomePerfil] = useState('');
+  const [funcao, setFuncao] = useState('');
 
   useEffect(() => {
     const nome = getCookie('nome');
-    if (nome) {
-      setNomePerfil(nome);
-    }
+    const funcaoCookie = getCookie('funcao');
+    if (nome) setNomePerfil(nome);
+    if (funcaoCookie) setFuncao(funcaoCookie.toLowerCase());
   }, []);
 
+  const handleLogout = async () => {
 
-const partes = nomePerfil.trim().split(' ');
-const nomeFormatado = partes
-  .map(parte => parte.charAt(0).toUpperCase() + parte.slice(1).toLowerCase())
-  .join(' ');
-const iniciais =
-  (partes[0]?.charAt(0).toUpperCase() || '') +
-  (partes[partes.length - 1]?.charAt(0).toUpperCase() || '');
-const nomeExibido = `${partes[0].charAt(0).toUpperCase() + partes[0].slice(1).toLowerCase()} ${
-  partes[partes.length - 1]
-    ? partes[partes.length - 1].charAt(0).toUpperCase() + partes[partes.length - 1].slice(1).toLowerCase()
-    : ''
-}`;
 
+    const response = await fetch('http://localhost:8080/auth/logout', {
+      method: 'POST',
+
+    });
+
+    const data = await response.json();
+
+
+    deleteCookie('nome');
+    deleteCookie('funcao');
+    deleteCookie('token');
+    deleteCookie('id');
+
+    console.log(data)
+
+  };
+
+  const partes = nomePerfil.trim().split(' ');
+  const iniciais =
+    (partes[0]?.charAt(0).toUpperCase() || '') +
+    (partes[partes.length - 1]?.charAt(0).toUpperCase() || '');
+  const nomeExibido = `${partes[0]?.charAt(0).toUpperCase() + partes[0]?.slice(1).toLowerCase()} ${partes[partes.length - 1]
+      ? partes[partes.length - 1].charAt(0).toUpperCase() +
+      partes[partes.length - 1].slice(1).toLowerCase()
+      : ''
+    }`;
+
+  // menus dinâmicos
+  const menus = {
+    tecnico: [
+      { href: `/${funcao}`, icon: 'bi bi-book-fill', label: 'Dashboard', class: 'dashboard' },
+      {
+        type: 'dropdown',
+        icon: 'bi bi-gear-fill',
+        label: 'Chamados',
+        items: [
+          { href: `/${funcao}/meus-chamados`, label: 'Meus Chamados' },
+          { href: `/${funcao}/todos-chamados`, label: 'Todos os Chamados' },
+        ],
+      },
+      { href: `/${funcao}/ajuda`, icon: 'bi bi-chat-text-fill', label: 'Ajuda', class: 'ajuda' },
+    ],
+    admin: [
+      { href: `/${funcao}`, icon: 'bi bi-book-fill', label: 'Dashboard', class: 'dashboard' },
+      {
+        type: 'dropdown',
+        icon: 'bi bi-gear-fill',
+        label: 'Chamados',
+        items: [
+          { href: `/${funcao}/criar-chamado`, label: 'Criar Chamado' },
+          { href: `/${funcao}/todos-chamados`, label: 'Todos os Chamados' },
+          { href: `/${funcao}/meus-chamados`, label: 'Meus Chamados' },
+        ],
+      },
+      { href: `/${funcao}/usuarios`, icon: 'bi bi-person-fill', label: 'Usuários', class: 'usuarios' },
+      { href: `/${funcao}/patrimonios`, icon: 'bi bi-cpu-fill', label: 'Patrimônios', class: 'patrimonios' },
+      { href: `/${funcao}/suporte`, icon: 'bi bi-chat-text-fill', label: 'Ajuda', class: 'ajuda' },
+    ],
+    usuario: [
+      { href: `/${funcao}/dashboard`, icon: 'bi bi-book-fill', label: 'Dashboard', class: 'dashboard' },
+      {
+        type: 'dropdown',
+        icon: 'bi bi-gear-fill',
+        label: 'Chamados',
+        items: [
+          { href: `/${funcao}/criar-chamado`, label: 'Criar Chamado' },
+          { href: `/${funcao}/meus-chamados`, label: 'Meus Chamados' },
+        ],
+      },
+      { href: `/${funcao}/suporte`, icon: 'bi bi-chat-text-fill', label: 'Ajuda', class: 'ajuda' },
+    ],
+  };
+
+  const renderMenu = (menu) => {
+    if (menu.type === 'dropdown') {
+      return (
+        <div key={menu.label} className="dropdown chamados">
+          <button
+            className="sidepage chamados dropdown-toggle w-100 text-start"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i className={menu.icon}></i> {menu.label}
+          </button>
+          <ul className="dropdown-menu w-100">
+            {menu.items.map((item) => (
+              <li key={item.label}>
+                <a className="dropdown-item" href={item.href}>
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
+
+    return (
+      <a key={menu.label} href={menu.href}>
+        <button className={'sidepage ' + menu.class}>
+          <i className={menu.icon}></i> {menu.label}
+        </button>
+      </a>
+    );
+  };
 
   return (
     <>
-
+      {/* Sidebar Desktop */}
       <div className="d-none d-md-block">
         <aside className="sidebar">
-         <Link href='/usuario'><img src="/logotipos/logoEscritaBranca.png" className="logo" alt="" /></Link> 
+          <Link href={`/${funcao}`}>
+            <img src="/logotipos/logoEscritaBranca.png" className="logo" alt="" />
+          </Link>
           <div className="sidebtns">
-            <a href="">
-              <button className="sidepage perfil">
-                <img
-                  src={`https://imageslot.com/v1/600x400?fg=e30615&shadow=23272f&fontsize=128&text=${iniciais}&filetype=png&bold=1`}
-                  className="img-perfil"
-                />
-                <span className="nome-perfil">{nomeExibido}</span>
-              </button>
-            </a>
-            <div className="dropdown chamados">
-              <button
-                className="sidepage chamados dropdown-toggle w-100 text-start"
-                type="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <i className="bi bi-gear-fill"></i> Chamados
-              </button>
-              <ul className="dropdown-menu w-100">
-                <li>
-                  <a className="dropdown-item" href="/criar-chamado">
-                    Criar Chamado
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="/meus-chamados">
-                    Meus Chamados
-                  </a>
-                </li>
-              </ul>
-            </div>
+            <button className="sidepage perfil">
+              <img
+                src={`https://imageslot.com/v1/600x400?fg=e30615&shadow=23272f&fontsize=128&text=${iniciais}&filetype=png&bold=1`}
+                className="img-perfil"
+              />
+              <span className="nome-perfil">{nomeExibido}</span>
+            </button>
 
-            <a href="">
-              <button className="sidepage dashboard">
-                <i className="bi bi-book-fill"></i>Dashboard
-              </button>
-            </a>
-            <a href="">
-              <button className="sidepage ajuda">
-                <i className="bi bi-chat-text-fill"></i>Ajuda
-              </button>
-            </a>
+            {menus[funcao]?.map((menu) => renderMenu(menu))}
           </div>
-          <div className="logout">
+          <div className="logout" onClick={handleLogout}>
             <LogoutUser />
           </div>
         </aside>
-      </div>
-      {/* Nav mobile */}
-      <div className="d-block d-md-none w-100">
-        <nav className="navbar navbar-dark ">
-          <div className="container-fluid nav-mobile">
-            <button
-              className="navbar-toggler btn"
-              type="button"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#staticBackdrop"
-              aria-controls="staticBackdrop"
-            >
-              <span className="navbar-toggler-icon" />
-            </button>
-
-            <div
-              className="offcanvas offcanvas-start"
-              data-bs-backdrop="static"
-              tabIndex="-1"
-              id="staticBackdrop"
-              aria-labelledby="staticBackdropLabel"
-            >
-              <div className="offcanvas-header">
-                <img
-                  src="/logotipos/logoEscritaBranca.png"
-                  className="logo-mobile"
-                  alt=""
-                />
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="offcanvas"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div className="offcanvas-body">
-                <div className="sidebtns">
-                  <a href="">
-                    <button className="sidepage perfil">
-                      <i className="bi bi-person-fill"></i>Perfil
-                    </button>
-                  </a>
-                  <div className="dropdown">
-                    <button
-                      className="sidepage chamados dropdown-toggle w-100 text-start"
-                      type="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <i className="bi bi-gear-fill"></i> Chamados
-                    </button>
-                    <ul className="dropdown-menu">
-                      <li>
-                        <a className="dropdown-item" href="/criar-chamado">
-                          Criar Chamado
-                        </a>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="/meus-chamados">
-                          Meus Chamados
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <a href="">
-                    <button className="sidepage dashboard">
-                      <i className="bi bi-book-fill"></i>Dashboard
-                    </button>
-                  </a>
-                  <a href="">
-                    <button className="sidepage ajuda">
-                      <i className="bi bi-chat-text-fill"></i>Ajuda
-                    </button>
-                  </a>
-                </div>
-                <div className="logout-mobile">
-                  <LogoutUser />
-                </div>
-              </div>
-            </div>
-            <img
-              src="/logotipos/logoSenaiBranca.png"
-              alt=""
-              className="img-fluid img-nav-mobile"
-            />
-            <img
-              src="/logotipos/logoEscritaBranca.png"
-              className="img-fluid img-nav-mobile"
-            />
-          </div>
-        </nav>
       </div>
     </>
   );

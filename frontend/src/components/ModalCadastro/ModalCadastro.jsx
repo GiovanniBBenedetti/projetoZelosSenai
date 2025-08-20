@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import BotaoNovo from '@/components/BotaoNovo/BotaoNovo';
 import Select from 'react-select';
+import { getCookie } from 'cookies-next';
 import './ModalCadastro.css';
 
 // Opções de tipo de equipamento
@@ -13,21 +14,63 @@ const equipamentoOptions = [
   { value: 'Outro', label: 'Outro' }
 ];
 
-// Opções de status
+
 const statusOptions = [
   { value: 'Ativo', label: 'Ativo' },
-  { value: 'Manutenção', label: 'Manutenção' },
   { value: 'Inativo', label: 'Inativo' }
 ];
 
 export default function CadastroPatrimonio() {
   const [mounted, setMounted] = useState(false);
 
+  // Estados dos inputs
+  const [numeroPatrimonio, setNumeroPatrimonio] = useState('');
+  const [equipamento, setEquipamento] = useState('');
+  const [sala, setSala] = useState('');
+  const [tipoEquipamento, setTipoEquipamento] = useState(null);
+  const [status, setStatus] = useState(null);
+  const [observacoes, setObservacoes] = useState('');
+
   useEffect(() => {
     setMounted(true);
   }, []);
 
   if (!mounted) return null; 
+
+  const handleSubmit = async () => {
+    const token = getCookie('token');
+
+    const payload = {
+      PATRIMONIO: numeroPatrimonio,
+      EQUIPAMENTO: equipamento,
+      SALA: sala,
+      TIPO: tipoEquipamento?.value || '',
+      STATUS: status?.value || '',
+      OBSERVACAO: observacoes
+    };
+
+    try {
+      const response = await fetch('http://localhost:8080/patrimonios', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) throw new Error('Erro ao cadastrar patrimônio');
+
+      alert('Patrimônio cadastrado com sucesso!');
+
+      // Recarrega a página
+      window.location.reload();
+
+    } catch (error) {
+      console.error(error);
+      alert('Erro ao cadastrar patrimônio.');
+    }
+  };
 
   return (
     <>
@@ -57,10 +100,7 @@ export default function CadastroPatrimonio() {
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h1
-                className="modal-title titulo-novo-medico"
-                id="exampleModalLabel"
-              >
+              <h1 className="modal-title titulo-novo-medico" id="exampleModalLabel">
                 Cadastro de Patrimônio
               </h1>
               <button
@@ -73,7 +113,7 @@ export default function CadastroPatrimonio() {
 
             <div className="modal-body">
               <div className="inputsCadastro">
-               
+
                 <div className="input-group mb-3 rounded-start-pill rounded-end-pill">
                   <span className="input-group-text rounded-start-pill">
                     <i className="bi bi-upc-scan"></i>
@@ -82,10 +122,24 @@ export default function CadastroPatrimonio() {
                     type="text"
                     className="form-control rounded-5 rounded-start-0"
                     placeholder="Nº Patrimônio"
+                    value={numeroPatrimonio}
+                    onChange={(e) => setNumeroPatrimonio(e.target.value)}
                   />
                 </div>
 
-             
+                <div className="input-group mb-3 rounded-start-pill rounded-end-pill">
+                  <span className="input-group-text rounded-start-pill">
+                    <i className="bi bi-hdd"></i>
+                  </span>
+                  <input
+                    type="text"
+                    className="form-control rounded-5 rounded-start-0"
+                    placeholder="Equipamento"
+                    value={equipamento}
+                    onChange={(e) => setEquipamento(e.target.value)}
+                  />
+                </div>
+
                 <div className="input-group mb-3 rounded-start-pill rounded-end-pill">
                   <span className="input-group-text rounded-start-pill">
                     <i className="bi bi-door-open"></i>
@@ -94,6 +148,8 @@ export default function CadastroPatrimonio() {
                     type="text"
                     className="form-control rounded-5 rounded-start-0"
                     placeholder="Sala"
+                    value={sala}
+                    onChange={(e) => setSala(e.target.value)}
                   />
                 </div>
 
@@ -102,30 +158,21 @@ export default function CadastroPatrimonio() {
                     options={equipamentoOptions}
                     classNamePrefix="select-user"
                     placeholder="Tipo de Equipamento"
+                    value={tipoEquipamento}
+                    onChange={setTipoEquipamento}
                   />
                 </div>
 
-             
                 <div className="mb-3">
                   <Select
                     options={statusOptions}
                     classNamePrefix="select-user"
                     placeholder="Status"
+                    value={status}
+                    onChange={setStatus}
                   />
                 </div>
 
-   
-                <div className="input-group mb-3 rounded-start-pill rounded-end-pill">
-                  <span className="input-group-text rounded-start-pill">
-                    <i className="bi bi-calendar-event"></i>
-                  </span>
-                  <input
-                    type="date"
-                    className="form-control rounded-5 rounded-start-0"
-                  />
-                </div>
-
-            
                 <div className="input-group mb-3">
                   <span className="input-group-text">
                     <i className="bi bi-journal-text"></i>
@@ -134,8 +181,18 @@ export default function CadastroPatrimonio() {
                     className="form-control"
                     placeholder="Observações"
                     rows={3}
+                    value={observacoes}
+                    onChange={(e) => setObservacoes(e.target.value)}
                   />
                 </div>
+
+                <button
+                  type="button"
+                  className="btn btn-success w-100"
+                  onClick={handleSubmit}
+                >
+                  Cadastrar
+                </button>
 
               </div>
             </div>

@@ -21,6 +21,16 @@
   background-color: var(--vermelho);
 }
 
+
+.perfil {
+  cursor: default !important;
+}
+
+.perfil:hover {
+  margin-left: 2% !important;
+  opacity: 1 !important;
+}
+
 .img-perfil {
   width: 2rem;
   height: 2rem;
@@ -62,8 +72,8 @@
 }
 
 .dropdown-menu {
-  color: var(--branco);
-  background-color: var(--vermelho);
+  color: var(--vermelho) !important;
+  background-color: var(--branco);
 }
 
 .dropdown-menu li:hover {
@@ -73,13 +83,13 @@
 }
 
 .dropdown-item {
-  color: var(--branco);
+  color: var(--vermelho) !important;
   border-radius: 15px;
 }
 
 .dropdown-item:hover {
   background-color: transparent;
-  color: var(--branco);
+  color: var(--branco) !important;
 }
 
 .dropdown-toggle:after {
@@ -96,10 +106,10 @@
     border: none;
     background-color: transparent;
     display: flex;
-    padding: 15px;
-    gap: 10px;
-    font-size: 20px;
-    margin-top: 5%;
+    padding: 1rem;
+    gap: 1rem;
+    font-size: 1.2rem;
+    margin-top: 3%;
     margin-right: 5%;
     margin-left: 2%;
     color: var(--branco);
@@ -116,7 +126,7 @@ button.sidepage.perfil {
 }
 
 .logout {
-  margin-top: auto;
+  margin-top: 1rem;
   display: flex;
   justify-content: center;
   padding-bottom: 20px; 

@@ -1,14 +1,23 @@
-
+'use client';
 import './tec.css';
+import { getCookie } from 'cookies-next';
+import { useEffect } from 'react';
 
 export default function TecnicoHome() {
+  useEffect(() => {
+    const funcao = getCookie('funcao');
+    if (funcao !== 'tecnico') {
+      window.location.href = '/'; 
+    }
+  }, []);
+
   return (
     <>
       <style type="text/css">
         {`
           .dashboard {
-            background-color: var(--branco); !important;
-            color: var(--vermelho); !important;
+            background-color: var(--branco) !important;
+            color: var(--vermelho) !important;
             margin-left: 0 !important;
           };
         `}
@@ -18,9 +27,7 @@ export default function TecnicoHome() {
         <div className="container-fluid content">
           <div className="andamento">
             <h3 className="titulo-user">Chamados em Andamento</h3>
-            <div className="row row-cols-1 row-cols-md-3 g-4">
-
-            </div>
+            <div className="row row-cols-1 row-cols-md-3 g-4"></div>
           </div>
           <div className="resolvidos">
             <h3 className="titulo-user">Chamados Resolvidos</h3>
