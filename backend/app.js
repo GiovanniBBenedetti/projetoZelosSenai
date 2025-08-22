@@ -8,6 +8,8 @@ import duvidasRotas from './routes/duvidasRotas.js'
 import usuariosRotas from './routes/usuariosRotas.js' 
 import adminRotas from './routes/adminRotas.js'
 import patrimonioRotas from './routes/patrimoniosRotas.js'
+import chamadosRotas from './routes/chamadosCriarRota.js';
+
 // 1. Carrega variáveis de ambiente PRIMEIRO
 dotenv.config();
 
@@ -47,6 +49,7 @@ app.use('/auth', authRotas);
 app.use('/duvidas', duvidasRotas)
 app.use('/usuarios', usuariosRotas)
 app.use('/patrimonios', patrimonioRotas)
+app.use('/chamado', chamadosRotas)
 app.use('/admin', adminRotas);
 
 app.get('/health', (req, res) => {
