@@ -5,15 +5,7 @@ import "../globals.css";
 import Sideuser from "@/components/Sidebar/Sideruser";
 import Footer from "@/components/Footer/Footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata = {
   title: "Create Next App",
@@ -23,7 +15,7 @@ export const metadata = {
 export default function usuarioLayout({ children }) {
   return (
     <html lang="pt-BR">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body>
         <Sideuser/>
         {children}
        <Footer/>

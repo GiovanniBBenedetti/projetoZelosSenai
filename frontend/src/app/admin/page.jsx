@@ -1,5 +1,6 @@
 'use client';
 
+import './dash.css'
 import React, { useEffect, useState } from 'react';
 import { Bar, Pie, Line } from 'react-chartjs-2';
 import {
@@ -46,11 +47,11 @@ export default function DashboardZeloPage() {
 
     // Chamados mais antigos (Pizza)
     const mockPizza = {
-      labels: ['João', 'Maria', 'Pedro', 'Ana', 'Lucas', 'Carla'],
+      labels: ['Titulo Grande Chamativo com bosta', 'Titulo Grande Chamativo com bosta', 'Titulo Grande Chamativo com bosta', 'Titulo Grande Chamativo com bosta', 'Titulo Grande Chamativo com bosta'],
       datasets: [
         {
-          data: [10, 8, 7, 5, 3, 2],
-          backgroundColor: ['#B22222', '#8B0000', '#FF4500', '#CD5C5C', '#A52A2A', '#DC143C'],
+          data: [10, 8, 5, 3, 2],
+          backgroundColor: ['#B22222', '#8B0000', '#CD5C5C', '#A52A2A', '#DC143C'],
         },
       ],
     };
@@ -136,74 +137,87 @@ export default function DashboardZeloPage() {
 
   return (
     <>
-    <div className="body-content">
-    <div id="dashboard-content" className="p-4 bg-light" style={{ minHeight: '100vh' }}>
-      {/* Pizza */}
-      <div className="row mb-5 align-items-center">
-        <div className="col-md-6 text-center">
-          <Pie data={graficoPizzaData} />
-        </div>
-        <div className="col-md-6">
-          <h2 className="text-danger">Chamados mais antigos atribuídos</h2>
-          <p className="text-muted">Top 6 chamados com mais tempo sem conclusão</p>
-        </div>
-      </div>
-
-      {/* Barras e Linha */}
-      <div className="row mb-5">
-        <div className="col-md-6">
-          <div className="card shadow-sm h-100">
-            <div className="card-body">
-              <h5 className="card-title text-danger">Status por mês</h5>
-              <Bar data={graficoBarrasData} />
+      <style type="text/css">
+        {`
+          .dashboard {
+            background-color: var(--branco); !important;
+            color: var(--vermelho); !important;
+            margin-left: 0 !important;
+          };
+        `}
+      </style>
+      <div className="body-content">
+        <div id="dashboard-content" className="p-4 bg-light" style={{ minHeight: '100vh' }}>
+          <div className="title-dashboard">
+            <p>Meu Dashboard</p>
+          </div>
+          {/* Pizza */}
+          <div className="row mb-5 align-items-center">
+            <div className="col-md-6 text-center">
+              <Pie data={graficoPizzaData} />
+            </div>
+            <div className="col-md-6">
+              <h2 className="text-danger">Chamados mais antigos atribuídos</h2>
+              <p className="text-muted">Top 6 chamados com mais tempo sem conclusão</p>
             </div>
           </div>
-        </div>
-        <div className="col-md-6">
-          <div className="card shadow-sm h-100">
-            <div className="card-body">
-              <h5 className="card-title text-danger">Chamados últimos 5 dias</h5>
-              <Line data={graficoLinhaData} />
+
+          {/* Barras e Linha */}
+          <div className="row mb-5">
+            <div className="col-md-6">
+              <div className="card shadow-sm h-100">
+                <div className="card-body">
+                  <h5 className="card-title text-danger">Status por mês</h5>
+                  <Bar data={graficoBarrasData} />
+                </div>
+              </div>
             </div>
+            <div className="col-md-6">
+              <div className="card shadow-sm h-100">
+                <div className="card-body">
+                  <h5 className="card-title text-danger">Chamados últimos 5 dias</h5>
+                  <Line data={graficoLinhaData} />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Cards */}
+          <div className="row justify-content-center mb-5">
+            <div className="h2">Total de chamados nos ultimos 15 dias</div>
+            {[
+              { label: 'Em Análise', value: dashboardData.emAnalise },
+              { label: 'Sendo Realizada', value: dashboardData.sendoRealizada },
+              { label: 'Realizada', value: dashboardData.realizada },
+            ].map((item, i) => (
+              <div key={i} className="col-md-4 text-center">
+                <div
+                  className="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-2"
+                  style={{
+                    width: '150px',
+                    height: '150px',
+                    backgroundColor: '#B22222',
+                    color: 'white',
+                  }}
+                >
+                  <h2 className="fw-bold">{item.value}</h2>
+                </div>
+                <p className="text-uppercase fw-bold">{item.label}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Botões */}
+          <div className="text-center btns-downloads">
+            <button onClick={handleDownloadPDF} className="btn btn-danger btn-lg me-3">
+              Criar PDF
+            </button>
+            <button onClick={handleDownloadCSV} className="btn btn-danger btn-lg">
+              Criar CSV
+            </button>
           </div>
         </div>
       </div>
-
-      {/* Cards */}
-      <div className="row justify-content-center mb-5">
-        {[
-          { label: 'Em Análise', value: dashboardData.emAnalise },
-          { label: 'Sendo Realizada', value: dashboardData.sendoRealizada },
-          { label: 'Realizada', value: dashboardData.realizada },
-        ].map((item, i) => (
-          <div key={i} className="col-md-4 text-center">
-            <div
-              className="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-2"
-              style={{
-                width: '150px',
-                height: '150px',
-                backgroundColor: '#B22222',
-                color: 'white',
-              }}
-            >
-              <h2 className="fw-bold">{item.value}</h2>
-            </div>
-            <p className="text-uppercase fw-bold">{item.label}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Botões */}
-      <div className="text-center">
-        <button onClick={handleDownloadPDF} className="btn btn-danger btn-lg me-3">
-          Criar PDF
-        </button>
-        <button onClick={handleDownloadCSV} className="btn btn-danger btn-lg">
-          Criar CSV
-        </button>
-      </div>
-    </div>
-    </div>
     </>
   );
 }

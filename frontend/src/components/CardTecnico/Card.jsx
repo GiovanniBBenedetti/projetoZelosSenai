@@ -183,7 +183,7 @@ export default function Card() {
       setTimeout(() => {
         location.reload();
       }, 2000);
-      
+    
       console.log("Status alterado para Concluído");
       return;
     }

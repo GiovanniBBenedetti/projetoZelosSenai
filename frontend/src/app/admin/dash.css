@@ -1,0 +1,10 @@
+.title-dashboard {
+    font-size: 3rem;
+    border-left: 3px solid var(--vermelho);
+    margin-bottom: 1.5rem;
+    padding-left: 15px;
+}
+
+.btns-downloads {
+   margin-bottom: 1.5rem;
+}

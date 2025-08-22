@@ -1,20 +1,20 @@
-"use client";
-import "./card.css";
-import { useEffect, useState } from "react";
-import React from "react";
-import PropTypes from "prop-types";
-import BtnChat from "@/components/BtnChatUser/Btnchat";
-import { styled } from "@mui/material/styles";
-import Stack from "@mui/material/Stack";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import ManageHistoryIcon from "@mui/icons-material/ManageHistory";
-import HourglassTopIcon from "@mui/icons-material/HourglassTop";
-import CheckIcon from "@mui/icons-material/Check";
+'use client';
+import './card.css';
+import { useEffect, useState } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import BtnChat from '@/components/BtnChatUser/Btnchat';
+import { styled } from '@mui/material/styles';
+import Stack from '@mui/material/Stack';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+import ManageHistoryIcon from '@mui/icons-material/ManageHistory';
+import HourglassTopIcon from '@mui/icons-material/HourglassTop';
+import CheckIcon from '@mui/icons-material/Check';
 import StepConnector, {
   stepConnectorClasses,
-} from "@mui/material/StepConnector";
+} from '@mui/material/StepConnector';
 
 //Progress bar
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
@@ -23,49 +23,49 @@ const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   },
   [`&.${stepConnectorClasses.active}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      backgroundColor: "#e30615",
+      backgroundColor: '#e30615',
     },
   },
   [`&.${stepConnectorClasses.completed}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      backgroundColor: "#e30615",
+      backgroundColor: '#e30615',
     },
   },
   [`& .${stepConnectorClasses.line}`]: {
     height: 3,
     border: 0,
-    backgroundColor: "#818181",
+    backgroundColor: '#818181',
     borderRadius: 1,
-    ...theme.applyStyles("dark", {
+    ...theme.applyStyles('dark', {
       backgroundColor: theme.palette.grey[800],
     }),
   },
 }));
 
-const ColorlibStepIconRoot = styled("div")(({ theme }) => ({
-  backgroundColor: "#818181",
+const ColorlibStepIconRoot = styled('div')(({ theme }) => ({
+  backgroundColor: '#818181',
   zIndex: 1,
-  color: "#fff",
+  color: '#fff',
   width: 30,
   height: 30,
-  display: "flex",
-  borderRadius: "50%",
-  justifyContent: "center",
-  alignItems: "center",
-  ...theme.applyStyles("dark", {
+  display: 'flex',
+  borderRadius: '50%',
+  justifyContent: 'center',
+  alignItems: 'center',
+  ...theme.applyStyles('dark', {
     backgroundColor: theme.palette.grey[700],
   }),
   variants: [
     {
       props: ({ ownerState }) => ownerState.active,
       style: {
-        backgroundColor: "#e30615",
+        backgroundColor: '#e30615',
       },
     },
     {
       props: ({ ownerState }) => ownerState.completed,
       style: {
-        backgroundColor: "#e30615",
+        backgroundColor: '#e30615',
       },
     },
   ],
@@ -75,9 +75,9 @@ function ColorlibStepIcon(props) {
   const { active, completed, className } = props;
 
   const icons = {
-    1: <HourglassTopIcon style={{ height: "18" }} />,
-    2: <ManageHistoryIcon style={{ height: "18" }} />,
-    3: <CheckIcon style={{ height: "18" }} />,
+    1: <HourglassTopIcon style={{ height: '18' }} />,
+    2: <ManageHistoryIcon style={{ height: '18' }} />,
+    3: <CheckIcon style={{ height: '18' }} />,
   };
 
   return (
@@ -112,21 +112,28 @@ export default function Card() {
   const [chamados, setChamados] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8080/chamados")
-      .then((response) => response.json())
-      .then((informacao) => setChamados(informacao));
+    fetch('http://localhost:8080/criarchamado')
+      .then(async (res) => {
+        const data = await res.json();
+        setChamados(data);
+      })
+      .catch((error) => {
+        console.error('Erro na requisição:', error.message);
+      });
   }, []);
 
+  
+
   const ordemPrioridade = {
-    1: "Intervenção Preventiva",
-    2: "Intervenção Sem Urgência",
-    3: "Intervenção Prioritária",
-    4: "Intervenção Imediata",
+    1: 'Intervenção Preventiva',
+    2: 'Intervenção Sem Urgência',
+    3: 'Intervenção Prioritária',
+    4: 'Intervenção Imediata',
   };
 
   const status = {
     pendente: 0,
-    "em andamento": 1,
+    'em andamento': 1,
     concluído: 2,
   };
 
@@ -180,7 +187,7 @@ export default function Card() {
                 </div>
 
                 <div className="mb-3 align-items-center justify-content-center d-flex">
-                  <Stack sx={{ width: "100%" }} spacing={4}>
+                  <Stack sx={{ width: '100%' }} spacing={4}>
                     <Stepper
                       alternativeLabel
                       key={chamado.id}
@@ -205,6 +212,10 @@ export default function Card() {
                     </Stepper>
                   </Stack>
                 </div>
+
+                <button onClick={atribuirTecnico(chamado.id)}>
+                  Atender o chamado !!
+                </button>
 
                 <div className="accordion-item align-items-center justify-content-center d-grid w-100">
                   <div className="accordion-header align-items-center justify-content-center d-grid w-100">

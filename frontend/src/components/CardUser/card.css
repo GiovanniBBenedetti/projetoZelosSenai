@@ -166,8 +166,7 @@
 }
 
 .chat{
-  width: 100%;
-  
+  margin-bottom: 10px;
 }
 
 .chat input{
@@ -178,8 +177,7 @@
 .btn-desativado{
   margin-bottom: 10px;
   opacity: 0.4;
-  pointer-events: none;
-  cursor: none;
+  cursor: no-drop;
 }
 
 .modal-content{
@@ -191,20 +189,6 @@
   display:grid;
   padding: 1rem;
   width: 100%;
-  border-radius: 15px 0 0 15px;
-}
-
-.modal-content-2 {
-  height: 30rem;
-  margin-right: 0;
-  background-color: var(--branco);
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: center;
-  display:grid;
-  padding: 1rem;
-  width: 100%;
-  border-radius: 0px 15px 15px 0;
 }
 
 .modal-content p{
@@ -219,5 +203,5 @@
 
 .modal-content h2{
   font-size: 23px;
-
+  
 }

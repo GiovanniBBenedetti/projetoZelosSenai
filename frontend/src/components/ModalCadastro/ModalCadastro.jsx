@@ -6,9 +6,17 @@ import Select from 'react-select';
 import { getCookie } from 'cookies-next';
 import './ModalCadastro.css';
 
-// Opções de tipo de equipamento
 const equipamentoOptions = [
   { value: 'Computador', label: 'Computador' },
+  { value: 'Periférico', label: 'Periférico' },
+  { value: 'Microcomputador', label: 'Microcomputador' },
+  { value: 'Monitor', label: 'Monitor' },
+  { value: 'Educacional', label: 'Educacional' },
+  { value: 'Desktop', label: 'Desktop' },
+  { value: 'Móveis', label: 'Móveis' },
+  { value: 'Climatização', label: 'Climatização' },
+  { value: 'Aberturas', label: 'Aberturas' },
+  { value: 'Botânica', label: 'Botânica' },
   { value: 'Projetor', label: 'Projetor' },
   { value: 'Impressora', label: 'Impressora' },
   { value: 'Outro', label: 'Outro' }

@@ -9,6 +9,7 @@ import './stylePatrimonio.css';
 const columns = [
   { field: 'PATRIMONIO', headerName: 'Nº Patrimônio', width: 140, disableColumnMenu: true },
   { field: 'SALA', headerName: 'Sala', width: 70, disableColumnMenu: true },
+  { field: 'EQUIPAMENTO', headerName: 'Nome do equipamento', width: 170, disableColumnMenu: true },
   { field: 'TIPO', headerName: 'Tipo de Equipamento', width: 190, disableColumnMenu: true },
   { field: 'STATUS', headerName: 'Status', width: 120, disableColumnMenu: true },
   { field: 'AQUISICAO', headerName: 'Data Aquisição', width: 140, disableColumnMenu: true },

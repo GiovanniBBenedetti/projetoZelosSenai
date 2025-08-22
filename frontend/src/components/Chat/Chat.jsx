@@ -81,7 +81,12 @@ export default function Chat() {
     return;
   }
 
-  
+  const nomePerfil = 'Davi Leocadio';
+  const partes = nomePerfil.trim().split(' ');
+  const iniciais =
+    partes[0].charAt(0).toUpperCase() +
+    partes[partes.length - 1].charAt(0).toUpperCase();
+  const nomeExibido = `${partes[0]} ${partes[partes.length - 1]}`;
 
   return (
     <>
@@ -90,6 +95,20 @@ export default function Chat() {
       <div className="offcanvas-body d-flex flex-column p-0 chat-container">
         <div className="">
           <div className="card-container">
+            <div className="card-header d-grid sticky-top bg-white">
+              
+              <div className="d-flex">
+                <div className="img-avatar">
+                  <p>{iniciais}</p>
+                </div>
+                <div className="nome-chat">
+                  {nomeExibido}
+                </div>
+              </div>
+
+
+
+            </div>
             <div className="card-body">
               <div className="messages-container">
                 {mensagens.map((mensagem, chave) => (

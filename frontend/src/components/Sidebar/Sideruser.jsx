@@ -42,9 +42,9 @@ export default function Sideuser() {
     (partes[0]?.charAt(0).toUpperCase() || '') +
     (partes[partes.length - 1]?.charAt(0).toUpperCase() || '');
   const nomeExibido = `${partes[0]?.charAt(0).toUpperCase() + partes[0]?.slice(1).toLowerCase()} ${partes[partes.length - 1]
-      ? partes[partes.length - 1].charAt(0).toUpperCase() +
-      partes[partes.length - 1].slice(1).toLowerCase()
-      : ''
+    ? partes[partes.length - 1].charAt(0).toUpperCase() +
+    partes[partes.length - 1].slice(1).toLowerCase()
+    : ''
     }`;
 
   // menus dinâmicos
@@ -129,7 +129,6 @@ export default function Sideuser() {
 
   return (
     <>
-      {/* Sidebar Desktop */}
       <div className="d-none d-md-block">
         <aside className="sidebar">
           <Link href={`/${funcao}`}>
@@ -150,6 +149,62 @@ export default function Sideuser() {
             <LogoutUser />
           </div>
         </aside>
+      </div>
+
+      {/* Sidebar Mobile (Offcanvas) */}
+      <div className="d-md-none">
+        <nav className="navbar">
+          <button
+            className="btn text-white"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasSidebar"
+            aria-controls="offcanvasSidebar"
+          >
+            <i className="bi bi-list" style={{ fontSize: "1.5rem" }}></i>
+          </button>
+          <div className="nav-mobile">
+            <img src="/logotipos/logoSenaiBranca.png" className='logo-senai' />
+            <img src="/logotipos/logoEscritaBranca.png" className='logo-zelos' />
+          </div>
+
+        </nav>
+
+        <div
+          className="offcanvas offcanvas-start"
+          tabIndex="-1"
+          id="offcanvasSidebar"
+          aria-labelledby="offcanvasSidebarLabel"
+        >
+          <div className="offcanvas-header">
+            <h5 className="offcanvas-title" id="offcanvasSidebarLabel">
+              <img src="/logotipos/logoEscritaBranca.png" className="logo-mobile" alt="" />
+            </h5>
+            <button
+              type="button"
+              className="btn-close text-reset"
+              data-bs-dismiss="offcanvas"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div className="offcanvas-body">
+            <div className="sidebtns">
+              <button className="sidepage perfil">
+                <img
+                  src={`https://imageslot.com/v1/600x400?fg=e30615&shadow=23272f&fontsize=128&text=${iniciais}&filetype=png&bold=1`}
+                  className="img-perfil"
+                />
+                <span className="nome-perfil">{nomeExibido}</span>
+              </button>
+
+              {menus[funcao]?.map((menu) => renderMenu(menu))}
+            </div>
+
+            <div className="logout-mobile" onClick={handleLogout}>
+              <LogoutUser />
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

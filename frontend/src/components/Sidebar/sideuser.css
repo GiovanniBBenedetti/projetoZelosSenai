@@ -1,11 +1,13 @@
 .sidebar {
-    width: 17rem;
-    background: var(--vermelho);
-    height: 100vh;
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-  }
+  width: 17rem;
+  background: var(--vermelho);
+  height: 100vh;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; 
+}
+
 
 .open-menu {
   position: fixed;
@@ -107,9 +109,9 @@
     background-color: transparent;
     display: flex;
     padding: 1rem;
-    gap: 1rem;
-    font-size: 1.2rem;
-    margin-top: 3%;
+    gap: .8rem;
+    font-size: 1.1rem;
+    margin-top: 1%;
     margin-right: 5%;
     margin-left: 2%;
     color: var(--branco);
@@ -126,11 +128,12 @@ button.sidepage.perfil {
 }
 
 .logout {
-  margin-top: 1rem;
   display: flex;
   justify-content: center;
-  padding-bottom: 20px; 
+  padding: 20px;
+  margin-top: auto; 
 }
+
 
 .logout i {
   color: var(--vermelho);
@@ -143,15 +146,29 @@ button.sidepage.perfil {
 
 .nav-mobile {
   display: flex;
+  align-items: center;  
+  justify-content: space-around;
+  gap: 1rem;               
+  flex: 1;
 }
 
-.img-nav-mobile {
-  height: 60px;
+.logo-senai {
+  height: 5rem;         
+  object-fit: contain;
 }
+
+.logo-zelos {
+  height: 4rem;         
+  object-fit: contain;
+  margin-top: 2px;   
+}
+
 
 .logo-mobile {
   height: 55px;
 }
+
+
 
 .offcanvas-body {
   display: flex;
