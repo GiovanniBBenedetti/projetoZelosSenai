@@ -2,69 +2,148 @@
 
 import './dash.css';
 import React, { useEffect, useState } from 'react';
-import { CheckCircle, Clock, Wrench } from 'lucide-react';
+import Link from 'next/link';
+import CardTecnicoDestaque from '@/components/CardTecnicoDestaque/CardTecnicoDestaque';
+import GraficoUrgencia from '@/components/Graficos/GraficoUrgencia';
+import GraficoTipoProblema from '@/components/Graficos/GraficoTipoProblema';
+import GraficoChamadosPorTecnico from '@/components/Graficos/GraficoChamadosPorTecnico';
+import GraficoTotalChamados from '@/components/Graficos/GraficoTotalChamados';
 
 export default function DashboardZeloPage() {
-  const [chamadosConcluidos, setChamadosConcluidos] = useState([]);
-  const [chamadosPendentes, setChamadosPendentes] = useState([]);
-  const [chamadosEmAndamento, setChamadosEmAndamento] = useState([]);
-  const [chamadosEnviados, setChamadosEnviados] = useState([]);
+    // Dados fictícios para simular a API
+    const [patrimonios] = useState([{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}]);
+    const [usuarios] = useState([{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}]);
+    const [chamadosAtrasados] = useState(10);
+    const [chamadosTotais] = useState(30);
+    const [chamadosAbertos] = useState(21);
+    const [chamadosNaoIniciados] = useState(9);
+    const [tecnicos] = useState([
+        { nome: 'Arthur Buscalino', departamento: 'Técnico', chamadosResolvidos: 40, email: 'arthur.b@email.com', iniciais: 'AB' },
+        { nome: 'Giovanna Freitas', departamento: 'Técnico', chamadosResolvidos: 35, email: 'giovanna.f@email.com', iniciais: 'GF' },
+        { nome: 'João Pedro', departamento: 'Técnico', chamadosResolvidos: 32, email: 'joao.p@email.com', iniciais: 'JP' },
+    ]);
+    const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
- 
-    fetch(`http://localhost:8080/chamado?status=concluido`)
-      .then(res => res.json())
-      .then(data => setChamadosConcluidos(data))
-      .catch(err => console.error('Erro ao buscar chamados concluídos:', err));
+    if (loading) {
+        return <p>Carregando...</p>;
+    }
 
-    fetch(`http://localhost:8080/chamado?status=pendente`)
-      .then(res => res.json())
-      .then(data => setChamadosPendentes(data))
-      .catch(err => console.error('Erro ao buscar chamados pendentes:', err));
-
-
-    fetch(`http://localhost:8080/chamado?status=enviado`)
-      .then(res => res.json())
-      .then(data => setChamadosEnviados(data))
-      .catch(err => console.error('Erro ao buscar chamados enviados:', err));
-  }, []);
-
-  return (
-    <div className="container-fluid p-4 dashboard">
-
-      <div className="row g-4 mb-4">
- 
-        <div className="col-md-4 col-12">
-          <div className="card cardUltimosChamdos border-0 p-3 h-100">
-            <div className="d-flex justify-content-between align-items-center">
-              <h6 className="text-muted">Chamados Concluídos</h6>
-              <CheckCircle className="text-success" size={28} />
+    return (
+        <div className="container-fluid dashboard-admin">
+            <div className="row dashboard-header">
+                <div className="col-md-4 mt-4 card-information-col">
+                    <Link href="/admin/patrimonios" className="card-information">
+                        <div className="text-content">
+                            <p>{patrimonios.length} Patrimonios</p>
+                            <span>Em utilização</span>
+                        </div>
+                        <i className="bi bi-caret-right-fill"></i>
+                    </Link>
+                </div>
+                <div className="col-md-4 mt-4 card-information-col">
+                    <Link href="/admin/usuarios" className="card-information">
+                        <div className="text-content">
+                            <p>{usuarios.length} Usuários</p>
+                            <span>Com status ativo</span>
+                        </div>
+                        <i className="bi bi-caret-right-fill"></i>
+                    </Link>
+                </div>
+                <div className="col-md-4 mt-4 card-information-col">
+                    <div className="card-information">
+                        <div className="text-content">
+                            <p>{chamadosAtrasados} Chamados</p>
+                            <span>Abertos em <b>Atraso</b></span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <h3 className="fw-bold">{chamadosConcluidos.length}</h3>
-          </div>
-        </div>
 
-        <div className="col-md-4 col-12">
-          <div className="card cardUltimosChamdos border-0 p-3 h-100">
-            <div className="d-flex justify-content-between align-items-center">
-              <h6 className="text-muted">Chamados Pendentes</h6>
-              <Clock className="text-warning" size={28} />
+            <div className="row mt-5">
+                <div className="col-md-6 mb-4">
+                    <div className="chart-card">
+                        <h3 className="chart-title">Gráfico de Urgência</h3>
+                        <div className="chart-wrapper">
+                            <GraficoUrgencia />
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-6 mb-4">
+                    <div className="chart-card">
+                        <h3 className="chart-title">Chamados por Tipo de Problema</h3>
+                        <div className="chart-wrapper">
+                            <GraficoTipoProblema />
+                        </div>
+                    </div>
+                </div>
             </div>
-            <h3 className="fw-bold">{chamadosPendentes.length}</h3>
-          </div>
-        </div>
-        
-    
-        <div className="col-md-4 col-12">
-          <div className="card cardUltimosChamdos border-0 p-3 h-100">
-            <div className="d-flex justify-content-between align-items-center">
-              <h6 className="text-muted">Chamados Em Andamento</h6>
-              <Wrench className="text-info" size={28} />
+
+            <div className="row mt-3">
+                <div className="col-md-12">
+                    <div className="chart-card">
+                        <h3 className="chart-title">Chamados por técnicos</h3>
+                        <div className="chart-wrapper">
+                             <GraficoChamadosPorTecnico />
+                        </div>
+                    </div>
+                </div>
             </div>
-            <h3 className="fw-bold">{chamadosEnviados.length}</h3>
-          </div>
+
+            <div className="row mt-5">
+                <div className="col-md-4 mb-4">
+                    <div className="info-box info-box-1">
+                        <h3>{chamadosTotais}</h3>
+                        <p>Número de chamados</p>
+                        <span>3% desde semana passada</span>
+                    </div>
+                </div>
+                <div className="col-md-4 mb-4">
+                    <div className="info-box info-box-2">
+                        <h3>{chamadosAbertos}</h3>
+                        <p>Chamados em aberto</p>
+                        <span>-10% desde semana passada</span>
+                    </div>
+                </div>
+                <div className="col-md-4 mb-4">
+                    <div className="info-box info-box-3">
+                        <h3>{chamadosNaoIniciados}</h3>
+                        <p>Chamados não iniciados</p>
+                        <span>3% desde semana passada</span>
+                    </div>
+                </div>
+            </div>
+
+            <div className="row mt-5">
+                <div className="col-md-12">
+                    <div className="chart-card">
+                        <h3 className="chart-title">total de chamados por semana</h3>
+                        <div className="chart-wrapper">
+                            <GraficoTotalChamados />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="row mt-5">
+                <div className="col-md-12">
+                    <div className="tecnicos-destaque-container">
+                        <h3 className="section-title">Técnicos em Destaque</h3>
+                        <p className="section-subtitle">Os 3 técnicos com o maior número de chamados resolvidos</p>
+                        <div className="row mt-4">
+                            {tecnicos.map((tecnico, index) => (
+                                <div key={index} className="col-md-4 mb-4">
+                                    <CardTecnicoDestaque
+                                        nome={tecnico.nome}
+                                        departamento={tecnico.departamento}
+                                        chamadosResolvidos={tecnico.chamadosResolvidos}
+                                        email={tecnico.email}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }

@@ -14,7 +14,6 @@
   width: 15.3rem;
   border-radius: 20px;
   border: 0;
-  height: 19rem;
   transition: all 0.2s ease-in-out;
   background-color: #fff !important;
 }
@@ -94,18 +93,18 @@
 }
 
 .card-titulo-user {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 200px;
-  
+  max-width: 160px;
 }
 
 .card-titulo-user h3 {
   color: #000;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
 
 .card-patrimonio-user {
   max-width: 98%;
@@ -247,6 +246,7 @@
 .ficha-user {
   width: 100%;
   margin-left: 5rem;
+  margin-top: 0;
 }
 
 .modal-inicial-user {
@@ -258,6 +258,7 @@
   height: 95%;
   margin-left: 5%;
   overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 .modal-header-user {
@@ -289,6 +290,7 @@
     align-items: center;
     justify-content: center;
     display: grid;
+    margin-top: 7rem !important;
   }
 
   .modal-content {

@@ -1,5 +1,5 @@
 "use client";
-import "./cardUser.css";
+import "./cardTecnico.css";
 import React, { useEffect, useState } from "react";
 import BtnChat from "@/components/BtnChatUser/Btnchat";
 import Chat from "@/components/Chat/Chat.jsx";
@@ -12,9 +12,16 @@ export default function Carrosel({ chamados = [] }) {
   useEffect(() => {
     const funcaoCookie = getCookie("funcao");
     setFuncao(funcaoCookie);
+
+
+
+
+    
+
+
   }, []);
 
-  const nomePerfil = "Davi Leocadio";
+  const nomePerfil = "Giovanni Benedetti";
   const partes = nomePerfil.trim().split(" ");
   const iniciais =
     partes[0].charAt(0).toUpperCase() +
@@ -35,9 +42,8 @@ export default function Carrosel({ chamados = [] }) {
         return (
           <div key={chamado.id}>
             <div
-              className={`${
-                isConcluido ? "card-desativado-tecnico" : "card-tecnico"
-              } d-flex flex-column align-items-center justify-content-center`}
+              className={`${isConcluido ? "card-desativado-tecnico" : "card-tecnico"
+                } d-flex flex-column align-items-center justify-content-center`}
               key={chamado.id}
             >
               <div
@@ -69,9 +75,8 @@ export default function Carrosel({ chamados = [] }) {
 
               <button
                 type="button"
-                className={`btn ${
-                  isConcluido ? "btn-desativado" : ""
-                } mt-2 mb-3`}
+                className={`btn ${isConcluido ? "btn-desativado" : ""
+                  } mt-2 mb-3`}
                 data-bs-toggle="modal"
                 data-bs-target={`#modal-${chamado.id}`}
               >
@@ -93,13 +98,13 @@ export default function Carrosel({ chamados = [] }) {
                     <h2 className="modal-title" id={`modalLabel-${chamado.id}`}>
                       <b>Ficha Técnica:</b>
                     </h2>
-                    <div className="modal-inicial-user d-md-grid d-none sticky-top bg-white">
-                      <div className="d-flex">
-                        <div className="img-avatar-tecnico">
-                          <p>{iniciais}</p>
-                        </div>
-                        <div className="nome-chat-tecnico">{nomeExibido}</div>
+
+                    <div className="d-flex ustify-content-between">
+                      <div className="img-avatar-tecnico">
+                        <p>{iniciais}</p>
                       </div>
+                      <div className="nome-chat-tecnico">{nomeExibido}</div>
+
                     </div>
                     <button
                       type="button"
@@ -145,7 +150,7 @@ export default function Carrosel({ chamados = [] }) {
                           <div className="nome-chat-tecnico">{nomeExibido}</div>
                         </div>
                       </div>
-                      <Chat idChamado={chamado.id} />
+                      <Chat idChamado={chamado.id} possuiTecnico={'sim'} />
                     </div>
                   </div>
                 </div>

@@ -1,4 +1,4 @@
-import { listarTodosUsuarios } from "../models/Usuarios.js"
+import { listarTodosUsuarios, listarUsuarioPorId } from "../models/Usuarios.js"
 
 
 const listarUsuariosController = async (req, res) => {
@@ -11,6 +11,21 @@ const listarUsuariosController = async (req, res) => {
     }
 }
 
+const listarUsuarioPorIdController = async (req, res) =>{
+    try {
+        const usuario = await listarUsuarioPorId(req.params.id)
+        if (usuario) {
+            res.json(usuario)
+        } else {
+            res.status(404).json({ mensagem: `Usuário não encontrado` })
+        }
+    } catch (err) {
+        console.error('Erro ao obter Usuário por ID: ', err)
+        res.status(500).json({ mensagem: 'Erro ao obter Usuário por ID' })
+    }
+}
 
 
-export {listarUsuariosController}
+
+
+export {listarUsuariosController, listarUsuarioPorIdController}

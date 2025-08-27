@@ -3,16 +3,14 @@ body{
 }
 
 .cards-meus-chamados{
- 
   margin-top: 3rem;
 }
 
 
 
-.conteudo-com-sidebar {
-
+.conteudo-com-sidebar-meus-chamados {
   padding: 1rem;
-  width: calc(100% - 20rem); 
+ 
 }
 
 
@@ -21,23 +19,19 @@ body{
   justify-content: flex-start ; 
 }
 
-.sem-chamados img{
-  margin-left: 6rem;
+.sem-chamados-meus-chamados img{
+ 
   width: 14rem;
 }
 
-.sem-chamados p{
+.sem-chamados-meus-chamados p{
   font-weight: 500;
   font-size: 24px;
 }
 
-.sem-chamados div{
-  margin-left: 4.5rem;
-}
-
 
 @media (max-width: 768px) {
-  .conteudo-com-sidebar {
+  .conteudo-com-sidebar-meus-chamados {
     margin-left: 0;
     width: 100%;
    
@@ -49,10 +43,5 @@ body{
     display: grid;
   }
 
-  .ficha-user{
-    margin-top: 6rem !important;
-    align-items: center;
-    justify-content: center;
-    display: grid;
-  }
+
 }

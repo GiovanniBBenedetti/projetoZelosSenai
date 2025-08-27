@@ -62,17 +62,9 @@ button {
   margin-inline: 1.5rem;
 }
 
-.main {
-  padding-top: 5rem;
-}
 
 /*=============== HEADER ===============*/
 .header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: var(--z-fixed);
   margin: .75rem;
 }
 
@@ -421,7 +413,6 @@ button {
 
   .main {
     padding-left: 340px;
-    padding-top: 6rem;
     transition: padding .4s;
   }
 

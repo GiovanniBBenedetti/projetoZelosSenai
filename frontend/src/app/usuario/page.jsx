@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { getCookie } from 'cookies-next';
+import Loader from '@/components/Loader/Loader';
 import CardUser from '@/components/Card/CardUser';
-import Link from 'next/link';
 import BtnVenhaCriar from "@/components/BtnVenhaCriar/BtnVenhaCriar";
 import "./home.css";
+import Link from 'next/link';
 
 export default function UserDashboard() {
   const [chamados, setChamados] = useState([]);
@@ -28,7 +29,7 @@ export default function UserDashboard() {
       setLoading(false);
       return;
     }
-    
+
     fetch("http://localhost:8080/chamado", {
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -62,13 +63,13 @@ export default function UserDashboard() {
       if (statusA !== statusB) {
         return statusB - statusA;
       }
-      
+
       return parseInt(b.grau_prioridade) - parseInt(a.grau_prioridade);
     });
   };
 
   if (loading) {
-    return <p>Carregando...</p>;
+    return <Loader />;
   }
 
   if (error) {
@@ -84,44 +85,46 @@ export default function UserDashboard() {
 
   return (
     <div className="container-fluid dashboard-user">
-      <div className="row mt-4">
-        <div className="col-md-4 mb-3">
-          <Link href="/usuario/criar-chamado" className="card-btn-link">
-            <button className="dashboard-btn-info">
-              Criar chamado
-              <span className="info-subtext">Não perca tempo!</span>
-            </button>
+      <div className="row">
+        <div className="col-md-4 mt-4 card-information-col">
+          <Link href="/usuario/criar-chamado" className="card-information">
+            <div className="text-content">
+              <p>Criar chamado</p>
+              <span>Informe sua demanda</span>
+            </div>
+            <i className="bi bi-caret-right-fill"></i>
           </Link>
         </div>
-        <div className="col-md-4 mb-3">
-          <Link href="/usuario/meus-chamados" className="card-btn-link">
-            <button className="dashboard-btn-info">
-              {chamadosEmAndamento.length} Chamados
-              <span className="info-subtext">Em andamento</span>
-            </button>
+        <div className="col-md-4 mt-4 card-information-col">
+          <Link href="/usuario/meus-chamados" className="card-information">
+            <div className="text-content">
+              <p>{chamadosEmAndamento.length} Chamados</p>
+              <span>Em andamento</span>
+            </div>
+            <i className="bi bi-caret-right-fill"></i>
           </Link>
         </div>
-        <div className="col-md-4 mb-3">
-          <Link href="/usuario/meus-chamados" className="card-btn-link">
-            <button className="dashboard-btn-info">
-              {chamadosResolvidos.length} Chamados
-              <span className="info-subtext">Resolvidos</span>
-            </button>
-          </Link>
+        <div className="col-md-4 mt-4 card-information-col">
+          <div className="card-information">
+            <div className="text-content">
+              <p>{chamadosResolvidos.length} Chamados</p>
+              <span>Criados no ultimo semestre</span>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-12 mt-3 ajuda-container-col">
+          <div className="card-ajuda">
+            <div className="text-content">
+              <p>Precisa de ajuda?</p>
+              <span>Está com dúvidas ou problemas? Envie uma mensagem para o nosso suporte.</span>
+            </div>
+            <a href="/usuario/suporte"><button className='btn-ajuda'>Enviar Mensagem</button></a>
+          </div>
         </div>
       </div>
 
-      <div className="ajuda-container mt-5 p-4 rounded-3 d-flex flex-column flex-md-row align-items-center justify-content-between">
-        <div className="text-content">
-          <h4 className="ajuda-title">Precisa de ajuda?</h4>
-          <p className="ajuda-subtitle">Está com dúvidas ou problemas? Envie uma mensagem para o nosso suporte.</p>
-        </div>
-        <Link href="/usuario/ajuda" className="btn btn-danger mt-3 mt-md-0">
-          Enviar Mensagem
-        </Link>
-      </div>
 
-      {chamadosEmAndamento.length > 0 && (
+      {/* {chamadosEmAndamento.length > 0 && (
         <div className="chamados-andamento-container mt-5">
           <h2 className="text-center">Chamados em Andamento</h2>
           <div className="d-flex flex-wrap justify-content-center gap-4 mt-4">
@@ -155,7 +158,7 @@ export default function UserDashboard() {
             <BtnVenhaCriar />
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

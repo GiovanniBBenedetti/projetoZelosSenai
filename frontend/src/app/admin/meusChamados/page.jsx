@@ -9,28 +9,30 @@ export default function Meus_chamados() {
   const [chamados, setChamados] = useState([]);
 
   useEffect(() => {
-    const usuarioId = parseInt(getCookie('idUsuario'));
-
-    fetch("http://localhost:8080/chamado")
+    const tipo = getCookie('funcao');
+    const token = getCookie('token');
+    fetch(`http://localhost:8080/meusChamados?tipo=${tipo}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => response.json())
-
       .then((informacao) => {
-        const chamadosUser = informacao.filter(
-          (chamado) => chamado.usuario_id === usuarioId
-        );
-        setChamados(chamadosUser);
-        console.log(chamadosUser)
+        const chamadosTecnico = informacao
+        setChamados(chamadosTecnico)
+        console.log(chamadosTecnico)
       })
-      .catch((error) => console.error("Erro ao buscar chamados:", error));
+      .catch((error) => console.error("Erro ao buscar chamados:", error))
   }, []);
 
-  const status ={
-    "procurando responsável": 0,
-    "em andamento": 1,
-    "concluído": 2,
+  const status = {
+    'procurando responsável': 0,
+    'enviado': 1,
+    'concluído': 2
   }
 
-    const ordenarChamados = () => {
+  const ordenarChamados = () => {
     return chamados.sort((a, b) => {
       const statusA = status[a.status];
       const statusB = status[b.status];
@@ -47,9 +49,6 @@ export default function Meus_chamados() {
 
   return (
     <>
-      <div className="img-senai-meus-chamados d-sm-block d-none">
-        <img src="/fundo.png" alt="" className="img-fluid" />
-      </div>
 
       <div className="titulo-meus-chamados-cel mt-4 align-items-center d-flex d-md-none justify-content-center">
         <h2>Meus Chamados</h2>
@@ -62,12 +61,12 @@ export default function Meus_chamados() {
       <div className="conteudo-com-sidebar">
         {chamados.length === 0 ? (
           <div className="sem-chamados d-grid justify-content-center align-items-center">
-            <img src="/fundo_semChamados.png" className='img-fluid' alt="" />
+            <img src="/img/fundo_semChamados.png" className='img-fluid' alt="" />
             <p>Ops! Você não possui nenhum chamado</p>
             <div className="">
-               <BtnVenhaCriar />
+              <BtnVenhaCriar />
             </div>
-           
+
           </div>
         ) : (
           <div className="cards-meus-chamados d-flex align-items-center justify-content-center flex-wrap gap-4">

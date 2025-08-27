@@ -88,7 +88,7 @@ const Sidebar = ({ isSidebarOpen }) => {
         label: 'Chamados',
         items: [
           { link: '/tecnico/chamados',icon: 'bi bi-folder-fill', label: 'Meus Chamados' },
-          { link: '/tecnico/todosChamados',icon: 'bi bi-border-all', label: 'Todos os Chamados' },
+          { link: '/tecnico/todosChamados',icon: 'bi bi-border-all', label: 'Chamados da Área' },
         ],
       },
       { link: '/tecnico/suporte', icon: 'bi bi-chat-text-fill', label: 'Suporte' },

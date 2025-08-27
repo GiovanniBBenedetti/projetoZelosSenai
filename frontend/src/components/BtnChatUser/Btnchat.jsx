@@ -1,34 +1,35 @@
+'use client';
 import React from "react";
 import styled from "styled-components";
 
 const Button = () => {
   return (
     <StyledWrapper>
-      <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasChatBot">
+      <div className="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasChatBot">
         <div className="svg-wrapper-1">
           <div className="svg-wrapper">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              width={24}
-              height={24}
+              width={16}
+              height={16}
+              fill="currentColor"
+              className="bi bi-clipboard2-data-fill"
+              viewBox="0 0 16 16"
             >
-              <path fill="none" d="M0 0h24v24H0z" />
-              <path
-                fill="currentColor"
-                d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"
-              />
+              <path d="M10 .5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5.5.5 0 0 1-.5.5.5.5 0 0 0-.5.5V2a.5.5 0 0 0 .5.5h5A.5.5 0 0 0 11 2v-.5a.5.5 0 0 0-.5-.5.5.5 0 0 1-.5-.5" />
+              <path d="M4.085 1H3.5A1.5 1.5 0 0 0 2 2.5v12A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5v-12A1.5 1.5 0 0 0 12.5 1h-.585q.084.236.085.5V2a1.5 1.5 0 0 1-1.5 1.5h-5A1.5 1.5 0 0 1 4 2v-.5q.001-.264.085-.5M10 7a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0zm-6 4a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0zm4-3a1 1 0 0 1 1 1v3a1 1 0 1 1-2 0V9a1 1 0 0 1 1-1" />
             </svg>
+
           </div>
         </div>
-        <span className="fs-6">Falar com técnico</span>
-      </button>
+        <span className="fs-6">Ver Mais</span>
+      </div>
     </StyledWrapper>
   );
 };
 
 const StyledWrapper = styled.div`
-  button {
+  .button {
     font-family: inherit;
     font-size: 20px;
     background: #b5000c;
@@ -44,31 +45,31 @@ const StyledWrapper = styled.div`
     cursor: pointer;
   }
 
-  button span {
+  .button span {
     display: block;
     margin-left: 0.3em;
     transition: all 0.3s ease-in-out;
   }
 
-  button svg {
+  .button svg {
     display: block;
     transform-origin: center center;
     transition: transform 0.3s ease-in-out;
   }
 
-  button:hover .svg-wrapper {
+  .button:hover .svg-wrapper {
     animation: fly-1 0.6s ease-in-out infinite alternate;
   }
 
-  button:hover svg {
-    transform: translateX(3em) rotate(45deg) scale(1.1);
+  .button:hover svg {
+    transform: translateX(1.6em) rotate(45deg) scale(1.1);
   }
 
-  button:hover span {
-    transform: translateX(9em);
+  .button:hover span {
+    transform: translateX(7em);
   }
 
-  button:active {
+  .button:active {
     transform: scale(0.95);
   }
 

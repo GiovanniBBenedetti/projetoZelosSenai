@@ -16,97 +16,102 @@
 }
 
 /*=============== DASHBOARD GERAL ===============*/
+.row > * {
+  padding-left: 0 !important;
+}
+
 .dashboard-user {
   padding-left: 2rem;
   padding-right: 2rem;
 }
 
 /*=============== BOTÕES DE INFORMAÇÃO SUPERIORES ===============*/
-.dashboard-btn-info {
-  width: 100%;
+.card-information {
   background-color: var(--preto-zelos);
-  color: var(--branco);
-  border: 1px solid var(--preto-zelos);
   border-radius: 1rem;
-  padding: 1.5rem 1rem;
-  text-align: left;
-  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 1.5rem;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  font-size: 1.5rem;
-  font-weight: var(--font-semi-bold);
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   position: relative;
-}
-
-.dashboard-btn-info:hover {
-  background-color: var(--vermelho-escuro);
-  transform: translateY(-5px);
-  border-color: var(--vermelho-principal);
-}
-
-.dashboard-btn-info::after {
-  content: "»";
-  position: absolute;
-  right: 1.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 2rem;
-  color: var(--vermelho-principal);
-  transition: transform 0.3s ease-in-out;
-}
-
-.dashboard-btn-info:hover::after {
-  transform: translateY(-50%) translateX(5px);
-}
-
-.info-subtext {
-  font-size: 0.8rem;
-  color: #ccc;
-  font-weight: var(--font-regular);
-}
-
-.card-btn-link {
+  transition: background-color 0.3s ease-in-out;
   text-decoration: none;
 }
 
-/*=============== SEÇÃO DE AJUDA ===============*/
-.ajuda-container {
-  background-color: var(--preto-zelos);
-  color: var(--branco);
-  border-radius: 1rem;
-  padding: 2rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.card-information:hover {
+  background-color: var(--vermelho-principal);
 }
 
-.ajuda-container .text-content {
+.card-information .text-content {
+  display: flex;
+  flex-direction: column;
   text-align: left;
 }
 
-.ajuda-title {
-  font-size: 1.5rem;
+.card-information .text-content p {
+  color: var(--branco);
+  font-size: 1.25rem;
   font-weight: var(--font-semi-bold);
-  margin-bottom: 0.5rem;
-}
-
-.ajuda-subtitle {
-  font-size: var(--normal-font-size);
-  color: #ccc;
   margin-bottom: 0;
 }
 
-.ajuda-container .btn-danger {
+.card-information .text-content span {
+  color: var(--vermelho-escuro);
+  font-size: 0.9rem;
+  font-weight: var(--font-regular);
+}
+
+.card-information .bi-caret-right-fill {
+  color: var(--vermelho-principal);
+  font-size: 2rem;
+  transition: color 0.3s ease-in-out;
+}
+
+.card-information:hover .bi-caret-right-fill {
+  color: var(--branco);
+}
+
+/*=============== SEÇÃO DE AJUDA ===============*/
+.card-ajuda {
+  background-color: var(--preto-zelos);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--branco);
+}
+
+.card-ajuda .text-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-ajuda .text-content p {
+  color: var(--branco);
+  font-size: 1.25rem;
+  font-weight: var(--font-semi-bold);
+  margin-bottom: 0;
+}
+
+.card-ajuda .text-content span {
+  color: var(--cinza-claro);
+  font-size: 0.9rem;
+  font-weight: var(--font-regular);
+}
+
+.btn-ajuda {
   background-color: var(--vermelho-principal);
   border: none;
-  font-weight: var(--font-semi-bold);
-  padding: 0.75rem 2rem;
   border-radius: 0.5rem;
+  color: var(--branco);
+  padding: 0.75rem 1.5rem;
+  font-weight: var(--font-semi-bold);
   transition: background-color 0.3s;
 }
 
-.ajuda-container .btn-danger:hover {
+.btn-ajuda:hover {
   background-color: var(--vermelho-escuro);
 }
 
@@ -194,19 +199,6 @@
   text-transform: capitalize;
 }
 
-/*=============== CARD RESOLVIDO ===============*/
-.card-resolvido-container {
-  background-color: var(--vermelho-principal);
-  padding: 2rem;
-  border-radius: 1rem;
-  margin-top: 3rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.card-resolvido-container h2 {
-  color: var(--branco);
-}
-
 /*=============== RESPONSIVIDADE ===============*/
 @media (max-width: 768px) {
   .dashboard-user {
@@ -214,16 +206,12 @@
     padding-right: 1rem;
   }
   
-  .dashboard-btn-info {
-    padding: 1rem;
-  }
-
-  .dashboard-btn-info::after {
-    display: none;
-  }
-
-  .ajuda-container {
+  .card-ajuda {
     flex-direction: column;
     text-align: center;
+  }
+
+  .card-ajuda .btn-ajuda {
+    margin-top: 1rem;
   }
 }

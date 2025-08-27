@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import FooterLayout from "@/components/Footer/FooterLayout"; // Importe o novo componente
+import FooterLayout from "@/components/Footer/FooterLayout";
 import Sidebar from "@/components/Sidebar/Sidebar";
 
 export default function SidebarLayout({ children }) {
@@ -16,9 +16,11 @@ export default function SidebarLayout({ children }) {
             <header className={`header ${isSidebarOpen ? 'left-pd' : ''}`} id="header">
                 <div className="header__container">
                     <a href="#" className="header__logo">
-                        <img src="./logotipos/logoEscritaBranca.png" alt="" />
+                    <img src="/logoOriginal.png" alt="Logo" />
+
+
                     </a>
-                    
+
                     <button className="header__toggle" id="header-toggle" onClick={showSidebar}>
                         <i className="bi bi-list"></i>
                     </button>
@@ -29,7 +31,7 @@ export default function SidebarLayout({ children }) {
 
             <main className={`main ${isSidebarOpen ? 'left-pd' : ''}`} id="main">
                 {children}
-                <FooterLayout /> 
+                <FooterLayout />
             </main>
         </>
     );

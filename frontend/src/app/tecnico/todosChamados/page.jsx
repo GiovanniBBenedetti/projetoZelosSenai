@@ -64,7 +64,7 @@ export default function Meus_chamados() {
     <div>
       <img src="/fundo.png" alt="" className="img-fluid" />
       <div className="titulo-meus-chamados d-none d-md-flex">
-        <h2>Meus Chamados</h2>
+        <h2>Chamados da ár Chamados</h2>
       </div>
 
       <div className="d-flex mt-4 d-md-none justify-content-center align-items-center">

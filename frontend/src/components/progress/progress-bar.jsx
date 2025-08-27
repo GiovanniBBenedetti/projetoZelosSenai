@@ -2,13 +2,12 @@ import React from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import styled from 'styled-components';
 
-const ProgressBar = ({ step }) => {
-  // step: 0 = não iniciado, 1 = em andamento, 2 = concluído
-  const status ={
-    'não iniciado': 0,
+const ProgressBar = ({ step, onChange, funcao }) => {
+  const status = {
+    'procurando responsável': 0,
     'em andamento': 1,
     'concluído': 2,
-  }
+  };
 
   const steps = [
     { icon: 'bi-clock-history', label: 'Chamado não iniciado' },
@@ -17,32 +16,45 @@ const ProgressBar = ({ step }) => {
   ];
 
   return (
-    <Wrapper>
+    <Wrapper $isTech={funcao === 'técnico'}>
       {steps.map((s, index) => (
-        <Step key={index} active={status[step] >= index}>
+        <Step
+          key={index}
+          active={status[step] >= index}
+          $isTech={funcao === 'técnico'}
+          onClick={funcao === 'técnico' ? () => onChange(index) : undefined}
+          title={s.label}
+        >
           <i className={`bi ${s.icon}`}></i>
-          {index < steps.length - 1 && <Bar active={status[step] > index} />}
+          {index < steps.length - 1 && (
+            <Bar active={status[step] > index} />
+          )}
         </Step>
       ))}
     </Wrapper>
   );
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== '$isTech',
+})`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: ${(props) => (props.$isTech ? 'pointer' : 'default')};
 `;
 
 const Step = styled.div.withConfig({
-  shouldForwardProp: (prop) => prop !== 'active'
+  shouldForwardProp: (prop) => !['active', '$isTech'].includes(prop),
 })`
   display: flex;
   align-items: center;
   position: relative;
+  cursor: ${(props) => (props.$isTech ? 'pointer' : 'default')};
+
   i {
     font-size: 1.2rem;
-    color: #FFFFFF;
+    color: #fff;
     background-color: ${(props) => (props.active ? '#931c1b' : '#ccc')};
     border-radius: 50%;
     width: 2.5rem;
@@ -51,15 +63,25 @@ const Step = styled.div.withConfig({
     justify-content: center;
     text-align: center;
     display: flex;
+    transition: 0.3s;
   }
+
+  ${(props) =>
+    props.$isTech &&
+    `
+    &:hover i {
+      transform: scale(1.1);
+    }
+  `}
 `;
 
 const Bar = styled.div.withConfig({
-  shouldForwardProp: (prop) => prop !== 'active'
+  shouldForwardProp: (prop) => prop !== 'active',
 })`
   height: 0.4rem;
   width: 1rem;
   background-color: ${(props) => (props.active ? '#931c1b' : '#ccc')};
+  transition: 0.3s;
 `;
 
 export default ProgressBar;

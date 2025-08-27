@@ -2,7 +2,7 @@
 import "./cardVirgem.css";
 import React, { useEffect, useState } from "react";
 import BtnChat from "@/components/BtnChatUser/Btnchat";
-
+import Chat from "@/components/Chat/Chat";
 import BtnAtribuirTecnico from "@/components/BtnPegarChamado/BtnPegarChamado.jsx";
 import Progress from "@/components/progress/progress-bar.jsx";
 import { getCookie } from "cookies-next";
@@ -62,30 +62,30 @@ export default function Carrosel({ chamados = [] }) {
         return (
           <div key={chamado.id}>
             <div
-              className={`${isConcluido ? "card-desativado-user" : "card-user"
+              className={`${isConcluido ? "card-desativado-virgem" : "card-virgem"
                 } d-flex flex-column align-items-center justify-content-center`}
               key={chamado.id}
             >
               <div
-                className={`card-prioridade-${chamado.grau_prioridade}-user d-flex align-items-center justify-content-center`}
+                className={`card-prioridade-${chamado.grau_prioridade}-virgem d-flex align-items-center justify-content-center`}
               >
                 <p>{prioridades[chamado.grau_prioridade]}</p>
               </div>
 
               <main className="d-grid mt-4">
-                <div className="card-titulo-user d-grid align-items-center justify-content-center">
+                <div className="card-titulo-virgem d-grid align-items-center justify-content-center">
                   <h3>{chamado.titulo}</h3>
                 </div>
-                <div className="card-patrimonio-user d-grid w-100 justify-content-center align-items-center">
+                <div className="card-patrimonio-virgem d-grid w-100 justify-content-center align-items-center">
                   <p>{chamado.patrimonio}</p>
                 </div>
-                <div className="card-data-user d-grid w-100 justify-content-center align-items-center">
+                <div className="card-data-virgem d-grid w-100 justify-content-center align-items-center">
                   <p>
                     <b>Criado em:</b>{" "}
                     {new Date(chamado.criado_em).toLocaleDateString("pt-BR")}
                   </p>
                 </div>
-                <div className="status-card-user d-flex align-items-center justify-content-center">
+                <div className="status-card-virgem text-capitalize d-flex align-items-center justify-content-center">
                   <p>{chamado.status}</p>
                 </div>
                 <div className="">
@@ -102,7 +102,7 @@ export default function Carrosel({ chamados = [] }) {
               >
                 <BtnChat />
               </button>
-
+              
               {/* Modal */}
             </div>
             <div
@@ -118,11 +118,17 @@ export default function Carrosel({ chamados = [] }) {
                     <h2 className="modal-title" id={`modalLabel-${chamado.id}`}>
                       <b>Ficha Técnica:</b>
                     </h2>
-                    <div className="modal-inicial-user d-md-grid d-none sticky-top bg-white">
-                      <div className="d-flex">
-
-                        <div className="nome-chat-user">Sem Técnico</div>
-                      </div>
+                    <div className="modal-inicial-virgem d-md-grid d-none sticky-top bg-white">
+                      {chamado.tecnico_id && (
+                        <div className="modal-inicial-user d-md-grid d-none sticky-top bg-white">
+                          <div className="d-flex">
+                            <div className="img-avatar-virgem">
+                              <p>{iniciais}</p>
+                            </div>
+                            <div className="nome-chat-virgem">{nomeExibido}</div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                     <button
                       type="button"
@@ -133,8 +139,8 @@ export default function Carrosel({ chamados = [] }) {
                   </div>
 
                   <div className="modal-body d-md-flex align-items-center justify-content-center d-grid">
-                    <div className="ficha-user d-grid gap-0 m-0">
-                      <p className="">
+                    <div className="ficha-virgem d-grid gap-0 m-0">
+                      <p className="mt-5">
                         <b>Título:</b> {chamado.titulo}
                       </p>
                       <p>
@@ -158,19 +164,24 @@ export default function Carrosel({ chamados = [] }) {
                       <p>
                         <b>Descrição:</b> {chamado.descricao}
                       </p>
-                      <button onClick={() => atribuirTecnico(chamado.id)} className="btn btn-atribuir-tecnico-user mt-2 mb-3">
+                      <button onClick={() => atribuirTecnico(chamado.id)} className="btn btn-atribuir-tecnico-virgem mt-2 mb-3">
                         <BtnAtribuirTecnico />
                       </button>
                     </div>
-                    <div className="chat-container-user">
-                      <div className="modal-inicial-user d-md-none d-flex sticky-top bg-white">
-                        <div className="d-flex">
 
-                          <div className="nome-chat-user">Sem Técnico</div>
+                    <div className="chat-container-virgem">
+                      <div className="modal-inicial-virgem d-md-none d-flex sticky-top bg-white">
+                        <div className="d-flex">
+                          <div className="img-avatar-virgem">
+                            <p>{iniciais}</p>
+                          </div>
+                          <div className="nome-chat-virgem">{nomeExibido}</div>
                         </div>
                       </div>
-
+                      <Chat idChamado={chamado.id} possuiTecnico={'nao'} />
                     </div>
+
+
                   </div>
                 </div>
               </div>

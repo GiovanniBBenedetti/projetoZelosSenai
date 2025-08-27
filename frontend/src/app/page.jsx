@@ -6,8 +6,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Login() {
-  const [numeroRegistro, setRm] = useState('');
-  const [senha, setSenha] = useState('');
+  const [username, setusername] = useState('');
+  const [password, setPassword] = useState('');
 
   async function handleLogin(e) {
     e.preventDefault();
@@ -16,7 +16,7 @@ export default function Login() {
       const response = await fetch('http://localhost:8080/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ numeroRegistro, senha }),
+        body: JSON.stringify({ username, password }),
       });
 
       const data = await response.json();
@@ -26,7 +26,7 @@ export default function Login() {
         setCookie('funcao', data.user.funcao);
         setCookie('idUsuario', data.user.id);
         setCookie('nome', data.user.nome);
-        setCookie('descricao', data.user.descricao);
+        setCookie('descricao', data.user.curso);
 
         if (data.user.funcao === 'usuario') {
           window.location.href = '/usuario';
@@ -70,15 +70,15 @@ export default function Login() {
             <input
               placeholder="Registro de Matrícula"
               type="text"
-              value={numeroRegistro}
-              onChange={(e) => setRm(e.target.value)}
+              value={username}
+              onChange={(e) => setusername(e.target.value)}
               className="loginInput"
             />
             <input
               placeholder="Senha"
               type="password"
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="loginInput"
             />
             <button type="submit" className="loginButton">Entrar</button>

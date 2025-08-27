@@ -1,9 +1,257 @@
-.cardUltimosChamdos {
-  box-shadow: 4px  4px 15px rgba(0, 0, 0, 0.2); 
-  border-radius: 12px; 
-  padding: 200PX;
+/*=============== VARIÁVEIS DE COR E FONTES ===============*/
+:root {
+  --vermelho-principal: #e30615;
+  --vermelho-escuro: #8e0009;
+  --preto-zelos: #101820;
+  --cinza-claro: #eaeaea;
+  --branco: #ffffff;
+  --prioridade-maxima: #e30615;
+  --prioridade-minima: #ffbf00;
+  --prioridade-baixa: #008000;
+
+  --body-font: 'Nunito Sans', system-ui;
+  --font-regular: 400;
+  --font-semi-bold: 600;
+  --normal-font-size: 0.938rem;
 }
-.containerCards{
-    padding-left: 20px;
-    padding-right: 20px;
+
+/*=============== DASHBOARD GERAL ===============*/
+.dashboard-admin {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  color: var(--preto-zelos);
+}
+
+.row > * {
+  padding-left: 0 !important;
+}
+
+/*=============== BOTÕES DE INFORMAÇÃO SUPERIORES ===============*/
+.dashboard-header .card-information-col {
+  padding-right: 0.75rem !important;
+}
+
+.dashboard-header .card-information {
+  background-color: var(--preto-zelos);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  transition: background-color 0.3s ease-in-out;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 100%;
+}
+
+.dashboard-header .card-information:hover {
+  background-color: var(--vermelho-principal);
+}
+
+.dashboard-header .card-information .text-content {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.dashboard-header .card-information .text-content p {
+  color: var(--branco);
+  font-size: 1.25rem;
+  font-weight: var(--font-semi-bold);
+  margin-bottom: 0;
+}
+
+.dashboard-header .card-information .text-content span {
+  color: var(--vermelho-escuro);
+  font-size: 0.9rem;
+  font-weight: var(--font-regular);
+}
+
+.dashboard-header .card-information .bi-caret-right-fill {
+  color: var(--vermelho-principal);
+  font-size: 2rem;
+  transition: color 0.3s ease-in-out;
+}
+
+.dashboard-header .card-information:hover .bi-caret-right-fill {
+  color: var(--branco);
+}
+
+/*=============== GRÁFICOS E CARDS DE ESTATÍSTICA ===============*/
+.chart-card {
+  background-color: var(--branco);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 100%;
+}
+
+.chart-title {
+  font-size: 1.2rem;
+  font-weight: var(--font-semi-bold);
+  color: var(--preto-zelos);
+  margin-bottom: 1rem;
+}
+
+.chart-wrapper {
+position: relative;
+height: 250px;
+}
+
+/*=============== CARDS DE NÚMEROS ===============*/
+.info-box {
+  background-color: var(--preto-zelos);
+  color: var(--branco);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.info-box h3 {
+  font-size: 2rem;
+  font-weight: var(--font-semi-bold);
+  margin-bottom: 0.25rem;
+}
+
+.info-box p {
+  font-size: var(--normal-font-size);
+  margin-bottom: 0.5rem;
+  color: #ccc;
+}
+
+.info-box span {
+  font-size: 0.8rem;
+  font-weight: var(--font-regular);
+  color: var(--vermelho-principal);
+}
+
+.info-box-2 span {
+  color: #FFD700; /* Cor para chamados em aberto */
+}
+
+.info-box-3 span {
+  color: #e30615; /* Cor para chamados não iniciados */
+}
+
+/*=============== TÉCNICOS EM DESTAQUE ===============*/
+.tecnicos-destaque-container {
+  background-color: var(--preto-zelos);
+  border-radius: 1rem;
+  padding: 2rem;
+  color: var(--branco);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: var(--font-semi-bold);
+}
+
+.section-subtitle {
+  font-size: var(--normal-font-size);
+  color: #ccc;
+}
+
+/*=============== CARD TECNICO EM DESTAQUE (do componente) ===============*/
+.card-tecnico-destaque {
+  background-color: var(--preto-zelos);
+  color: var(--branco);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 2px solid transparent;
+  transition: border-color 0.3s;
+  border-color: var(--vermelho-principal);
+}
+
+.tecnico-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.tecnico-avatar {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: var(--font-semi-bold);
+}
+
+.tecnico-info {
+  flex-grow: 1;
+}
+
+.tecnico-info h4 {
+  font-size: 1.25rem;
+  font-weight: var(--font-semi-bold);
+  margin: 0;
+}
+
+.tecnico-info span {
+  font-size: 0.9rem;
+  color: var(--cinza-claro);
+}
+
+.tecnico-options {
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.tecnico-body {
+  text-align: center;
+}
+
+.tecnico-body p {
+  margin: 0;
+  color: var(--cinza-claro);
+  font-size: 0.9rem;
+}
+
+.tecnico-body h5 {
+  font-size: 2rem;
+  font-weight: var(--font-semi-bold);
+  color: var(--vermelho-principal);
+  margin: 0.25rem 0;
+}
+
+.tecnico-footer {
+  text-align: center;
+}
+
+.btn-email {
+  background-color: var(--vermelho-principal);
+  color: var(--branco);
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  display: inline-block;
+  font-weight: var(--font-semi-bold);
+  text-decoration: none;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.btn-email:hover {
+  background-color: var(--vermelho-escuro);
+}
+
+
+/*=============== RESPONSIVIDADE ===============*/
+@media (max-width: 768px) {
+  .dashboard-admin {
+      padding-left: 1rem;
+      padding-right: 1rem;
+  }
+  .dashboard-header .card-information-col {
+      padding-right: 0 !important;
+      margin-bottom: 1rem;
+  }
 }

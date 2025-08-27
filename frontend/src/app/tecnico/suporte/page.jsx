@@ -1,14 +1,43 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getCookie } from 'cookies-next';
 import './suporte.css';
-import Link from 'next/link';
 
-export default function Suporte() {
+export default function TecnicoSuporte() {
   const [titulo, setTitulo] = useState('');
   const [descricao, setDescricao] = useState('');
   const [mensagem, setMensagem] = useState('');
+  const [usuario, setUsuario] = useState(null);
+
+
+
+
+
+  const fetchUsuario = async () => {
+    try {
+      const idUsuario = parseInt(getCookie('idUsuario'));
+      const token = getCookie('token');
+
+      const res2 = await fetch(`http://localhost:8080/usuarios/${idUsuario}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res2.ok) throw new Error('Erro ao buscar usuário');
+
+      const informacao = await res2.json();
+      console.log(informacao);
+      setUsuario(informacao);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,20 +47,14 @@ export default function Suporte() {
       return;
     }
 
-    // pega o token do cookie
-    const token = getCookie('token'); 
-
-    if (!token) {
-      setMensagem('Token não encontrado. Faça login novamente.');
-      return;
-    }
-
     const formData = JSON.stringify({
-      titulo: titulo || null,
-      descricao: descricao || null,
+      titulo,
+      descricao,
     });
 
     try {
+      const token = getCookie('token');
+
       const res = await fetch('http://localhost:8080/duvidas', {
         method: 'POST',
         headers: {
@@ -54,62 +77,104 @@ export default function Suporte() {
     }
   };
 
+  
+  useEffect(() => {
+    fetchUsuario();
+  }, []);
+
   return (
     <div className="fundo">
       <div className="geral-suporte">
         <div className="fundoBrancoSuporte">
-          <div className="container p-4">
+          <div className="container">
             <div className="row">
-              <div className="col-12 col-md-6 endereco-suporte p-4">
-                <h3 className="titulo-endereco-suporte">Localização</h3>
-                <p className="title-escola mt-2">Senai Armando de Arruda Pereira</p>
-                <p>R. Santo André, 680 - Boa Vista, São Caetano do Sul - SP, 09572-000</p>
+              <div className="col-12 col-lg-6 endereco-suporte">
+                <p className="subtitulo-suporte">Precisa de ajuda?</p>
+                <h1 className="titulo-endereco-suporte">Prontos para ouvir você e oferecer a melhor solução.</h1>
+                <p className="title-escola mt-2">
+                  Quer mais informações, suporte ou ajuda personalizada? Preencha o formulário e nossa equipe retornará o mais rápido possível.
+                </p>
 
-                <h3 className="titulo-endereco-suporte mt-3">Siga-nos</h3>
-                <Link href="https://www.linkedin.com/school/senaisp/" target="_blank">
-                  <button type="button" className="me-2 btn btn-danger rounded-circle icone-suporte">
-                    <i className="bi bi-linkedin"></i>
-                  </button>
-                </Link>
-                <Link href="https://www.instagram.com/senai.sp/" target="_blank">
-                  <button type="button" className="me-2 btn btn-danger rounded-circle icone-suporte">
-                    <i className="bi bi-instagram"></i>
-                  </button>
-                </Link>
-                <Link href="https://www.facebook.com/senaisaopaulo/" target="_blank">
-                  <button type="button" className="btn btn-danger rounded-circle icone-suporte">
-                    <i className="bi bi-facebook"></i>
-                  </button>
-                </Link>
+                <div className="geral-suporte-infos-exp">
+                  <i className="bi bi-house-door-fill icon-suporte"></i>
+                  <div className="endereco-suportes">
+                    <p className="endereco-suporte-1">Endereço</p>
+                    <p className="endereco-suporte-2">R. Boa Vista, 825 - São Caetano do Sul, SP</p>
+                  </div>
+                </div>
+
+                <div className="geral-suporte-infos">
+                  <div className="geral-suporte-infos-exp">
+                    <i className="bi bi-telephone-fill icon-suporte"></i>
+                    <div className="telefone-suporte">
+                      <p className="telefone-suporte-1">Telefone</p>
+                      <p className="telefone-suporte-2">(11) 4227-7450</p>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <div className="col-12 col-md-6 formularioSuporte p-4">
-                <h3 className="titulo-suporte">Enviar Dúvida</h3>
-                <form onSubmit={handleSubmit}>
-                  <div className="mb-3">
-                    <label htmlFor="titulo" className="form-label">Título</label>
-                    <input
-                      type="text"
-                      placeholder="Título"
-                      id="titulo"
-                      className="form-control inputSuporte"
-                      value={titulo}
-                      onChange={(e) => setTitulo(e.target.value)}
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="descricao" className="form-label">Descrição</label>
-                    <input
-                      id="descricao"
-                      placeholder="Envie sua mensagem"
-                      className="form-control inputSuporte"
-                      value={descricao}
-                      onChange={(e) => setDescricao(e.target.value)}
-                    />
-                  </div>
-                  <button type="submit" className="btn btn-danger">Enviar</button>
-                </form>
-                {mensagem && <p className="mt-3 mensagem-erro-suporte">{mensagem}</p>}
+              <div className="col-12 col-lg-6 formularioSuporte p-4">
+                <div className="col-12 col-lg-6 fundo-formularioSuporte">
+                  <form onSubmit={handleSubmit}>
+                    <div className="mb-3">
+                      <fieldset disabled>
+                        <div className="mb-3">
+                          <label className="form-label suporte-label">Nome</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            defaultValue={usuario?.nome || ''}
+                            placeholder="Nome da pessoa"
+                          />
+                        </div>
+
+                        <div className="mb-3">
+                          <label className="form-label suporte-label">Função</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            defaultValue={usuario?.funcao || ''}
+                            placeholder="Função da pessoa"
+                          />
+                        </div>
+                      </fieldset>
+
+                      <label htmlFor="titulo" className="form-label suporte-label">Título</label>
+                      <input
+                        type="text"
+                        placeholder="Título"
+                        id="titulo"
+                        className="form-control inputSuporte"
+                        value={titulo}
+                        onChange={(e) => setTitulo(e.target.value)}
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label htmlFor="descricao" className="form-label suporte-label">Descrição</label>
+                      <textarea
+                        id="descricao"
+                        placeholder="Envie sua mensagem"
+                        className="form-control inputSuporte"
+                        value={descricao}
+                        onChange={(e) => setDescricao(e.target.value)}
+                      />
+                    </div>
+                    <button type="submit" className="cssbuttons-io-button">
+                      Enviar
+                      <div className="icon">
+                        <svg height={24} width={24} viewBox="0 0 24 24">
+                          <path d="M0 0h24v24H0z" fill="none" />
+                          <path
+                            d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"
+                            fill="currentColor"
+                          />
+                        </svg>
+                      </div>
+                    </button>
+                  </form>
+                  {mensagem && <p className="mt-3 mensagem-erro-suporte">{mensagem}</p>}
+                </div>
               </div>
             </div>
           </div>

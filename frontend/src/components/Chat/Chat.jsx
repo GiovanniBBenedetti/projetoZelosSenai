@@ -5,10 +5,11 @@ import React from 'react';
 import './chat.css';
 import { getCookie } from 'cookies-next';
 
-export default function Chat({ idChamado }) {
+export default function Chat({ idChamado, possuiTecnico }) {
   const [mensagens, setMensagens] = useState([]);
   const [carregandoMensagens, setCarregandoMensagens] = useState(true);
   const [novoApontamento, setNovoApontamento] = useState('');
+  const [mensagemInicial, setMensagemInicial] = useState('');
   const [funcao, setFuncao] = useState('');
   const [meuId, setMeuId] = useState(null);
 
@@ -27,6 +28,8 @@ export default function Chat({ idChamado }) {
           chamado_id: idChamado,
         },
       });
+
+    
 
       if (!res.ok) {
         setCarregandoMensagens(false);
@@ -81,7 +84,7 @@ export default function Chat({ idChamado }) {
 
       if (response.ok) {
         await carregarMensagens();
-        setNovoApontamento('');
+        setNovoApontamento('Espere um momento!');
       } else {
         console.log(data);
       }
@@ -91,18 +94,20 @@ export default function Chat({ idChamado }) {
     }
   }
 
+
   return (
     <>
       <div className="">
         <div className="card-container">
           <div className="card-body">
             <div className="messages-container">
-              {mensagens.map((mensagem, chave) => {
+              {mensagens.length == 0 ?
+              (mensagens.map((mensagem, chave) => {
                 const mensagemDoLogado =
                   (mensagem.usuario_id && mensagem.usuario_id === meuId) ||
                   (mensagem.tecnico_id && mensagem.tecnico_id === meuId) ||
                   (mensagem.admin_id && mensagem.admin_id === meuId);
-
+                
                 return (
                   <div
                     key={chave}
@@ -115,6 +120,7 @@ export default function Chat({ idChamado }) {
                           ? "Usuário"
                           : "Técnico"}
                     </p>
+                
                     <p>{mensagem.descricao}</p>
                     <div className="d-flex justify-content-between">
                       <p className={`message-box ${mensagemDoLogado ? 'hora-chat2' : 'hora-chat'}`}>
@@ -129,14 +135,40 @@ export default function Chat({ idChamado }) {
                     </div>
                   </div>
                 );
-              })}
+              })): (
+                <div key={chave} className='message-box left'>
+                         <p>Espere um momento!</p>
+                     <div className="d-flex justify-content-between">
+                      <p className={`message-box ${mensagemDoLogado ? 'hora-chat2' : 'hora-chat'}`}>
+                        {new Date(mensagem.criado_em).toLocaleTimeString('pt-BR', {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
+                      </p>
+                      <p className={`message-box ${mensagemDoLogado ? 'data-chat2' : 'data-chat'}`}>
+                        {new Date(mensagem.criado_em).toLocaleDateString('pt-BR')}
+                      </p>
+                    </div>
+                </div>
+              )}
               <div ref={fimDasMensagensRef} />
             </div>
           </div>
         </div>
       </div>
       <div className="d-flex bottom-0">
-        <input
+        {possuiTecnico === 'nao' ? (
+          <input
+          type="text"
+          className="form-control input-nova-chat w-100"
+          placeholder="Digite sua mensagem..."
+          value={novoApontamento}
+          onChange={(e) => setNovoApontamento(e.target.value)}
+          required
+          readOnly
+        />
+        ):(
+          <input
           type="text"
           className="form-control input-nova-chat w-100"
           placeholder="Digite sua mensagem..."
@@ -144,6 +176,8 @@ export default function Chat({ idChamado }) {
           onChange={(e) => setNovoApontamento(e.target.value)}
           required
         />
+        )}
+       
         <button className="btn btn-modal-chat ms-2" onClick={enviarMensagem}>
           <i className="bi bi-arrow-right"></i>
         </button>

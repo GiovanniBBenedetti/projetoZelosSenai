@@ -79,6 +79,7 @@ const atribuirChamadoController = async (req, res) => {
 
     const tecnicoDesignado = {
       tecnico_id: tecnico,
+      status: 'em andamento'
     };
 
     await atribuicaoChamadosVirgens(chamadoId, tecnicoDesignado);

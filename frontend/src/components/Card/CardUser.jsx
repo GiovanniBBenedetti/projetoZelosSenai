@@ -44,7 +44,7 @@ export default function Carrosel({ chamados = [] }) {
 
   return (
     <>
-      {chamados.map((chamado) => {
+      {Array(chamados).map((chamado) => {
         const isConcluido = chamado.status === "concluído";
         
         return (
@@ -61,8 +61,9 @@ export default function Carrosel({ chamados = [] }) {
               </div>
 
               <main className="d-grid mt-4">
-                <div className="card-titulo-user d-grid align-items-center justify-content-center">
+                <div className="card-titulo-user ">
                   <h3>{chamado.titulo}</h3>
+                  <button>Ver Mais</button>
                 </div>
                 <div className="card-patrimonio-user d-grid w-100 justify-content-center align-items-center">
                   <p>{chamado.patrimonio}</p>
@@ -81,8 +82,16 @@ export default function Carrosel({ chamados = [] }) {
                 </div>
               </main>
 
-              {/* Removido o botão externo. A lógica do offcanvas já está no BtnChat */}
-              <BtnChat isConcluido={isConcluido} idChamado={chamado.id} />
+              <button
+                  type="button"
+                  className={`btn ${
+                    isConcluido ? "btn-desativado" : ""
+                  } mt-2 mb-3`}
+                  data-bs-toggle="modal"
+                  data-bs-target={`#modal-${chamado.id}`}
+                >
+                  <BtnChat />
+                </button>
 
               {/* Modal */}
             </div>
@@ -99,7 +108,7 @@ export default function Carrosel({ chamados = [] }) {
                     <h2 className="modal-title" id={`modalLabel-${chamado.id}`}>
                       <b>Ficha Técnica:</b>
                     </h2>
-                    {chamado.tecnico_id && (
+                    {chamado.tecnico_id ==  0 &&  (
                       <div className="modal-inicial-user d-md-grid d-none sticky-top bg-white">
                         <div className="d-flex">
                           <div className="img-avatar-user">
@@ -108,7 +117,7 @@ export default function Carrosel({ chamados = [] }) {
                           <div className="nome-chat-user">{nomeExibido}</div>
                         </div>
                       </div>
-                    )}
+                    ) }
                     <button
                       type="button"
                       className="btn-close"
@@ -123,10 +132,10 @@ export default function Carrosel({ chamados = [] }) {
                         <b>Título:</b> {chamado.titulo}
                       </p>
                       <p>
-                        <b>Prioridade:</b> {chamado.grau_prioridade}
+                        <b>Prioridade:</b> {prioridades[chamado.grau_prioridade]}
                       </p>
                       <p>
-                        <b>Criação:</b>
+                        <b>Criação: </b>
                         {new Date(chamado.criado_em).toLocaleDateString("pt-BR")}
                       </p>
                       <p>
@@ -137,13 +146,13 @@ export default function Carrosel({ chamados = [] }) {
                         <b>Patrimônio:</b> {chamado.patrimonio}
                       </p>
                       <p>
-                        <b>Tipo:</b> {chamado.tipo}
+                        <b>Tipo:</b> {chamado.tipo_id}
                       </p>
                       <p>
                         <b>Descrição:</b> {chamado.descricao}
                       </p>
                     </div>
-                    {chamado.tecnico_id && (
+                   
                       <div className="chat-container-user">
                         <div className="modal-inicial-user d-md-none d-flex sticky-top bg-white">
                           <div className="d-flex">
@@ -153,9 +162,9 @@ export default function Carrosel({ chamados = [] }) {
                             <div className="nome-chat-user">{nomeExibido}</div>
                           </div>
                         </div>
-                        <Chat idChamado={chamado.id} />
+                        <Chat idChamado={chamado.id} possuiTecnico={'sim'} />
                       </div>
-                    )}
+         
                   </div>
                 </div>
               </div>
