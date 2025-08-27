@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { getCookie } from 'cookies-next';
 import './suporte.css';
 import Link from 'next/link';
 
@@ -17,6 +18,14 @@ export default function Suporte() {
       return;
     }
 
+    // pega o token do cookie
+    const token = getCookie('token'); 
+
+    if (!token) {
+      setMensagem('Token não encontrado. Faça login novamente.');
+      return;
+    }
+
     const formData = JSON.stringify({
       titulo: titulo || null,
       descricao: descricao || null,
@@ -27,7 +36,7 @@ export default function Suporte() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibm9tZSI6Ikpvw6NvIGRhIFNpbHZhIiwiaWF0IjoxNzU0NTA0NjQ0LCJleHAiOjE3NTQ1MDgyNDR9.8uQGff3f4bRDOQ8VrE_JPZLzY_8CA-eIagiQvpkV49s`,
+          Authorization: `Bearer ${token}`,
         },
         body: formData,
       });
@@ -36,7 +45,6 @@ export default function Suporte() {
         setMensagem('Enviado com sucesso!');
         setTitulo('');
         setDescricao('');
-
       } else {
         setMensagem('Erro ao enviar a dúvida.');
       }
@@ -47,7 +55,6 @@ export default function Suporte() {
   };
 
   return (
-
     <div className="fundo">
       <div className="geral-suporte">
         <div className="fundoBrancoSuporte">
@@ -76,7 +83,6 @@ export default function Suporte() {
                 </Link>
               </div>
 
-           
               <div className="col-12 col-md-6 formularioSuporte p-4">
                 <h3 className="titulo-suporte">Enviar Dúvida</h3>
                 <form onSubmit={handleSubmit}>
@@ -110,6 +116,5 @@ export default function Suporte() {
         </div>
       </div>
     </div>
-
   );
 }

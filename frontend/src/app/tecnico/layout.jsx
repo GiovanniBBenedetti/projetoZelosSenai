@@ -1,16 +1,13 @@
-import Sideuser from '@/components/Sidebar/Sideruser';
-import Footer from '@/components/Footer/Footer';
+import SidebarLayout from "@/components/SidebarLayout";
 
-export default function admLayoutTecnico({ children }) {
+export default function tecnicoLayout({ children }) {
   return (
-    <>
-      <html lang="pt-BR">
-        <body>
-          <Sideuser />
+     <html lang="pt-BR">
+      <body>
+        <SidebarLayout>
           {children}
-          <Footer />
-        </body>
-      </html>
-    </>
+        </SidebarLayout>
+      </body>
+    </html>
   );
 }

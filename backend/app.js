@@ -1,14 +1,17 @@
 import express from 'express';
 import cors from 'cors';
-import session from 'express-session';
+
 import dotenv from 'dotenv';
 import authRotas from './routes/authRotas.js';
-import passport from './config/ldap.js';
+import chatRotas from './routes/chatRotas.js';
+
+import poolRotas from './routes/poolRotas.js';
 import duvidasRotas from './routes/duvidasRotas.js'
-import usuariosRotas from './routes/usuariosRotas.js' 
+import usuariosRotas from './routes/usuariosRotas.js'
 import adminRotas from './routes/adminRotas.js'
 import patrimonioRotas from './routes/patrimoniosRotas.js'
 import chamadosRotas from './routes/chamadosCriarRota.js';
+import chamadosAreaRotas from './routes/chamadosAreaRotas.js';
 
 // 1. Carrega variáveis de ambiente PRIMEIRO
 dotenv.config();
@@ -24,20 +27,8 @@ try {
     credentials: true
   }));
   app.use(express.json());
-  
-  app.use(session({
-    secret: 'sJYMmuCB2Z187XneUuaOVYTVUlxEOb2K94tFZy370HjOY7T7aiCKvwhNQpQBYL9e',
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: false }
-  }));
 
-  // 4. Inicialização segura do Passport
-  if (!passport) {
-    throw new Error('Passport não foi importado corretamente');
-  }
-  app.use(passport.initialize());
-  app.use(passport.session());
+
 
 } catch (err) {
   console.error('Erro na configuração inicial:', err);
@@ -51,6 +42,10 @@ app.use('/usuarios', usuariosRotas)
 app.use('/patrimonios', patrimonioRotas)
 app.use('/chamado', chamadosRotas)
 app.use('/admin', adminRotas);
+app.use('/chat', chatRotas);
+app.use('/pool', poolRotas);
+app.use('/chamadosArea', chamadosAreaRotas);
+
 
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'online' });

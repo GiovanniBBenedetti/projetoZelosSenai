@@ -1,29 +1,229 @@
-body {
-    background-color: var(--cinza);
+/*=============== VARIÁVEIS DE COR E FONTES ===============*/
+:root {
+  --vermelho-principal: #e30615;
+  --vermelho-escuro: #8e0009;
+  --preto-zelos: #101820;
+  --cinza-claro: #eaeaea;
+  --branco: #ffffff;
+  --prioridade-maxima: #e30615;
+  --prioridade-minima: #ffbf00;
+  --prioridade-baixa: #008000;
+
+  --body-font: 'Nunito Sans', system-ui;
+  --font-regular: 400;
+  --font-semi-bold: 600;
+  --normal-font-size: 0.938rem;
 }
 
-.fundo-red {
-    background-color: var(--vermelho);
-    width: 100%;
-    height: 200px;
-}
-    
-.content {
-    width: 80%;
+/*=============== DASHBOARD GERAL ===============*/
+.dashboard-user {
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
-.titulo-user {
-    color: var(--vermelhoEscuro);
-    font-weight: bold;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+/*=============== BOTÕES DE INFORMAÇÃO SUPERIORES ===============*/
+.dashboard-btn-info {
+  width: 100%;
+  background-color: var(--preto-zelos);
+  color: var(--branco);
+  border: 1px solid var(--preto-zelos);
+  border-radius: 1rem;
+  padding: 1.5rem 1rem;
+  text-align: left;
+  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 1.5rem;
+  font-weight: var(--font-semi-bold);
+  position: relative;
 }
 
-.cards-andamento {
-    background-color: var(--vermelhoEscuro);
-    border-radius: 15px;
-    padding-right: 1rem;
+.dashboard-btn-info:hover {
+  background-color: var(--vermelho-escuro);
+  transform: translateY(-5px);
+  border-color: var(--vermelho-principal);
+}
+
+.dashboard-btn-info::after {
+  content: "»";
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  color: var(--vermelho-principal);
+  transition: transform 0.3s ease-in-out;
+}
+
+.dashboard-btn-info:hover::after {
+  transform: translateY(-50%) translateX(5px);
+}
+
+.info-subtext {
+  font-size: 0.8rem;
+  color: #ccc;
+  font-weight: var(--font-regular);
+}
+
+.card-btn-link {
+  text-decoration: none;
+}
+
+/*=============== SEÇÃO DE AJUDA ===============*/
+.ajuda-container {
+  background-color: var(--preto-zelos);
+  color: var(--branco);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.ajuda-container .text-content {
+  text-align: left;
+}
+
+.ajuda-title {
+  font-size: 1.5rem;
+  font-weight: var(--font-semi-bold);
+  margin-bottom: 0.5rem;
+}
+
+.ajuda-subtitle {
+  font-size: var(--normal-font-size);
+  color: #ccc;
+  margin-bottom: 0;
+}
+
+.ajuda-container .btn-danger {
+  background-color: var(--vermelho-principal);
+  border: none;
+  font-weight: var(--font-semi-bold);
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s;
+}
+
+.ajuda-container .btn-danger:hover {
+  background-color: var(--vermelho-escuro);
+}
+
+/*=============== SEÇÃO DE CHAMADOS ===============*/
+.chamados-andamento-container,
+.chamados-resolvidos-container {
+  margin-top: 3rem;
+}
+
+.chamados-andamento-container h2,
+.chamados-resolvidos-container h2 {
+  color: var(--preto-zelos);
+  font-weight: var(--font-semi-bold);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/*=============== CARDS DE CHAMADOS ===============*/
+.card-user, .card-desativado-user {
+  background-color: var(--branco);
+  border-radius: 1rem;
+  padding: 1rem;
+  width: 100%;
+  max-width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: var(--preto-zelos);
+  border: 2px solid transparent;
+  transition: border-color 0.3s;
+}
+
+.card-user:hover {
+  border-color: var(--vermelho-principal);
+}
+
+.card-desativado-user {
+  opacity: 0.6;
+  filter: grayscale(1);
+  background-color: var(--cinza-claro);
+}
+
+.card-prioridade-1-user,
+.card-prioridade-2-user,
+.card-prioridade-3-user,
+.card-prioridade-4-user {
+  border-radius: 1rem;
+  padding: 0.5rem 1rem;
+  color: var(--branco);
+  width: 100%;
+  font-weight: var(--font-semi-bold);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.card-prioridade-1-user {
+  background-color: var(--prioridade-baixa);
+}
+
+.card-prioridade-2-user {
+  background-color: var(--prioridade-minima);
+}
+
+.card-prioridade-3-user {
+  background-color: var(--prioridade-maxima);
+}
+
+.card-prioridade-4-user {
+  background-color: var(--vermelho-escuro);
+}
+
+.card-titulo-user h3 {
+  font-size: 1.25rem;
+  font-weight: var(--font-semi-bold);
+  color: var(--preto-zelos);
+}
+
+.card-patrimonio-user p,
+.card-data-user p,
+.status-card-user p {
+  font-size: 0.9rem;
+  color: #555;
+  margin: 0.25rem 0;
+}
+
+.status-card-user p {
+  text-transform: capitalize;
+}
+
+/*=============== CARD RESOLVIDO ===============*/
+.card-resolvido-container {
+  background-color: var(--vermelho-principal);
+  padding: 2rem;
+  border-radius: 1rem;
+  margin-top: 3rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card-resolvido-container h2 {
+  color: var(--branco);
+}
+
+/*=============== RESPONSIVIDADE ===============*/
+@media (max-width: 768px) {
+  .dashboard-user {
     padding-left: 1rem;
-    padding-bottom: 2rem;
-    margin-bottom: 2rem;
+    padding-right: 1rem;
+  }
+  
+  .dashboard-btn-info {
+    padding: 1rem;
+  }
+
+  .dashboard-btn-info::after {
+    display: none;
+  }
+
+  .ajuda-container {
+    flex-direction: column;
+    text-align: center;
+  }
 }

@@ -48,13 +48,23 @@ const criarChamadoController = async (req, res) => {
 
 const listarChamadosController = async (req, res) => {
   try {
-    const chamados = await chamadosVirgens();
+    const { status } = req.query; 
+
+    let chamados;
+    if (status) {
+      chamados = await chamadosVirgens(status);
+    } else {
+      chamados = await chamadosVirgens();
+    }
+
+    console.log("Chamados retornados:", chamados);
     res.status(200).json(chamados);
   } catch (err) {
     console.error(`Erro ao listar chamados: `, err);
     res.status(500).json({ mensagem: 'Erro ao listar chamados' });
   }
 };
+
 
 const atribuirChamadoController = async (req, res) => {
   console.log(req.usuario.id)

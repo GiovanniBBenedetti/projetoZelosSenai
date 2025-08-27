@@ -17,19 +17,9 @@ body {
   overflow-x: hidden;
 }
 
-.body-content {
-  margin-left: 17rem;
-}
-
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
   font-family: "Montserrat" , sans-serif !important;
-}
-
-@media (max-width: 767px) {
-  .body-content {
-      margin-left: 0;
-  }
 }

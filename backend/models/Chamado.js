@@ -21,14 +21,21 @@ const leituraChamados = async (patrimonio, tipoId) => {
   }
 };
 
-const chamadosVirgens = async () => {
+const chamadosVirgens = async (status) => {
   try {
-    return await readAll('chamados', `tecnico_id IS NULL`);
+    let whereClause = `tecnico_id IS NULL`;
+
+    if (status) {
+      whereClause += ` AND status = '${status}'`;
+    }
+
+    return await readAll('chamados', whereClause);
   } catch (error) {
     console.error('Erro ao obter consultas:', error);
     throw error;
   }
 };
+
 
 const atribuicaoChamadosVirgens = async (id, chamadoData) => {
   try {

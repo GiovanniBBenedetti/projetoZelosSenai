@@ -2,14 +2,15 @@
 
 import { useState, useEffect } from 'react';
 import React from 'react';
-import ReactMarkdown from 'react-markdown';
-
 import './chat.css';
+import { getCookie } from 'cookies-next';
 
-export default function Chat() {
-  const [texto, setTexto] = useState('');
+export default function Chat({ idChamado }) {
   const [mensagens, setMensagens] = useState([]);
   const [carregandoMensagens, setCarregandoMensagens] = useState(true);
+  const [novoApontamento, setNovoApontamento] = useState('');
+  const [funcao, setFuncao] = useState('');
+  const [meuId, setMeuId] = useState(null);
 
   const fimDasMensagensRef = (fim) => {
     if (fim) {
@@ -17,143 +18,136 @@ export default function Chat() {
     }
   };
 
-  useEffect(() => {
-    const mensagensSalvas = localStorage.getItem('chatbot-mensagens');
-    if (mensagensSalvas) {
-      try {
-        setMensagens(JSON.parse(mensagensSalvas));
-      } catch {
-        setMensagens([
-          {
-            autor: 'gemini',
-            texto:
-              'Olá! Sou a Vika, sua assistente virtual da Clínica Vida Plena. Como posso te ajudar hoje?',
-          },
-        ]);
-      }
-    } else {
-      setMensagens([
-        {
-          autor: 'gemini',
-          texto:
-            'Olá! Sou a Vika, sua assistente virtual da Clínica Vida Plena. Como posso te ajudar hoje?',
+  async function carregarMensagens() {
+    try {
+      const res = await fetch('http://localhost:8080/chat', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          chamado_id: idChamado,
         },
-      ]);
+      });
+
+      if (!res.ok) {
+        setCarregandoMensagens(false);
+      }
+
+      const data = await res.json();
+      setMensagens(data);
+    } catch (err) {
+      console.error(err);
+      setMensagens([]);
+    } finally {
+      setCarregandoMensagens(false);
     }
-    setCarregandoMensagens(false);
+  }
+
+  useEffect(() => {
+    setCarregandoMensagens(true);
+    carregarMensagens();
+
+    const funcaoCookie = getCookie('funcao');
+    const idUsuario = parseInt(getCookie('idUsuario'));
+    setMeuId(idUsuario);
+    setFuncao(funcaoCookie);
   }, []);
 
-  useEffect(() => {
-    if (!carregandoMensagens && typeof window !== 'undefined') {
-      localStorage.setItem('chatbot-mensagens', JSON.stringify(mensagens));
-    }
-  }, [mensagens, carregandoMensagens]);
+  if (carregandoMensagens) {
+    return <p>Carregando mensagens...</p>;
+  }
 
-  async function enviarGemini() {
-    if (!texto.trim()) return;
+  async function enviarMensagem() {
+    const token = getCookie('token');
 
-    const mensagemUsuario = { autor: 'user', texto };
-    setMensagens((anteriores) => [...anteriores, mensagemUsuario]);
-    setTexto('');
+    const dados = JSON.stringify({
+      chamadoId: idChamado,
+      novoApontamento,
+      usuario: funcao === 'usuario',
+      tecnico: funcao === 'tecnico',
+      admin: funcao === 'admin',
+    });
 
     try {
       const response = await fetch('http://localhost:8080/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          mensagem: texto,
-        }),
+        body: dados,
       });
 
       const data = await response.json();
+
+      if (response.ok) {
+        await carregarMensagens();
+        setNovoApontamento('');
+      } else {
+        console.log(data);
+      }
     } catch (error) {
       console.error('Erro:', error);
-      setMensagens((anteriores) => [
-        ...anteriores,
-        { autor: 'gemini', texto: 'Erro ao enviar os dados.' },
-      ]);
+      alert('Erro ao enviar os dados.');
     }
   }
 
-  if (carregandoMensagens) {
-    return;
-  }
-
-  const nomePerfil = 'Davi Leocadio';
-  const partes = nomePerfil.trim().split(' ');
-  const iniciais =
-    partes[0].charAt(0).toUpperCase() +
-    partes[partes.length - 1].charAt(0).toUpperCase();
-  const nomeExibido = `${partes[0]} ${partes[partes.length - 1]}`;
-
   return (
     <>
+      <div className="">
+        <div className="card-container">
+          <div className="card-body">
+            <div className="messages-container">
+              {mensagens.map((mensagem, chave) => {
+                const mensagemDoLogado =
+                  (mensagem.usuario_id && mensagem.usuario_id === meuId) ||
+                  (mensagem.tecnico_id && mensagem.tecnico_id === meuId) ||
+                  (mensagem.admin_id && mensagem.admin_id === meuId);
 
-
-      <div className="offcanvas-body d-flex flex-column p-0 chat-container">
-        <div className="">
-          <div className="card-container">
-            <div className="card-header d-grid sticky-top bg-white">
-              
-              <div className="d-flex">
-                <div className="img-avatar">
-                  <p>{iniciais}</p>
-                </div>
-                <div className="nome-chat">
-                  {nomeExibido}
-                </div>
-              </div>
-
-
-
-            </div>
-            <div className="card-body">
-              <div className="messages-container">
-                {mensagens.map((mensagem, chave) => (
+                return (
                   <div
                     key={chave}
-                    className={`message-box ${mensagem.autor === 'user' ? 'right' : 'left'
-                      }`}
+                    className={`message-box ${mensagemDoLogado ? 'right' : 'left'}`}
                   >
-                    {mensagem.autor === 'gemini' ? (
-                      <div className="markdown">
-                        <p>{mensagem.texto}</p>
-                      </div>
-                    ) : (
-                      <p>{mensagem.texto}</p>
-                    )}
+                    <p className="titulo-msg">
+                      {mensagem.admin_id
+                        ? "Administrador"
+                        : mensagem.usuario_id
+                          ? "Usuário"
+                          : "Técnico"}
+                    </p>
+                    <p>{mensagem.descricao}</p>
+                    <div className="d-flex justify-content-between">
+                      <p className={`message-box ${mensagemDoLogado ? 'hora-chat2' : 'hora-chat'}`}>
+                        {new Date(mensagem.criado_em).toLocaleTimeString('pt-BR', {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
+                      </p>
+                      <p className={`message-box ${mensagemDoLogado ? 'data-chat2' : 'data-chat'}`}>
+                        {new Date(mensagem.criado_em).toLocaleDateString('pt-BR')}
+                      </p>
+                    </div>
                   </div>
-                ))}
-                <div ref={fimDasMensagensRef} />
-              </div>
+                );
+              })}
+              <div ref={fimDasMensagensRef} />
             </div>
-          </div>
-        </div>
-        <div className="modal-footer d-flex border-top p-3">
-          <div className="d-flex w-100">
-            <input
-              type="text"
-              className="form-control input-nova-chat w-100"
-              placeholder="Digite sua mensagem..."
-              value={texto}
-              onChange={(e) => setTexto(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') enviarGemini();
-              }}
-              required
-            />
-            <button
-              className="btn btn-modal-chat ms-2"
-              onClick={enviarGemini}
-            >
-              <i className="bi bi-arrow-right"></i>
-            </button>
           </div>
         </div>
       </div>
-
+      <div className="d-flex bottom-0">
+        <input
+          type="text"
+          className="form-control input-nova-chat w-100"
+          placeholder="Digite sua mensagem..."
+          value={novoApontamento}
+          onChange={(e) => setNovoApontamento(e.target.value)}
+          required
+        />
+        <button className="btn btn-modal-chat ms-2" onClick={enviarMensagem}>
+          <i className="bi bi-arrow-right"></i>
+        </button>
+      </div>
     </>
   );
 }

@@ -1,0 +1,116 @@
+:root {
+    font-family: "Montserrat", sans-serif !important;
+    --branco: #ffff;
+    --vermelhoEscuro: #8e0009;
+    --vermelhoMedio: #b5000c;
+    --vermelho: #e30615;
+    --preto: #000000;
+    --pretuAzulado: #101820;
+    --cinza: #eaeaea;
+  }
+  
+  body {
+    background-color: var(--cinza);
+    margin: 0;
+    padding: 0;
+  }
+  
+  .fundo {
+    width: 100%;
+  }
+  
+  /* Logo */
+  .logo_senai {
+    display: block;
+    margin: 10px auto 0 auto;
+  }
+  
+  /* Cards container */
+  .cards {
+    margin: 1rem auto;
+    max-width: 1200px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    z-index: 1; /* mantém abaixo do modal */
+  }
+  
+  /* Título */
+  .titulo-meus-chamados h2 {
+    text-align: center;
+    margin: 3% auto;
+  }
+  
+  /* Mensagem de sem chamados */
+  .sem-chamados,
+  .sem-chamado-user,
+  .sem-chamado-user-cel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem auto;
+    text-align: center;
+  }
+  
+  /* Imagens centralizadas */
+  .sem-chamado-user img {
+    width: 13rem;
+    max-width: 90%;
+  }
+  
+  .sem-chamado-user-cel img {
+    width: 10rem;
+    max-width: 90%;
+  }
+  
+  /* Botão criar */
+  .btnVenhaCriar {
+    text-decoration: none;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    position: fixed;
+    z-index: 1030; /* abaixo do modal-backdrop */
+  }
+  
+  /* Modal e backdrop do Bootstrap */
+  .modal-backdrop {
+    z-index: 1040 !important;
+  }
+  .modal {
+    z-index: 1055 !important;
+  }
+  
+  /* Responsividade */
+  @media (max-width: 1120px) {
+    .cards {
+      justify-content: center;
+      margin: 1rem auto;
+    }
+  
+    .titulo-meus-chamados h2 {
+      margin: 2rem auto;
+    }
+  
+    .sem-chamado-user img,
+    .sem-chamado-user-cel img {
+      margin: 0 auto;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .cards {
+      flex-direction: column;
+      align-items: center;
+      padding: 0 1rem;
+    }
+  
+    .titulo-meus-chamados h2 {
+      font-size: 1.5rem;
+      margin: 1rem auto;
+    }
+  }
+  

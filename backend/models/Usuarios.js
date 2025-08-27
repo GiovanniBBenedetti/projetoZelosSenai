@@ -27,6 +27,15 @@ const listarTodosUsuarios = async () => {
     }
 };
 
+const listarUsuarioPorId = async (id) => {
+  try {
+    return await read('usuarios', `id = ${id}`);
+  } catch (error) {
+    console.error('Erro ao listar usuário por ID:', error);
+    throw error;
+  }
+}
 
 
-export { obterUsuario, criarUsuario, listarTodosUsuarios};
+
+export { obterUsuario, criarUsuario, listarTodosUsuarios, listarUsuarioPorId};

@@ -141,13 +141,7 @@ body {
 
 
 
-@media (min-width: 768px) {
-    .geral-patrimonios {
-        padding: 20px;
-        padding-left: 290px;
-    }
 
-}
 
 @media (min-width: 1080px) {
     .custom-col-1080 {

@@ -127,20 +127,12 @@ export default function TabelaUsuarios() {
 
   return (
     <>
-    <style type="text/css">
-        {`
-          .usuarios {
-            background-color: var(--branco); !important;
-            color: var(--vermelho); !important;
-            margin-left: 0 !important;
-          };
-        `}
-      </style>
+  
     <div className="geral-patrimonios vh-100 d-flex flex-column">
       <div className="container total-adm flex-grow-1 d-flex flex-column">
         <p className="tituloMedicos mb-3">Controle de Usuários:</p>
 
-        {/* FILTROS */}
+   
         <div className="container-filtro-pacientes mb-5 mb-sm-4 mt-4 mt-sm-0">
           <div className="row g-3">
             <div className="col-12 col-md-6 custom-col-1080">
@@ -209,7 +201,7 @@ export default function TabelaUsuarios() {
           </div>
         </div>
 
-        {/* TABELA DATAGRID */}
+       
         <div className="geral-table-patrimonio flex-grow-1 d-flex" style={{ minHeight: 0 }}>
           <Box sx={{ flex: 1, minHeight: 0, width: '100%' }}>
             {mounted && (

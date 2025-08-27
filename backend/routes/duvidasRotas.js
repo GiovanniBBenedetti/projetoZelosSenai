@@ -4,9 +4,9 @@ import { listarDuvidasController, criarDuvidaController, obterDuvidaPorIdControl
 
 const router = express.Router()
 
-router.get('/', listarDuvidasController)
+router.get('/', authMiddleware, listarDuvidasController)
 router.post('/',authMiddleware, criarDuvidaController)
-router.get('/:id', obterDuvidaPorIdController)
+router.get('/:id',authMiddleware,  obterDuvidaPorIdController)
 router.delete('/:id',authMiddleware, excluirDuvidaController)
 
 router.options('/', (req, res) => {

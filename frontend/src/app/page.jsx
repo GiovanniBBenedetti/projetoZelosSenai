@@ -6,31 +6,35 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Login() {
-  const [rm, setRm] = useState('');
+  const [numeroRegistro, setRm] = useState('');
   const [senha, setSenha] = useState('');
 
-  async function handleLogin() {
+  async function handleLogin(e) {
+    e.preventDefault();
+
     try {
       const response = await fetch('http://localhost:8080/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: rm, password: senha }),
+        body: JSON.stringify({ numeroRegistro, senha }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
         setCookie('token', data.token);
-        setCookie('funcao', data.user.funcao)
-        setCookie('nome', data.user.displayName)
-          if (data.user.funcao === 'usuario') {
-            window.location.href = '/usuario';
-          } else if (data.user.funcao ==='admin'){
-            window.location.href = '/admin';
-          }else{
-            window.location.href = '/tecnico'
-          }
-      
+        setCookie('funcao', data.user.funcao);
+        setCookie('idUsuario', data.user.id);
+        setCookie('nome', data.user.nome);
+        setCookie('descricao', data.user.descricao);
+
+        if (data.user.funcao === 'usuario') {
+          window.location.href = '/usuario';
+        } else if (data.user.funcao === 'admin') {
+          window.location.href = '/admin';
+        } else {
+          window.location.href = '/tecnico';
+        }
       } else {
         toast.error('Número de cadastro ou senha incorreto', {
           position: 'top-right',
@@ -47,48 +51,40 @@ export default function Login() {
   }
 
   return (
-    <div className="tudo">
-      {/* Toast container */}
-      <ToastContainer />
+    <>
+      <div className="loginWrapper">
+        <ToastContainer />
 
-      {/* Logo fixa no canto superior esquerdo */}
-      <img className="Logos" src="./img/Logos.png" alt="Logo Senai" />
+        <div className='loginLogoOutside d-flex justify-content-center justify-content-md-start'>
+          <img
+            src="/img/Logos.png"
+            alt="Logo Zelos"
+          />
+        </div>
+        <div className="loginCard">
 
-      {/* Formulário centralizado */}
-      <div className="loginContainer">
-        <div className="form-container">
-          <p className="title">Login</p>
-          <p className="descricao">Bem-vindo à plataforma Zelos!</p>
+          <h2 className="loginTitle">Login</h2>
+          <p className="loginSubtitle">Bem-vindo a plataforma zelos</p>
 
-          <form
-            className="form"
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleLogin();
-            }}
-          >
-            <div className="input-group">
-              <input
-                placeholder="Registro de Matrícula"
-                type="text"
-                value={rm}
-                onChange={(e) => setRm(e.target.value)}
-                className="input"
-              />
-              <input
-                placeholder="Senha"
-                type="password"
-                value={senha}
-                onChange={(e) => setSenha(e.target.value)}
-                className="input"
-              />
-            </div>
-            <button type="submit" className="sign">
-              Login!
-            </button>
+          <form onSubmit={handleLogin} className="loginForm">
+            <input
+              placeholder="Registro de Matrícula"
+              type="text"
+              value={numeroRegistro}
+              onChange={(e) => setRm(e.target.value)}
+              className="loginInput"
+            />
+            <input
+              placeholder="Senha"
+              type="password"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+              className="loginInput"
+            />
+            <button type="submit" className="loginButton">Entrar</button>
           </form>
         </div>
       </div>
-    </div>
+    </>
   );
 }

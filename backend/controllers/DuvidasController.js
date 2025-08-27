@@ -30,7 +30,7 @@ const obterDuvidaPorIdController = async (req, res) => {
 const criarDuvidaController = async (req, res) => {
     try {
         const { titulo, descricao} = req.body;
-        const autor =  req.usuarioNome
+        const autor =  req.usuario.nome
         const duvidaData = {
             titulo: titulo,
             descricao: descricao,
