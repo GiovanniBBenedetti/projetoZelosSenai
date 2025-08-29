@@ -1,10 +1,10 @@
 import express from 'express';
 import cors from 'cors';
-
+import session from 'express-session';
 import dotenv from 'dotenv';
 import authRotas from './routes/authRotas.js';
 import chatRotas from './routes/chatRotas.js';
-
+import passport from './config/ldap.js';
 import poolRotas from './routes/poolRotas.js';
 import duvidasRotas from './routes/duvidasRotas.js'
 import usuariosRotas from './routes/usuariosRotas.js'
@@ -12,7 +12,7 @@ import patrimonioRotas from './routes/patrimoniosRotas.js'
 import chamadosRotas from './routes/chamadosCriarRota.js';
 import chamadosAreaRotas from './routes/chamadosAreaRotas.js';
 import meusChamadosRotas from './routes/meusChamadosRotas.js';
-
+import dashboardRotas from './routes/dashboardRotas.js'
 
 
 // 1. Carrega variáveis de ambiente PRIMEIRO
@@ -30,6 +30,19 @@ try {
   }));
   app.use(express.json());
 
+  app.use(session({
+    secret: 'sJYMmuCB2Z187XneUuaOVYTVUlxEOb2K94tFZy370HjOY7T7aiCKvwhNQpQBYL9e',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false }
+  }));
+
+  // 4. Inicialização segura do Passport
+  if (!passport) {
+    throw new Error('Passport não foi importado corretamente');
+  }
+  app.use(passport.initialize());
+  app.use(passport.session());
 
 } catch (err) {
   console.error('Erro na configuração inicial:', err);
@@ -47,6 +60,7 @@ app.use('/chat', chatRotas);
 app.use('/pool', poolRotas);
 app.use('/chamadosArea', chamadosAreaRotas);
 app.use('/meusChamados', meusChamadosRotas);
+app.use('/dashboard', dashboardRotas)
 
 
 

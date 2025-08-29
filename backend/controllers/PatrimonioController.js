@@ -2,13 +2,7 @@ import { listarPatrimonios, obterPatrimonioPorId, criarPatrimonio, excluirPatrim
 
 const listarPatrimonioController = async (req, res) => {
     try {
-        const {status} = req.query
-        let patrimonios;
-        if(status){
-            patrimonios = await listarPatrimonios(status)
-        }else{
-            patrimonios = await listarPatrimonios()
-        }
+        const patrimonios = await listarPatrimonios()
         res.status(200).json(patrimonios)
     } catch (err) {
         console.error('Erro ao listar Patrimônios: ', err)

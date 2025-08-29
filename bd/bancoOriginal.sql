@@ -9,6 +9,7 @@ CREATE TABLE usuarios (
     numeroRegistro INT NOT NULL,
     nome VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
+    foto varchar(255),
     funcao VARCHAR(100) NOT NULL DEFAULT 'usuario',
     senha VARCHAR(255) NOT NULL, 
     descricao TEXT NOT NULL,
@@ -22,7 +23,8 @@ CREATE TABLE usuarios (
     titulo VARCHAR(255) NOT NULL,
     descricao TEXT NOT NULL,
     autor varchar(150) NOT NULL,
-    dataCriada TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    dataCriada TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status_duvida ENUM('resolvido', 'pendente') default 'pendente'
 
     );
 INSERT INTO usuarios (nome, numeroRegistro, senha, email, descricao, status) VALUES 
@@ -58,8 +60,8 @@ CREATE TABLE chamados (
 	grau_prioridade ENUM('1', '2', '3', '4') DEFAULT '1',
 	tipo_id INT,
 	tecnico_id INT,
-	usuario_id INT,
-	status ENUM('enviado', 'procurando responsável', 'em andamento', 'concluído') DEFAULT 'enviado',
+	usuario_id INT,	
+	status ENUM('enviado', 'em andamento', 'concluído') DEFAULT 'enviado',
 	criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	atualizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	FOREIGN KEY (tipo_id) REFERENCES pool(id),

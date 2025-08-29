@@ -9,18 +9,8 @@ const __dirname = path.dirname(__filename);
 
 
 const listarUsuariosController = async (req, res) => {
-
-
     try {
-        const { status } = req.query;
-
-        let usuarios;
-        if (status) {
-            usuarios = await listarTodosUsuarios(status);
-        } else {
-            usuarios = await listarTodosUsuarios();
-        }
-     
+        const usuarios = await listarTodosUsuarios();
         res.status(200).json(usuarios)
     } catch (err) {
         console.error('Erro ao listar usuarios: ', err)

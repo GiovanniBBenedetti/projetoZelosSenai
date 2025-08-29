@@ -20,11 +20,7 @@ const criarUsuario = async (dados) => {
 
 const listarTodosUsuarios = async (status = null) => {
     try {
-        if (status) {
-            return await readAll('usuarios', `status = '${status}'`);
-        } else {
-            return await readAll('usuarios');
-        }
+        return await readAll('usuarios');
     } catch (err) {
         console.error('Erro ao listar usuarios: ', err)
         throw err

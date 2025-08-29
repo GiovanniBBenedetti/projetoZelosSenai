@@ -1,12 +1,9 @@
 import { read, readAll, create, deleteRecord, update } from "../config/database.js";
 
-const listarPatrimonios = async (status = null) => {
+const listarPatrimonios = async () => {
     try {
-           if (status) {
-            return await readAll('equipamentos', `status = '${status}'`);
-        } else {
-            return await readAll('equipamentos');
-        }
+        return await readAll('equipamentos');
+        
     } catch (err) {
         console.error('Erro ao listar Patrimônios: ', err)
         throw err
@@ -32,22 +29,22 @@ const criarPatrimonio = async (patrimonioData) => {
 };
 
 
-    const atualizarStatusPatrimonio = async (id, equipamentoData) => {
+const atualizarStatusPatrimonio = async (id, equipamentoData) => {
     try {
-    await update('equipamentos', equipamentoData, `PATRIMONIO = ${id}`);
+        await update('equipamentos', equipamentoData, `PATRIMONIO = ${id}`);
     } catch (error) {
-    console.error('Erro ao atualizar patrimônio:', error);
-    throw error;
+        console.error('Erro ao atualizar patrimônio:', error);
+        throw error;
     }
 }
 
 
-    const excluirPatrimonio  = async (id) => {
-        try {
+const excluirPatrimonio = async (id) => {
+    try {
         await deleteRecord('equipamentos', `id = ${id}`);
-        } catch (error) {
+    } catch (error) {
         console.error('Erro ao excluir Patrimônios:', error);
         throw error;
-        }
-    };
-export {listarPatrimonios, obterPatrimonioPorId, criarPatrimonio,excluirPatrimonio, atualizarStatusPatrimonio}
+    }
+};
+export { listarPatrimonios, obterPatrimonioPorId, criarPatrimonio, excluirPatrimonio, atualizarStatusPatrimonio }
