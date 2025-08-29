@@ -87,7 +87,7 @@ export default function UserDashboard() {
     <div className="container-fluid dashboard-user">
       <div className="row">
         <div className="col-md-4 mt-4 card-information-col">
-          <Link href="/usuario/criar-chamado" className="card-information">
+          <Link href="/usuario/criar" className="card-information">
             <div className="text-content">
               <p>Criar chamado</p>
               <span>Informe sua demanda</span>
@@ -96,7 +96,7 @@ export default function UserDashboard() {
           </Link>
         </div>
         <div className="col-md-4 mt-4 card-information-col">
-          <Link href="/usuario/meus-chamados" className="card-information">
+          <Link href="/usuario/meusChamados" className="card-information">
             <div className="text-content">
               <p>{chamadosEmAndamento.length} Chamados</p>
               <span>Em andamento</span>

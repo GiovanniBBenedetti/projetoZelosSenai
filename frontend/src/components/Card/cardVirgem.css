@@ -1,296 +1,83 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
-
 :root {
-  --branco: #ffff;
-  --vermelhoEscuro: #8e0009;
-  --vermelhoMedio: #b5000c;
-  --vermelho: #e30615;
-  --preto: #000000;
-  --cinza: #808080;
-  font-family: "Montserrat", sans-serif;
+  --vermelho-principal: #e30615;
+  --vermelho-escuro: #8e0009;
+  --preto-zelos: #101820;
+  --cinza-claro: #eaeaea;
+  --branco: #ffffff;
+  --prioridade-maxima: #e30615;
+  --prioridade-minima: #ffbf00;
+  --prioridade-baixa: #008000;
+  --body-font: 'Nunito Sans', system-ui;
+  --font-regular: 400;
+  --font-semi-bold: 600;
+  --normal-font-size: 0.938rem;
 }
 
 .card-virgem {
-  width: 15.3rem;
-  border-radius: 20px;
-  
-  border: 0;
-  transition: all 0.2s ease-in-out;
-  background-color: #fff !important;
+  border-radius: 10px;
+  height: 6rem;
+  width: 55rem;
+  flex-direction: row;
 }
 
-.card-desativado-virgem {
-  width: 15.3rem;
-  border-radius: 20px;
-  border: 0;
-  transition: all 0.2s ease-in-out;
-  opacity: 0.5;
-  background-color: #fff;
-}
-
-.card-virgem:hover {
-  transform: translateY(-5);
- 
-}
-
-.card-prioridade-4-virgem {
-  background-color: #d83d65;
-  width: 100%;
-  border-radius: 20px 20px 0px 0;
-  padding: 3px 10px 1px 10px;
-}
-
-.card-prioridade-4-virgem p {
-  background-color: #d83d65;
-  margin-bottom: 1%;
-  margin-top: 1%;
-  color: #fff;
-  font-family: "Montserrat", sans-serif !important;
-}
-
-.card-prioridade-3-virgem {
-  background-color: #417bd5;
-  width: 100%;
-  border-radius: 20px 20px 0px 0;
-  padding: 3px 10px 1px 10px;
-}
-
-.card-prioridade-3-virgem p {
-  background-color: #417bd5;
-  margin-bottom: 1%;
-  margin-top: 1%;
-  color: #fff;
-  font-family: "Montserrat", sans-serif !important;
-}
-
-.card-prioridade-2-virgem {
-  background-color: #ff9d59;
-  width: 100%;
-  border-radius: 20px 20px 0px 0;
-  padding: 3px 10px 1px 10px;
-}
-
-.card-prioridade-2-virgem p {
-  background-color: #ff9d59;
-  margin-bottom: 1%;
-  margin-top: 1%;
-  color: #fff;
-  font-family: "Montserrat", sans-serif !important;
-}
-
-.card-prioridade-1-virgem {
-  background-color: #4cc78b;
-  width: 100%;
-  border-radius: 20px 20px 0px 0;
-  padding: 3px 10px 1px 10px;
-}
-
-.card-prioridade-1-virgem p {
-  background-color: #4cc78b;
-  margin-bottom: 1%;
-  margin-top: 1%;
-  color: #fff;
-  font-family: "Montserrat", sans-serif !important;
-}
-
-.card-titulo-virgem h3 {
-  color: #000;
-  font-size: 22px;
-  font-weight: 700;
-}
-
-.card-patrimonio-virgem {
-  max-width: 98%;
-  width: 82%;
-  align-items: center;
-  justify-content: center;
-  display: grid;
-}
-
-.card-patrimonio-virgem p {
-  color: #000;
-  background-color: #fff;
-  font-size: 15px;
-  margin-bottom: 0;
-  font-weight: 600;
-}
-
-.card-data-virgem {
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  width: 100%;
-  margin-top: 6px;
-}
-
-.card-data-virgem p {
-  font-size: 15px;
-}
-
-.card-descricao-virgem {
-  max-width: 85%;
-  padding-left: 12%;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  margin-top: 3px;
-}
-
-.card-descricao-virgem p {
-  font-size: 14px;
-}
-
-.card-atualizacao-virgem {
-  max-width: 85%;
-  padding-left: 12%;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  margin-top: 3px;
-}
-
-.card-atualizacao-virgem p {
-  font-size: 14px;
-}
-
-.card-tecnico-virgem {
-  font-family: "Montserrat", sans-serif;
-  max-width: 85%;
-  padding-left: 12%;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  margin-top: 3px;
-}
-
-.status-card-virgem {
-  margin-top: 5px;
-  color: var(--vermelhoEscuro);
-  font-size: 14px;
-}
-
-.chat-virgem {
-  width: 100%;
-}
-
-.chat-virgem input {
-  border-radius: 15px;
-  padding: 5px;
-}
-
-.btn-desativado-virgem {
-  margin-bottom: 10px;
-  opacity: 0.4;
-  pointer-events: none;
-  cursor: none;
-}
-
-.modal-content {
-  height: 30rem;
-  margin-right: 0;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: center;
-  display: grid;
-  padding: 1rem;
-  width: 100%;
-  border-radius: 15px;
-}
-
-.modal-content p {
-  color: #000;
-  font-size: 14px;
-}
-
-.modal-content p b {
-  font-size: 17px;
-  font-weight: 600;
-}
-
-.modal-content h2 {
-  font-size: 23px;
-}
-
-
-.img-avatar-virgem {
-  background-color: var(--vermelho);
+.imgPerfil-virgem{
   border-radius: 100%;
-  width: 30px;
-  height: 30px;
-  align-items: center;
-  justify-content: center;
-  display: flex;
+  height: 4.3rem;
+  width: 5rem;
 }
 
-.img-avatar-virgem p {
-  color: #fff;
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 0;
+.borderColorPrioridade-1-virgem {
+  border-left: solid var(--prioridade-maxima) 15px;
 }
 
-.nome-chat-virgem {
-  font-size: 16px;
-  font-weight: 600;
-  margin-left: 10px;
-  color: var(--preto);
-  margin-top: 3.5px;
+.borderColorPrioridade-2-virgem {
+  border-left: solid var(--prioridade-minima) 15px;
 }
 
-.ficha-virgem {
-  width: 100%;
-  margin-top: 5.2rem !important;
-  margin-left: 5rem;
+.borderColorPrioridade-3-virgem {
+  border-left: solid var(--prioridade-baixa) 15px;
 }
 
-.modal-inicial-virgem {
-  margin-left: 38%;
+.borderColorPrioridade-4-virgem {
+  border-left: solid var(--prioridade-maxima) 15px;
 }
 
-.chat-container-virgem {
-  width: 100% !important;
-  height: 95%;
-  margin-left: 5%;
-  overflow-x: hidden;
+.prioridadeP-1{
+  color: var(--prioridade-maxima);
 }
 
-.modal-header-virgem {
-  border-bottom: solid 1px var(--vermelhoMedio);
+.prioridadeP-2{
+  color: var(--prioridade-minima);
 }
 
-.modal-content{
-  overflow-y: scroll !important;
+.prioridadeP-3{
+  color: var(--prioridade-baixa);
 }
 
-@media (max-width: 995px) {
-  .modal-lg {
-    max-width: 90% !important;
-  }
+.prioridadeP-4{
+  color: var(--prioridade-maxima);
 }
 
-@media (max-width: 768px) {
-  .modal-celular {
-    max-width: 100% !important;
-    display: block;
-  }
+.prioridade-virgem-1{
+  background-color: #dbc9ca;
+  border-radius: 20px;
+  padding: 10px;
+}
 
-  .modal-inicial-virgem {
-    margin-left: 0;
-    margin-top: 2rem;
-  }
+.prioridade-virgem-2{
+  background-color: #dce5ae;
+  border-radius: 20px;
+  padding: 10px;
+}
 
-  .chat-container-virgem {
-    margin: 0;
-  }
+.prioridade-virgem-3{
+  background-color: #b1c7ba;
+  border-radius: 20px;
+  padding: 10px;
+}
 
-  .ficha-virgem{
-    align-items: center;
-    justify-content: center;
-    display: grid;
-  }
-
-  .modal-content{
-    overflow-y: scroll !important;
-  }
-
+.prioridade-virgem-4{
+  background-color: #c0868a;
+  border-radius: 20px;
+  padding: 10px;
 }

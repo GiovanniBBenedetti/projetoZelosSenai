@@ -63,6 +63,7 @@ export default function TecnicoSuporte() {
         },
         body: formData,
       });
+      console.log(res)
 
       if (res.ok) {
         setMensagem('Enviado com sucesso!');

@@ -258,7 +258,7 @@
   height: 95%;
   margin-left: 5%;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: hidden;
 }
 
 .modal-header-user {

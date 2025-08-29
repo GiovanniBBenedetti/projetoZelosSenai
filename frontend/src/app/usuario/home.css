@@ -57,7 +57,8 @@
 }
 
 .card-information .text-content span {
-  color: var(--vermelho-escuro);
+  color: var(--branco);
+  opacity: .75;
   font-size: 0.9rem;
   font-weight: var(--font-regular);
 }

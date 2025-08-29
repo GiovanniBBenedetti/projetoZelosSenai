@@ -27,7 +27,7 @@
   width: 100%;
 }
 
-.botao-novo-medico{
+.botao-novo-medico {
   border-radius: 20px;
 }
 
@@ -88,4 +88,24 @@
 .select-user__option--is-selected {
   background-color: var(--vermelhoEscuro) !important;
   color: var(--branco) !important;
+}
+
+.btn-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: inherit;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 17px;
+  padding: 0.5em 0.5em;
+  color: white;
+  background: linear-gradient(to right,
+      var(--vermelho),
+      var(--vermelhoMedio),
+      var(--vermelhoEscuro));
+  border: none;
+  letter-spacing: 0.05em;
+  border-radius: 20px;
+  width: 96%;
 }

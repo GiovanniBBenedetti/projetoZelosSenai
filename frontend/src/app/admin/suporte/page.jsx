@@ -133,13 +133,13 @@ export default function TabelaPatrimonios() {
 
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 });
 
-    return (
-        <div className="geral-patrimonios vh-100 d-flex flex-column">
+    return (<>
+        <div className="geral-patrimonios d-flex flex-column">
             <div className="container total-adm flex-grow-1 d-flex flex-column">
                 <p className="tituloMedicos mb-3">Controle de Suporte:</p>
 
                 {/* filtros */}
-                <div className="container-filtro-pacientes mb-5 mb-sm-4 mt-4 mt-sm-0">
+                <div className="container-filtro-pacientes mb-5 mb-sm-4 mt-4 mt-sm-0 pe-4">
                     <div className="row g-3">
                         <div className="col-12 col-md-6 custom-col-1080">
                             <label className="form-label">Filtrar por Remetente:</label>
@@ -206,24 +206,30 @@ export default function TabelaPatrimonios() {
                         </div>
                     </div>
                 </div>
-
-                {/* grid */}
-                <Box sx={{ flex: 1, minHeight: 0, display: 'flex' }}>
-                    {mounted && (
-                        <Box sx={{ height: 'calc(160vh - 300px)', width: '100%' }}>
-                            <DataGrid
-                                rows={filtrado}
-                                columns={columns}
-                                paginationModel={paginationModel}
-                                onPaginationModelChange={setPaginationModel}
-                                pageSizeOptions={[10, 15, 20, 50]}
-                                getRowId={row => row.id}
-                                disableRowSelectionOnClick
-                            />
-                        </Box>
-                    )}
-                </Box>
             </div>
         </div>
+
+        <div className="geral-table-patrimonio flex-grow-1 d-flex ps-4 pe-4 pb-4">
+
+            <Box sx={{ flex: 1, display: 'flex', width: '100%' }}>
+                {mounted && (
+                    <Box sx={{ width: '100%' }}>
+                        <DataGrid
+                            rows={filtrado}
+                            columns={columns}
+                            paginationModel={paginationModel}
+                            onPaginationModelChange={setPaginationModel}
+                            pageSizeOptions={[10, 15, 20, 50]}
+                            getRowId={row => row.id}
+                            disableRowSelectionOnClick
+                        />
+                    </Box>
+                )}
+            </Box>
+
+        </div>
+
+    </>
     );
+
 }

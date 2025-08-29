@@ -111,7 +111,7 @@ button {
 /*=============== SIDEBAR ===============*/
 .sidebar {
   position: fixed;
-  left: -120%;
+  left: -120%; 
   top: 0;
   bottom: 0;
   z-index: var(--z-fixed);
@@ -423,7 +423,6 @@ button {
     transition: padding .4s;
   }
 
-  /* Add padding left */
   .left-pd {
     padding-left: 114px;
   }

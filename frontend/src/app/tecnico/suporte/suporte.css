@@ -150,10 +150,6 @@
     padding: 7%;
 }
 
-.geral-suporte {
-    padding: 20px;
-}
-
 .inputSuporte:hover,
 .inputSuporte:focus {
     border-color: #b5000c !important;

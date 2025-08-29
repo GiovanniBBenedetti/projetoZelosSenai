@@ -9,6 +9,8 @@ import { getCookie } from "cookies-next";
 
 export default function Carrosel({ chamados = [] }) {
   const [funcao, setFuncao] = useState("");
+  const [chamadosArray, setChamadosArray] = useState([]);
+
 
   useEffect(() => {
     const funcaoCookie = getCookie("funcao");
@@ -49,145 +51,51 @@ export default function Carrosel({ chamados = [] }) {
   const nomeExibido = `${partes[0]} ${partes[partes.length - 1]}`;
 
   const prioridades = {
-    1: "Intervenção Preventiva",
-    2: "Intervenção Sem Urgência",
-    3: "Intervenção Prioritária",
-    4: "Intervenção Imediata",
+    '1': "Intervenção Preventiva",
+    '2': "Intervenção Sem Urgência",
+    '3': "Intervenção Prioritária",
+    '4': "Intervenção Imediata",
   };
 
   return (
     <>
-      {Array(chamados).map((chamado) => {
-        const isConcluido = chamado.status === "concluído";
+      {chamados.map((chamado) => {
         return (
           <div key={chamado.id}>
-            <div
-              className={`${isConcluido ? "card-desativado-virgem" : "card-virgem"
-                } d-flex flex-column align-items-center justify-content-center`}
-              key={chamado.id}
-            >
-              <div
-                className={`card-prioridade-${chamado.grau_prioridade}-virgem d-flex align-items-center justify-content-center`}
-              >
-                <p>{prioridades[chamado.grau_prioridade]}</p>
+            <div className={`card row card-virgem borderColorPrioridade-${chamado.grau_prioridade}-virgem`}>
+              <div className="col-md-1 ms-3 align-items-center d-flex justify-content-center">
+                <img src="/img/Fundo.png" className="img-fluid imgPerfil-virgem" />
               </div>
 
-              <main className="d-grid mt-4">
-                <div className="card-titulo-virgem d-grid align-items-center justify-content-center">
-                  <h3>{chamado.titulo}</h3>
-                </div>
-                <div className="card-patrimonio-virgem d-grid w-100 justify-content-center align-items-center">
-                  <p>{chamado.patrimonio}</p>
-                </div>
-                <div className="card-data-virgem d-grid w-100 justify-content-center align-items-center">
-                  <p>
-                    <b>Criado em:</b>{" "}
-                    {new Date(chamado.criado_em).toLocaleDateString("pt-BR")}
-                  </p>
-                </div>
-                <div className="status-card-virgem text-capitalize d-flex align-items-center justify-content-center">
-                  <p>{chamado.status}</p>
-                </div>
-                <div className="">
-                  <Progress step={chamado.status} />
-                </div>
-              </main>
-
-              <button
-                type="button"
-                className={`btn ${isConcluido ? "btn-desativado" : ""
-                  } mt-2 mb-3`}
-                data-bs-toggle="modal"
-                data-bs-target={`#modal-${chamado.id}`}
-              >
-                <BtnChat />
-              </button>
-              
-              {/* Modal */}
-            </div>
-            <div
-              className="modal fade"
-              id={`modal-${chamado.id}`}
-              tabIndex={-1}
-              aria-labelledby={`modalLabel-${chamado.id}`}
-              aria-hidden="true"
-            >
-              <div className="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered">
-                <div className="modal-content flex-column flex-md-inline">
-                  <div className="modal-header d-flex ms-4 align-items-center justify-content-center">
-                    <h2 className="modal-title" id={`modalLabel-${chamado.id}`}>
-                      <b>Ficha Técnica:</b>
-                    </h2>
-                    <div className="modal-inicial-virgem d-md-grid d-none sticky-top bg-white">
-                      {chamado.tecnico_id && (
-                        <div className="modal-inicial-user d-md-grid d-none sticky-top bg-white">
-                          <div className="d-flex">
-                            <div className="img-avatar-virgem">
-                              <p>{iniciais}</p>
-                            </div>
-                            <div className="nome-chat-virgem">{nomeExibido}</div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                    <button
-                      type="button"
-                      className="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-
-                  <div className="modal-body d-md-flex align-items-center justify-content-center d-grid">
-                    <div className="ficha-virgem d-grid gap-0 m-0">
-                      <p className="mt-5">
-                        <b>Título:</b> {chamado.titulo}
-                      </p>
-                      <p>
-                        <b>Prioridade:</b> {chamado.grau_prioridade}
-                      </p>
-                      <p>
-                        <b>Criação:</b>{" "}
-                        {new Date(chamado.criado_em).toLocaleDateString(
-                          "pt-BR"
-                        )}
-                      </p>
-                      <p>
-                        <b>Técnico:</b> Sem Técnico Atribuído
-                      </p>
-                      <p>
-                        <b>Patrimônio:</b> {chamado.patrimonio}
-                      </p>
-                      <p>
-                        <b>Tipo:</b> {chamado.tipo}
-                      </p>
-                      <p>
-                        <b>Descrição:</b> {chamado.descricao}
-                      </p>
-                      <button onClick={() => atribuirTecnico(chamado.id)} className="btn btn-atribuir-tecnico-virgem mt-2 mb-3">
-                        <BtnAtribuirTecnico />
-                      </button>
-                    </div>
-
-                    <div className="chat-container-virgem">
-                      <div className="modal-inicial-virgem d-md-none d-flex sticky-top bg-white">
-                        <div className="d-flex">
-                          <div className="img-avatar-virgem">
-                            <p>{iniciais}</p>
-                          </div>
-                          <div className="nome-chat-virgem">{nomeExibido}</div>
-                        </div>
-                      </div>
-                      <Chat idChamado={chamado.id} possuiTecnico={'nao'} />
-                    </div>
-
-
-                  </div>
+              <div className="col-md-4 align-items-center justify-content-center  d-grid">
+                <div className="titulo-virgem justify-content-center align-items-center d-grid">
+                    <h2>oiii</h2>
+                  <p className="m-0">Iniciado no dia {new Date(chamado.criado_em).toLocaleDateString("pt-BR")}</p>
                 </div>
               </div>
+
+              <div className="col-md-3 align-items-center justify-content-center d-flex">
+                <div className={`prioridade-virgem-${chamado.grau_prioridade} align-items-center justify-content-center d-flex`}>
+                  <p className={`m-0 prioridadeP-${chamado.grau_prioridade}`}>{prioridades[chamado.grau_prioridade]}</p>
+                </div>
+              </div>
+
+              <div className="col-md-2 align-items-center justify-content-center d-grid">
+                <div className="align-items-center justify-content-center d-flex">
+                  <p className="m-0">Usuario</p>
+                </div>
+
+                <p className="m-0">Davi Leocadio</p>
+              </div>
+
+              <div className="col-md-1">
+                <i class="bi bi-plus"></i>
+              </div>
+
             </div>
           </div>
-        );
+
+        )
       })}
     </>
   );

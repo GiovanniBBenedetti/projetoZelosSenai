@@ -43,7 +43,7 @@ export default function CadastroPatrimonio() {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null; 
+  if (!mounted) return null;
 
   const handleSubmit = async () => {
     const token = getCookie('token');
@@ -196,7 +196,7 @@ export default function CadastroPatrimonio() {
 
                 <button
                   type="button"
-                  className="btn btn-success w-100"
+                  className="btn-modal"
                   onClick={handleSubmit}
                 >
                   Cadastrar

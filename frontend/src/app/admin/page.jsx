@@ -3,6 +3,7 @@
 import './dash.css';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Loader from '@/components/Loader/Loader';
 import CardTecnicoDestaque from '@/components/CardTecnicoDestaque/CardTecnicoDestaque';
 import GraficoUrgencia from '@/components/Graficos/GraficoUrgencia';
 import GraficoTipoProblema from '@/components/Graficos/GraficoTipoProblema';
@@ -30,8 +31,8 @@ export default function DashboardZeloPage() {
         const fetchUsuariosAtivos = async () => {
             setLoading(true);
             try {
-                const token = getCookie('token'); // pega o token do cookie
-                const res = await fetch('http://localhost:8080/usuarios?status=ativo', {
+                const token = getCookie('token'); 
+                const res = await fetch('http://localhost:8080/dashboard/usuarios?status=ativo', {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json',
@@ -53,7 +54,7 @@ export default function DashboardZeloPage() {
             setLoading(true);
             try {
                 const token = getCookie('token');
-                const res = await fetch('http://localhost:8080/patrimonios?status=ativo', {
+                const res = await fetch('http://localhost:8080/dashboard/patrimonios?status=ativo', {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json',
@@ -85,7 +86,7 @@ export default function DashboardZeloPage() {
 
 
     if (loading) {
-        return <p>Carregando...</p>;
+        return <Loader />;
     }
 
     return (
@@ -103,7 +104,7 @@ export default function DashboardZeloPage() {
                 <div className="col-md-4 mt-4 card-information-col">
                     <Link href="/admin/usuarios" className="card-information">
                         <div className="text-content">
-                            <p>{usuarios.length} Usuários</p>
+                            <p>{usuarios.length} Pessoas</p>
                             <span>Com status ativo</span>
                         </div>
                         <i className="bi bi-caret-right-fill"></i>

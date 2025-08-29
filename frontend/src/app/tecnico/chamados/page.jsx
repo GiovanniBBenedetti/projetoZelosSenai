@@ -49,16 +49,11 @@ export default function Meus_chamados() {
 
   return (
     <>
-
-      <div className="titulo-meus-chamados-cel mt-4 align-items-center d-flex d-md-none justify-content-center">
-        <h2>Meus Chamados</h2>
+      <div className="titulo-meus-chamados-tecnico align-items-center d-none d-md-flex justify-content-center mt-4 mb-4">
+        <h1>Meus Chamados</h1>
       </div>
 
-      <div className="titulo-meus-chamados align-items-center d-none d-md-flex justify-content-center mt-4">
-        <h2>Meus Chamados</h2>
-      </div>
-
-      <div className="conteudo-com-sidebar-meus-chamados">
+      <div className="conteudo-com-sidebar-meus-chamados-tecnico">
         {chamados.length === 0 ? (
           <div className="sem-chamados d-grid justify-content-center align-items-center">
             <img src="/img/fundo_semChamados.png" className='img-fluid' alt="" />
@@ -69,7 +64,7 @@ export default function Meus_chamados() {
 
           </div>
         ) : (
-          <div className="cards-meus-chamados d-flex align-items-center justify-content-center flex-wrap gap-4">
+          <div className="cards-meus-chamados-tecnico d-flex align-items-center justify-content-center flex-wrap gap-4">
             {ordenarChamados(chamados).map((chamado) => (
               <div key={chamado.id} className="d-grid flex-wrap">
                 <CardUser chamados={chamado} />

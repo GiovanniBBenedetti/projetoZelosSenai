@@ -152,7 +152,7 @@ export default function TabelaPatrimonios() {
 
   return (
     <>
-      <div className="geral-patrimonios vh-100 d-flex flex-column">
+      <div className="geral-patrimonios d-flex flex-column">
         <div className="container total-adm flex-grow-1 d-flex flex-column">
           <p className="tituloMedicos mb-3">Controle de Patrimônios:</p>
 
@@ -226,26 +226,27 @@ export default function TabelaPatrimonios() {
 
           <CadastroPatrimonio />
 
-          {/* tabela */}
-          <div className="geral-table-patrimonio flex-grow-1 d-flex" style={{ minHeight: 0 }}>
-            <Box sx={{ flex: 1, minHeight: 0, display: 'flex' }}>
-              {mounted && (
-                <Box sx={{ height: '630px', width: '100%' }}>
-                  <DataGrid
-                    rows={filtrado}
-                    columns={columns}
-                    getRowId={(row) => row.id}
-                    paginationModel={paginationModel}
-                    onPaginationModelChange={setPaginationModel}
-                    pageSizeOptions={[10, 15, 20, 50]}
-                    disableRowSelectionOnClick
-                  />
-                </Box>
-              )}
-            </Box>
-          </div>
         </div>
       </div>
+
+      <div className="geral-table-patrimonio flex-grow-1 d-flex ps-4 pe-4 pb-4">
+        <Box sx={{ flex: 1, display: 'flex', width: '100%' }}>
+          {mounted && (
+            <Box sx={{ width: '100%' }}>
+              <DataGrid
+                rows={filtrado}
+                columns={columns}
+                getRowId={(row) => row.id}
+                paginationModel={paginationModel}
+                onPaginationModelChange={setPaginationModel}
+                pageSizeOptions={[10, 50, 80, 120, 200]}
+                disableRowSelectionOnClick
+              />
+            </Box>
+          )}
+        </Box>
+      </div>
+
     </>
   );
 }

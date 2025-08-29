@@ -61,59 +61,31 @@ export default function Meus_chamados() {
   };
 
   return (
-    <div>
-      <img src="/fundo.png" alt="" className="img-fluid" />
-      <div className="titulo-meus-chamados d-none d-md-flex">
-        <h2>Chamados da ár Chamados</h2>
+    <>
+    <div className="titulo-meus-chamados-tecnico align-items-center d-none d-md-flex justify-content-center mt-4 mb-4">
+        <h1>Chamados da Área</h1>
       </div>
 
-      <div className="d-flex mt-4 d-md-none justify-content-center align-items-center">
-        <h2>Meus Chamados</h2>
+      <div className="conteudo-com-sidebar-meus-chamados-tecnico">
+        {chamados.length === 0 ? (
+          <div className="sem-chamados d-grid justify-content-center align-items-center">
+            <img src="/img/fundo_semChamados.png" className='img-fluid' alt="" />
+            <p>Ops! Você não possui nenhum chamado</p>
+            <div className="">
+              <BtnVenhaCriar />
+            </div>
+
+          </div>
+        ) : (
+          <div className="cards-meus-chamados-tecnico d-flex align-items-center justify-content-center flex-wrap gap-4">
+            {ordenarChamados(chamados).map((chamado) => (
+              <div key={chamado.id} className="d-grid flex-wrap">
+                <CardVirgem chamados={[chamado]} />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
-
-      {chamados.length > 0 ? (
-        <div>
-          <div className="cards d-md-flex d-none gap-4 flex-wrap">
-            {ordenarChamados(chamados).map((chamado) => (
-              <CardVirgem chamados={chamado} key={chamado.id} />
-            ))}
-          </div>
-          <div className="cards-celular mt-4 d-flex gap-4 align-items-center justify-content-center d-md-none flex-wrap">
-            {ordenarChamados(chamados).map((chamado) => (
-              <CardVirgem chamados={chamado} key={chamado.id} />
-            ))}
-          </div>
-        </div>
-      ) : (
-        <div className=" d-flex flex-column align-items-center justify-content-center mt-5">
-          <div className="sem-chamado-user d-md-grid d-none">
-            <img src="/fundo_semChamados.png" className="img-fluid" />
-            <div className="sem-chamados gap-3 d-none d-md-flex">
-              <h2>Ops! Parece que você não tem chamado</h2>
-
-              <Link
-                href={"/user/criar_chamado"}
-                className="border-0 btnVenhaCriar"
-              >
-                <BtnVenhaCriar />
-              </Link>
-            </div>
-          </div>
-
-          <div className="d-grid sem-chamado-user-cel mt-4 w-100 d-md-none justify-content-center align-items-center">
-            <img src="/fundo_semChamados.png" className="img-fluid" alt="" />
-            <h2 className="fs-4">Sem Chamados</h2>
-            <div className="align-items-center justify-content-center d-flex">
-              <Link
-                href={"/user/criar_chamado"}
-                className="border-0 btnVenhaCriar"
-              >
-                <BtnVenhaCriar />
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+      </>
   );
 }

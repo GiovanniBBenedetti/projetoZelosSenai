@@ -1,132 +1,133 @@
 /*=============== VARIÁVEIS DE COR E FONTES ===============*/
 :root {
-    --vermelho-principal: #e30615;
-    --vermelho-escuro: #8e0009;
-    --preto-zelos: #101820;
-    --cinza-claro: #eaeaea;
-    --branco: #ffffff;
-    --prioridade-maxima: #e30615;
-    --prioridade-minima: #ffbf00;
-    --prioridade-baixa: #008000;
-  
-    --body-font: 'Nunito Sans', system-ui;
-    --font-regular: 400;
-    --font-semi-bold: 600;
-    --normal-font-size: 0.938rem;
-  }
-  
-  /*=============== DASHBOARD GERAL ===============*/
-  .row > * {
-    padding-left: 0 !important;
-  } 
-  
-  .dashboard-tec {
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
-  
-  /*=============== BOTÕES DE INFORMAÇÃO SUPERIORES ===============*/
-  .card-information {
-    background-color: var(--preto-zelos);
-    border-radius: 1rem;
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    transition: background-color 0.3s ease-in-out;
-    text-decoration: none;
-  }
-  
-  .card-information:hover {
-    background-color: var(--vermelho-principal);
-  }
-  
-  .card-information .text-content {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-  }
-  
-  .card-information .text-content p {
-    color: var(--branco);
-    font-size: 1.25rem;
-    font-weight: var(--font-semi-bold);
-    margin-bottom: 0;
-  }
-  
-  .card-information .text-content span {
-    color: var(--vermelho-escuro);
-    font-size: 0.9rem;
-    font-weight: var(--font-regular);
-  }
-  
-  .card-information .bi-caret-right-fill {
-    color: var(--vermelho-principal);
-    font-size: 2rem;
-    transition: color 0.3s ease-in-out;
-  }
-  
-  .card-information:hover .bi-caret-right-fill {
-    color: var(--branco);
-  }
-  
-  /*=============== SEÇÃO DE AJUDA ===============*/
-  .card-ajuda {
-    background-color: var(--preto-zelos);
-    border-radius: 1rem;
-    padding: 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: var(--branco);
-  }
-  
-  .card-ajuda .text-content {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .card-ajuda .text-content p {
-    color: var(--branco);
-    font-size: 1.25rem;
-    font-weight: var(--font-semi-bold);
-    margin-bottom: 0;
-  }
-  
-  .card-ajuda .text-content span {
-    color: var(--cinza-claro);
-    font-size: 0.9rem;
-    font-weight: var(--font-regular);
-  }
-  
-  .btn-ajuda {
-    background-color: var(--vermelho-principal);
-    border: none;
-    border-radius: 0.5rem;
-    color: var(--branco);
-    padding: 0.75rem 1.5rem;
-    font-weight: var(--font-semi-bold);
-    transition: background-color 0.3s;
-  }
-  
-  .btn-ajuda:hover {
-    background-color: var(--vermelho-escuro);
-  }
+  --vermelho-principal: #e30615;
+  --vermelho-escuro: #8e0009;
+  --preto-zelos: #101820;
+  --cinza-claro: #eaeaea;
+  --branco: #ffffff;
+  --prioridade-maxima: #e30615;
+  --prioridade-minima: #ffbf00;
+  --prioridade-baixa: #008000;
+
+  --body-font: 'Nunito Sans', system-ui;
+  --font-regular: 400;
+  --font-semi-bold: 600;
+  --normal-font-size: 0.938rem;
+}
+
+/*=============== DASHBOARD GERAL ===============*/
+.row>* {
+  padding-left: 0 !important;
+}
+
+.dashboard-tec {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+/*=============== BOTÕES DE INFORMAÇÃO SUPERIORES ===============*/
+.card-information {
+  background-color: var(--preto-zelos);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  transition: background-color 0.3s ease-in-out;
+  text-decoration: none;
+}
+
+.card-information:hover {
+  background-color: var(--vermelho-principal);
+}
+
+.card-information .text-content {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.card-information .text-content p {
+  color: var(--branco);
+  font-size: 1.25rem;
+  font-weight: var(--font-semi-bold);
+  margin-bottom: 0;
+}
+
+.card-information .text-content span {
+  color: var(--branco);
+  opacity: .75;
+  font-size: 0.9rem;
+  font-weight: var(--font-regular);
+}
+
+.card-information .bi-caret-right-fill {
+  color: var(--vermelho-principal);
+  font-size: 2rem;
+  transition: color 0.3s ease-in-out;
+}
+
+.card-information:hover .bi-caret-right-fill {
+  color: var(--branco);
+}
+
+/*=============== SEÇÃO DE AJUDA ===============*/
+.card-ajuda {
+  background-color: var(--preto-zelos);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--branco);
+}
+
+.card-ajuda .text-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-ajuda .text-content p {
+  color: var(--branco);
+  font-size: 1.25rem;
+  font-weight: var(--font-semi-bold);
+  margin-bottom: 0;
+}
+
+.card-ajuda .text-content span {
+  color: var(--cinza-claro);
+  font-size: 0.9rem;
+  font-weight: var(--font-regular);
+}
+
+.btn-ajuda {
+  background-color: var(--vermelho-principal);
+  border: none;
+  border-radius: 0.5rem;
+  color: var(--branco);
+  padding: 0.75rem 1.5rem;
+  font-weight: var(--font-semi-bold);
+  transition: background-color 0.3s;
+}
+
+.btn-ajuda:hover {
+  background-color: var(--vermelho-escuro);
+}
 
 .titulo-user {
-    color: var(--vermelhoEscuro);
-    font-weight: bold;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+  color: var(--vermelhoEscuro);
+  font-weight: bold;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .cards-resolvidos {
-    background-color: var(--vermelhoEscuro);
-    border-radius: 15px;
-    padding-right: 1rem;
-    padding-left: 1rem;
-    padding-bottom: 2rem;
-    margin-bottom: 2rem;
+  background-color: var(--vermelhoEscuro);
+  border-radius: 15px;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
 }

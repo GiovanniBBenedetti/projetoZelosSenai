@@ -88,7 +88,7 @@ export default function Perfil() {
                 )}
 
 
-                <div className="card-body">
+                <div className="card-perfil">
                     <div className="d-flex flex-column flex-md-row align-items-center mb-4">
                         <div className="me-md-4 mb-3 mb-md-0">
                             {userData.foto || photoPreview ? (

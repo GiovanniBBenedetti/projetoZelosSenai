@@ -36,7 +36,6 @@ const Sidebar = ({ isSidebarOpen }) => {
         const data = await res.json();
         setUserData(data);
 
-        // Se a resposta tiver caminho da foto, define a URL
         if (data.foto) {
           setPhotoUrl(`http://localhost:8080${data.foto}`);
         }
@@ -70,10 +69,10 @@ const Sidebar = ({ isSidebarOpen }) => {
     (partes[partes.length - 1]?.charAt(0).toUpperCase() || '');
 
   const nomeExibido = `${partes[0]?.charAt(0).toUpperCase() + partes[0]?.slice(1).toLowerCase()} ${partes[partes.length - 1]
-    ? partes[partes.length - 1].charAt(0).toUpperCase() +
+      ? partes[partes.length - 1].charAt(0).toUpperCase() +
       partes[partes.length - 1].slice(1).toLowerCase()
-    : ''
-  }`;
+      : ''
+    }`;
 
   const menus = {
     admin: [
@@ -85,8 +84,8 @@ const Sidebar = ({ isSidebarOpen }) => {
         label: 'Chamados',
         items: [
           { link: '/admin/criar', icon: 'bi bi-pencil-square', label: 'Criar Chamado' },
-          { link: '/admin/todosChamados',icon: 'bi bi-border-all', label: 'Todos os Chamados' },
-          { link: '/admin/meusChamados',icon: 'bi bi-folder-fill', label: 'Meus Chamados' },
+          { link: '/admin/todosChamados', icon: 'bi bi-border-all', label: 'Todos os Chamados' },
+          { link: '/admin/meusChamados', icon: 'bi bi-folder-fill', label: 'Meus Chamados' },
         ],
       },
       { link: '/admin/usuarios', icon: 'bi bi-person-fill', label: 'Usuários' },
@@ -94,29 +93,29 @@ const Sidebar = ({ isSidebarOpen }) => {
       { link: '/admin/suporte', icon: 'bi bi-chat-text-fill', label: 'Ajuda' },
     ],
     usuario: [
-       { link: '/usuario/perfil', icon: 'bi bi-person-fill', label: 'Perfil' },
+      { link: '/usuario/perfil', icon: 'bi bi-person-fill', label: 'Perfil' },
       { link: '/usuario', icon: 'bi bi-pie-chart-fill', label: 'Dashboard' },
       {
         type: 'dropdown',
         icon: 'bi bi-gear-fill',
         label: 'Chamados',
         items: [
-          { link: '/usuario/criar',icon: 'bi bi-pencil-square', label: 'Criar Chamado' },
-          { link: '/usuario/meusChamados',icon: 'bi bi-folder-fill', label: 'Meus Chamados' },
+          { link: '/usuario/criar', icon: 'bi bi-pencil-square', label: 'Criar Chamado' },
+          { link: '/usuario/meusChamados', icon: 'bi bi-folder-fill', label: 'Meus Chamados' },
         ],
       },
       { link: '/usuario/suporte', icon: 'bi bi-chat-text-fill', label: 'Ajuda' },
     ],
     tecnico: [
-       { link: '/tecnico/perfil', icon: 'bi bi-person-fill', label: 'Perfil' },
+      { link: '/tecnico/perfil', icon: 'bi bi-person-fill', label: 'Perfil' },
       { link: '/tecnico/', icon: 'bi bi-pie-chart-fill', label: 'Dashboard' },
       {
         type: 'dropdown',
         icon: 'bi bi-gear-fill',
         label: 'Chamados',
         items: [
-          { link: '/tecnico/chamados',icon: 'bi bi-folder-fill', label: 'Meus Chamados' },
-          { link: '/tecnico/todosChamados',icon: 'bi bi-border-all', label: 'Chamados da Área' },
+          { link: '/tecnico/chamados', icon: 'bi bi-folder-fill', label: 'Meus Chamados' },
+          { link: '/tecnico/todosChamados', icon: 'bi bi-border-all', label: 'Chamados da Área' },
         ],
       },
       { link: '/tecnico/suporte', icon: 'bi bi-chat-text-fill', label: 'Suporte' },

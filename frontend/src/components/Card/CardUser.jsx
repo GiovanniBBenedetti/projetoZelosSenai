@@ -63,7 +63,7 @@ export default function Carrosel({ chamados = [] }) {
               <main className="d-grid mt-4">
                 <div className="card-titulo-user ">
                   <h3>{chamado.titulo}</h3>
-                  <button>Ver Mais</button>
+                
                 </div>
                 <div className="card-patrimonio-user d-grid w-100 justify-content-center align-items-center">
                   <p>{chamado.patrimonio}</p>
@@ -162,9 +162,8 @@ export default function Carrosel({ chamados = [] }) {
                             <div className="nome-chat-user">{nomeExibido}</div>
                           </div>
                         </div>
-                        <Chat idChamado={chamado.id} possuiTecnico={'sim'} />
+                        <Chat idChamado={chamado.id} />
                       </div>
-         
                   </div>
                 </div>
               </div>

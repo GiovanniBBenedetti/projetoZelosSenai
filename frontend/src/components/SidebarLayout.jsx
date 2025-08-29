@@ -5,7 +5,7 @@ import FooterLayout from "@/components/Footer/FooterLayout";
 import Sidebar from "@/components/Sidebar/Sidebar";
 
 export default function SidebarLayout({ children }) {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
     const showSidebar = () => {
         setIsSidebarOpen(prevState => !prevState);
@@ -16,9 +16,7 @@ export default function SidebarLayout({ children }) {
             <header className={`header ${isSidebarOpen ? 'left-pd' : ''}`} id="header">
                 <div className="header__container">
                     <a href="#" className="header__logo">
-                    <img src="/logoOriginal.png" alt="Logo" />
-
-
+                        <img src="/logoOriginal.png" alt="Logo" />
                     </a>
 
                     <button className="header__toggle" id="header-toggle" onClick={showSidebar}>

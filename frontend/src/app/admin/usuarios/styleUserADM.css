@@ -90,26 +90,23 @@
 .geral-patrimonios {
     display: flex;
     flex-direction: column;
-    margin-bottom: 300px;
 }
 
 .total-adm {
     flex: 1;
     display: flex;
     flex-direction: column;
-    min-height: 0;
+    padding-right: 45px;
 }
 
 .geral-table-patrimonio {
     flex: 1;
     display: flex;
     flex-direction: column;
-    min-height: 0;
 }
 
 .tabela-patrimonio {
     flex: 1;
-    min-height: 0;
     overflow: auto;
 }
 
@@ -148,11 +145,6 @@
 
 .geral-patrimonios {
     padding: 20px;
-}
-
-
-@media (min-width: 768px) {
-
 }
 
 

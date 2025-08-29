@@ -44,7 +44,7 @@ body {
   width: 100%;
   height: 100%;
   max-height: 18.5rem;
-  overflow-y: hidden;
+  overflow-y: hidden !important;
   overflow-x: hidden;
 }
 
@@ -89,9 +89,15 @@ body {
 .btn-modal-chat {
   background-color: var(--cinza);
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 15px;
+  height: 25px;
   color: var(--branco);
+}
+
+.btn-modal-chat:hover {
+  background-color: var(--vermelhoEscuro);
+  color: var(--branco);
+  transition: .5s;
 }
 
 .titulo-chat {
@@ -104,7 +110,6 @@ body {
   justify-content: end;
 }
 
-/* CONTAINER GERAL DO CHAT */
 .card-container {
   background-color: #fff;
   border-radius: 10px;
@@ -112,7 +117,6 @@ body {
   margin: 5px;
   display: flex;
   flex-direction: column;
-  overflow-y: hidden !important;
 }
 
 .card-header {
@@ -165,7 +169,9 @@ body {
   display: flex;
   flex-direction: column;
   gap: 5px;
- 
+  max-height: 270px;
+  min-height: 270px;
+  overflow-y: auto !important;
 }
 
 .message-box {
@@ -186,7 +192,7 @@ body {
   align-self: flex-start;
   text-align: left;
   color: #fff;
-  min-width: 30vh;
+  min-width: 38vh;
 }
 
 .message-box.right {
@@ -196,7 +202,7 @@ body {
   align-self: flex-end;
   text-align: right;
   color: var(--branco);
-  min-width: 30vh;
+  min-width: 38vh;
 }
 
 .message-box p {
@@ -238,9 +244,9 @@ body {
   color: var(--vermelho);
 }
 
-.titulo-msg{
-  font-size: 12px!important;
-  left: 0!important;
+.titulo-msg {
+  font-size: 12px !important;
+  left: 0 !important;
   display: flex;
   padding-bottom: 5px;
 }

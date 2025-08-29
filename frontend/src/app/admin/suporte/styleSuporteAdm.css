@@ -1,4 +1,4 @@
-:root {
+  :root {
     --branco: #ffff;
     --vermelhoEscuro: #8e0009;
     --vermelhoMedio: #b5000c;
@@ -31,7 +31,6 @@
 .geral-patrimonios {
     display: flex;
     flex-direction: column;
-    margin-bottom: 290px;
 }
 
 
@@ -54,10 +53,6 @@
     flex: 1;
     min-height: 0;
     overflow: auto;
-}
-
-.tabela-patrimonio {
-    height: 210% !important;
 }
 
 
@@ -97,9 +92,6 @@
     margin-bottom: 2.5%;
 }
 
-.total-adm {
-    margin-bottom: 6%;
-}
 
 .MuiTablePagination-selectLabel.css-s09cke-MuiTablePagination-selectLabel,
 .MuiTablePagination-displayedRows.css-11cfq65-MuiTablePagination-displayedRows {
@@ -129,11 +121,6 @@
 
 .geral-patrimonios {
     padding: 20px;
-
-}
-
-.tabela-patrimonio {
-    width: 70%;
 }
 
 
@@ -163,7 +150,6 @@
 @media (min-width: 768px) {
     .geral-patrimonios {
         padding: 20px;
-    
     }
 
 }

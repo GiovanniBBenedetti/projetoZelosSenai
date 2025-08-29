@@ -6,21 +6,12 @@ body{
   margin-top: 3rem;
 }
 
-
-
-.conteudo-com-sidebar-meus-chamados {
-  padding: 1rem;
- 
-}
-
-
 .cards-meus-chamados {
   max-width: 100%;
   justify-content: flex-start ; 
 }
 
 .sem-chamados-meus-chamados img{
- 
   width: 14rem;
 }
 
@@ -34,7 +25,6 @@ body{
   .conteudo-com-sidebar-meus-chamados {
     margin-left: 0;
     width: 100%;
-   
   }
 
   .cards-meus-chamados{
@@ -42,6 +32,4 @@ body{
     justify-content: center;
     display: grid;
   }
-
-
 }

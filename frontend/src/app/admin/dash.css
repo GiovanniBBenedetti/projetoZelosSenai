@@ -8,7 +8,6 @@
   --prioridade-maxima: #e30615;
   --prioridade-minima: #ffbf00;
   --prioridade-baixa: #008000;
-
   --body-font: 'Nunito Sans', system-ui;
   --font-regular: 400;
   --font-semi-bold: 600;
@@ -63,7 +62,8 @@
 }
 
 .dashboard-header .card-information .text-content span {
-  color: var(--vermelho-escuro);
+  color: var(--branco);
+  opacity: .75;
   font-size: 0.9rem;
   font-weight: var(--font-regular);
 }
@@ -166,7 +166,8 @@ height: 250px;
   gap: 1rem;
   border: 2px solid transparent;
   transition: border-color 0.3s;
-  border-color: var(--vermelho-principal);
+  border-color: #D7D7D7;
+  
 }
 
 .tecnico-header {

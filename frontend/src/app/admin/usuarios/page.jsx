@@ -150,7 +150,7 @@ export default function TabelaUsuarios() {
   return (
     <>
 
-      <div className="geral-patrimonios vh-100 d-flex flex-column">
+      <div className="geral-patrimonios d-flex flex-column">
         <div className="container total-adm flex-grow-1 d-flex flex-column">
           <p className="tituloMedicos mb-3">Controle de Usuários:</p>
 
@@ -223,36 +223,36 @@ export default function TabelaUsuarios() {
             </div>
           </div>
 
-
-          <div className="geral-table-patrimonio flex-grow-1 d-flex" style={{ minHeight: 0 }}>
-            <Box sx={{ flex: 1, minHeight: 0, width: '100%' }}>
-              {mounted && (
-                <DataGrid
-                  rows={filtrado}
-                  columns={columns}
-                  paginationModel={paginationModel}
-                  onPaginationModelChange={setPaginationModel}
-                  pageSizeOptions={[10, 15, 20, 40, 80, 100, 200]}
-                  getRowId={(row) => row.id}
-                  disableRowSelectionOnClick
-                  sx={{
-                    '& .MuiDataGrid-virtualScroller': {
-                      overflowX: 'auto',
-                    },
-                    '& .MuiDataGrid-columnHeaders': {
-                      minWidth: '100%',
-                    },
-                    '& .MuiDataGrid-cell': {
-                      whiteSpace: 'normal',
-                      wordWrap: 'break-word',
-                    }
-                  }}
-                />
-              )}
-            </Box>
-          </div>
         </div>
       </div>
+      <div className="geral-table-patrimonio flex-grow-1 d-flex ps-4 pe-4 pb-4">
+        <Box sx={{ flex: 1, height: '100%', width: '100%' }}>
+          {mounted && (
+            <DataGrid
+              rows={filtrado}
+              columns={columns}
+              paginationModel={paginationModel}
+              onPaginationModelChange={setPaginationModel}
+              pageSizeOptions={[10, 40, 80, 100, 200]}
+              getRowId={(row) => row.id}
+              disableRowSelectionOnClick
+              sx={{
+                '& .MuiDataGrid-virtualScroller': {
+                  overflowX: 'auto',
+                },
+                '& .MuiDataGrid-columnHeaders': {
+                  minWidth: '100%',
+                },
+                '& .MuiDataGrid-cell': {
+                  whiteSpace: 'normal',
+                  wordWrap: 'break-word',
+                }
+              }}
+            />
+          )}
+        </Box>
+      </div>
+
     </>
   );
 }

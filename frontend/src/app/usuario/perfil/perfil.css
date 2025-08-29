@@ -1,3 +1,27 @@
+.photo-content-perfil {
+  padding-right: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.photo-perfil {
+  border-radius: 20px;
+  background-color: var(--pretoNav);
+  color: var(--branco);
+  padding: 2rem;
+}
+
+.photo-perfil .photo-img-perfil {
+  text-align: center;
+}
+
+.photo-btn-perfil {
+  border: 1px solid var(--branco);
+  color: var(--branco);
+}
+
+.photo-btn-perfil:hover {
+  background-color: var(--vermelho);
+}
 
 .AvatarPerfil {
   width: 80px;
@@ -11,5 +35,43 @@
   color: var(--branco);
   text-transform: uppercase;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
 
+.infos-perfil {
+  border-radius: 20px;
+  background-color: var(--pretoNav);
+  color: var(--branco);
+  padding: 2.5rem;
+}
+
+.infos-perfil label {
+  font-size: .9rem;
+}
+
+input.form-control.InputPerfil.fst-italic {
+  background-color: var(--pretoNav);
+  border: none;
+  color: var(--branco);
+  margin: 0;
+  padding: 0;
+  font-size: 1.1rem;
+}
+
+.react-calendar {
+  background: var(--pretoNav);
+  color: var(--branco);
+  border-radius: 10px;
+  width: 350px;
+  max-width: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.125em;
+  padding: 1rem;
+}
+
+
+@media (max-width: 768px) {
+  .photo-content-perfi {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
