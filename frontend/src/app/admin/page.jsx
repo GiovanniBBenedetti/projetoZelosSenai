@@ -8,11 +8,13 @@ import GraficoUrgencia from '@/components/Graficos/GraficoUrgencia';
 import GraficoTipoProblema from '@/components/Graficos/GraficoTipoProblema';
 import GraficoChamadosPorTecnico from '@/components/Graficos/GraficoChamadosPorTecnico';
 import GraficoTotalChamados from '@/components/Graficos/GraficoTotalChamados';
+import { getCookie } from 'cookies-next';
+
 
 export default function DashboardZeloPage() {
-    // Dados fictícios para simular a API
-    const [patrimonios] = useState([{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}]);
-    const [usuarios] = useState([{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}]);
+    const [patrimonios, setPatrimonios] = useState([]);
+    const [usuarios, setUsuarios] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [chamadosAtrasados] = useState(10);
     const [chamadosTotais] = useState(30);
     const [chamadosAbertos] = useState(21);
@@ -22,7 +24,65 @@ export default function DashboardZeloPage() {
         { nome: 'Giovanna Freitas', departamento: 'Técnico', chamadosResolvidos: 35, email: 'giovanna.f@email.com', iniciais: 'GF' },
         { nome: 'João Pedro', departamento: 'Técnico', chamadosResolvidos: 32, email: 'joao.p@email.com', iniciais: 'JP' },
     ]);
-    const [loading, setLoading] = useState(false);
+
+
+    useEffect(() => {
+        const fetchUsuariosAtivos = async () => {
+            setLoading(true);
+            try {
+                const token = getCookie('token'); // pega o token do cookie
+                const res = await fetch('http://localhost:8080/usuarios?status=ativo', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (!res.ok) throw new Error('Erro ao buscar usuários');
+
+                const data = await res.json();
+                setUsuarios(data);
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        const fetchPatrimoniosAtivos = async () => {
+            setLoading(true);
+            try {
+                const token = getCookie('token');
+                const res = await fetch('http://localhost:8080/patrimonios?status=ativo', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (!res.ok) throw new Error('Erro ao buscar patrimonios');
+
+                const data = await res.json();
+                setPatrimonios(data);
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+
+        fetchPatrimoniosAtivos();
+        fetchUsuariosAtivos();
+    }, []);
+
+
+    useEffect(() => {
+
+
+
+    }, []);
+
 
     if (loading) {
         return <p>Carregando...</p>;
@@ -59,6 +119,7 @@ export default function DashboardZeloPage() {
                 </div>
             </div>
 
+            {/* Gráficos */}
             <div className="row mt-5">
                 <div className="col-md-6 mb-4">
                     <div className="chart-card">
@@ -83,7 +144,7 @@ export default function DashboardZeloPage() {
                     <div className="chart-card">
                         <h3 className="chart-title">Chamados por técnicos</h3>
                         <div className="chart-wrapper">
-                             <GraficoChamadosPorTecnico />
+                            <GraficoChamadosPorTecnico />
                         </div>
                     </div>
                 </div>
