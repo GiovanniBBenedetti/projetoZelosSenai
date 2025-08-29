@@ -1,4 +1,4 @@
-import { read, create, readAll } from "../config/database.js";
+import { read, create, readAll, update } from "../config/database.js";
 
 const obterUsuario = async (numeroRegistro) => {
     try {
@@ -35,7 +35,14 @@ const listarUsuarioPorId = async (id) => {
     throw error;
   }
 }
+const atualizarUsuario = async (id, usuarioData) => {
+    try {
+    await update('usuarios', usuarioData, `id = ${id}`);
+    } catch (error) {
+    console.error('Erro ao atualizar usuario:', error);
+    throw error;
+    }
+};
 
 
-
-export { obterUsuario, criarUsuario, listarTodosUsuarios, listarUsuarioPorId};
+export { obterUsuario, criarUsuario, listarTodosUsuarios, listarUsuarioPorId, atualizarUsuario};

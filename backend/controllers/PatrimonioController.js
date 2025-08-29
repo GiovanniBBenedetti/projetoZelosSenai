@@ -1,4 +1,4 @@
-import { listarPatrimonios, obterPatrimonioPorId, criarPatrimonio, excluirPatrimonio } from "../models/Patrimonios.js"
+import { listarPatrimonios, obterPatrimonioPorId, criarPatrimonio, excluirPatrimonio, atualizarStatusPatrimonio } from "../models/Patrimonios.js"
 
 const listarPatrimonioController = async (req, res) => {
     try {
@@ -47,6 +47,25 @@ const criarPatrimonioController = async (req, res) => {
 }
 
 
+const atualizarStatusPatrimonioController = async (req, res) => {
+    try {
+        const patrimonio = req.params.id;
+        const { status } = req.body;
+
+        if (!status) {
+            return res.status(400).json({ mensagem: "Status é obrigatório" });
+        }
+
+        await atualizarStatusPatrimonio(patrimonio, { status });
+
+        res.status(200).json({ mensagem: "Status do patrimônio atualizado com sucesso" });
+    } catch (error) {
+        console.error("Erro ao atualizar status do patrimônio:", error);
+        res.status(500).json({ mensagem: "Erro ao atualizar status do patrimônio" });
+    }
+};
+
+
 const excluirPatrimonioController = async (req, res) => {
     try {
         const patrimonioId = req.params.id;
@@ -59,5 +78,5 @@ const excluirPatrimonioController = async (req, res) => {
 };
 
 export {
-listarPatrimonioController,obterPatrimonioPorIdController,criarPatrimonioController,excluirPatrimonioController
+listarPatrimonioController,obterPatrimonioPorIdController,criarPatrimonioController,excluirPatrimonioController, atualizarStatusPatrimonioController
 };

@@ -7,8 +7,8 @@ import Select from 'react-select';
 import './styleUserADM.css';
 
 const statusOptions = [
-  { value: 'Ativo', label: 'Ativo' },
-  { value: 'Inativo', label: 'Inativo' }
+  { value: 'ativo', label: 'Ativo' },
+  { value: 'inativo', label: 'Inativo' }
 ];
 
 const columns = [
@@ -22,17 +22,32 @@ const columns = [
   {
     field: 'status',
     headerName: 'Status',
-    width: 130,
+    width: 150,
     disableColumnMenu: true,
     renderCell: (params) => {
-      const handleChange = (selectedOption) => {
-        params.api.updateRows([{ id: params.id, status: selectedOption.value }]);
+      const token = getCookie('token');
+
+      const handleChange = async (selectedOption) => {
+        try {
+          await fetch(`http://localhost:8080/usuarios/${params.id}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ status: selectedOption.value }),
+          });
+          params.api.updateRows([{ id: params.id, status: selectedOption.value }]);
+        } catch (err) {
+          console.error("Erro ao atualizar status:", err);
+        }
       };
+
       return (
         <Select
-          value={statusOptions.find(option => option.value === params.value)}
-          onChange={handleChange}
           options={statusOptions}
+          value={statusOptions.find(opt => opt.value === params.value)}
+          onChange={handleChange}
           menuPortalTarget={document.body}
           styles={{
             control: (provided) => ({
@@ -58,12 +73,19 @@ const columns = [
             indicatorSeparator: () => ({
               display: 'none',
             }),
+            menuPortal: (base) => ({ ...base, zIndex: 9999 }), // mantém o select acima da tabela
           }}
           isSearchable={false}
         />
+
       );
     }
-  },
+  }
+
+
+
+
+
 ];
 
 export default function TabelaUsuarios() {
@@ -90,7 +112,6 @@ export default function TabelaUsuarios() {
         const data = await response.json();
 
         const mapped = data.map((usuario) => {
-      
           return {
             id: usuario.id,
             nome: usuario.nome,
@@ -103,6 +124,7 @@ export default function TabelaUsuarios() {
           };
         });
 
+
         setUsuarios(mapped);
       } catch (err) {
         console.error('Erro ao buscar usuários:', err);
@@ -112,7 +134,7 @@ export default function TabelaUsuarios() {
     fetchUsuarios();
   }, []);
 
-  // filtros
+
   const filtrado = usuarios.filter((item) =>
     item.nome.toLowerCase().includes(filtroNome.toLowerCase()) &&
     item.numeroRegistro.toLowerCase().includes(filtroRegistro.toLowerCase()) &&
@@ -127,110 +149,110 @@ export default function TabelaUsuarios() {
 
   return (
     <>
-  
-    <div className="geral-patrimonios vh-100 d-flex flex-column">
-      <div className="container total-adm flex-grow-1 d-flex flex-column">
-        <p className="tituloMedicos mb-3">Controle de Usuários:</p>
 
-   
-        <div className="container-filtro-pacientes mb-5 mb-sm-4 mt-4 mt-sm-0">
-          <div className="row g-3">
-            <div className="col-12 col-md-6 custom-col-1080">
-              <label className="form-label">Filtrar por Nome:</label>
-              <div className="input-group borda-filtro-usuario">
-                <button className="btn" type="button">
-                  <i className="bi bi-person"></i>
-                </button>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Nome"
-                  value={filtroNome}
-                  onChange={(e) => setFiltroNome(e.target.value)}
-                />
+      <div className="geral-patrimonios vh-100 d-flex flex-column">
+        <div className="container total-adm flex-grow-1 d-flex flex-column">
+          <p className="tituloMedicos mb-3">Controle de Usuários:</p>
+
+
+          <div className="container-filtro-pacientes mb-5 mb-sm-4 mt-4 mt-sm-0">
+            <div className="row g-3">
+              <div className="col-12 col-md-6 custom-col-1080">
+                <label className="form-label">Filtrar por Nome:</label>
+                <div className="input-group borda-filtro-usuario">
+                  <button className="btn" type="button">
+                    <i className="bi bi-person"></i>
+                  </button>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Nome"
+                    value={filtroNome}
+                    onChange={(e) => setFiltroNome(e.target.value)}
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className="col-12 col-md-6 custom-col-1080">
-              <label className="form-label">Filtrar por Nº Registro:</label>
-              <div className="input-group borda-filtro-usuario">
-                <button className="btn" type="button">
-                  <i className="bi bi-upc"></i>
-                </button>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Nº Registro"
-                  value={filtroRegistro}
-                  onChange={(e) => setFiltroRegistro(e.target.value)}
-                />
+              <div className="col-12 col-md-6 custom-col-1080">
+                <label className="form-label">Filtrar por Nº Registro:</label>
+                <div className="input-group borda-filtro-usuario">
+                  <button className="btn" type="button">
+                    <i className="bi bi-upc"></i>
+                  </button>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Nº Registro"
+                    value={filtroRegistro}
+                    onChange={(e) => setFiltroRegistro(e.target.value)}
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className="col-12 col-md-6 custom-col-1080">
-              <label className="form-label">Filtrar por Função:</label>
-              <div className="input-group borda-filtro-usuario">
-                <button className="btn" type="button">
-                  <i className="bi bi-briefcase"></i>
-                </button>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Função"
-                  value={filtroFuncao}
-                  onChange={(e) => setFiltroFuncao(e.target.value)}
-                />
+              <div className="col-12 col-md-6 custom-col-1080">
+                <label className="form-label">Filtrar por Função:</label>
+                <div className="input-group borda-filtro-usuario">
+                  <button className="btn" type="button">
+                    <i className="bi bi-briefcase"></i>
+                  </button>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Função"
+                    value={filtroFuncao}
+                    onChange={(e) => setFiltroFuncao(e.target.value)}
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className="col-12 col-md-6 custom-col-1080">
-              <label className="form-label">Filtrar por Email:</label>
-              <div className="input-group borda-filtro-usuario">
-                <button className="btn" type="button">
-                  <i className="bi bi-envelope"></i>
-                </button>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Email"
-                  value={filtroEmail}
-                  onChange={(e) => setFiltroEmail(e.target.value)}
-                />
+              <div className="col-12 col-md-6 custom-col-1080">
+                <label className="form-label">Filtrar por Email:</label>
+                <div className="input-group borda-filtro-usuario">
+                  <button className="btn" type="button">
+                    <i className="bi bi-envelope"></i>
+                  </button>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Email"
+                    value={filtroEmail}
+                    onChange={(e) => setFiltroEmail(e.target.value)}
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-       
-        <div className="geral-table-patrimonio flex-grow-1 d-flex" style={{ minHeight: 0 }}>
-          <Box sx={{ flex: 1, minHeight: 0, width: '100%' }}>
-            {mounted && (
-              <DataGrid
-                rows={filtrado}
-                columns={columns}
-                paginationModel={paginationModel}
-                onPaginationModelChange={setPaginationModel}
-                pageSizeOptions={[10, 15, 20, 40, 80, 100, 200]}
-                getRowId={(row) => row.id}
-                disableRowSelectionOnClick
-                sx={{
-                  '& .MuiDataGrid-virtualScroller': {
-                    overflowX: 'auto',
-                  },
-                  '& .MuiDataGrid-columnHeaders': {
-                    minWidth: '100%',
-                  },
-                  '& .MuiDataGrid-cell': {
-                    whiteSpace: 'normal',
-                    wordWrap: 'break-word',
-                  }
-                }}
-              />
-            )}
-          </Box>
+
+          <div className="geral-table-patrimonio flex-grow-1 d-flex" style={{ minHeight: 0 }}>
+            <Box sx={{ flex: 1, minHeight: 0, width: '100%' }}>
+              {mounted && (
+                <DataGrid
+                  rows={filtrado}
+                  columns={columns}
+                  paginationModel={paginationModel}
+                  onPaginationModelChange={setPaginationModel}
+                  pageSizeOptions={[10, 15, 20, 40, 80, 100, 200]}
+                  getRowId={(row) => row.id}
+                  disableRowSelectionOnClick
+                  sx={{
+                    '& .MuiDataGrid-virtualScroller': {
+                      overflowX: 'auto',
+                    },
+                    '& .MuiDataGrid-columnHeaders': {
+                      minWidth: '100%',
+                    },
+                    '& .MuiDataGrid-cell': {
+                      whiteSpace: 'normal',
+                      wordWrap: 'break-word',
+                    }
+                  }}
+                />
+              )}
+            </Box>
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 }

@@ -1,12 +1,43 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { getCookie } from 'cookies-next';
 import './suporte.css';
 
-export default function UsuarioSuporte() {
+export default function TecnicoSuporte() {
   const [titulo, setTitulo] = useState('');
   const [descricao, setDescricao] = useState('');
   const [mensagem, setMensagem] = useState('');
+  const [usuario, setUsuario] = useState(null);
+
+
+
+
+
+  const fetchUsuario = async () => {
+    try {
+      const idUsuario = parseInt(getCookie('idUsuario'));
+      const token = getCookie('token');
+
+      const res2 = await fetch(`http://localhost:8080/usuarios/${idUsuario}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res2.ok) throw new Error('Erro ao buscar usuário');
+
+      const informacao = await res2.json();
+      console.log(informacao);
+      setUsuario(informacao);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,16 +48,18 @@ export default function UsuarioSuporte() {
     }
 
     const formData = JSON.stringify({
-      titulo: titulo || null,
-      descricao: descricao || null,
+      titulo,
+      descricao,
     });
 
     try {
+      const token = getCookie('token');
+
       const res = await fetch('http://localhost:8080/duvidas', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibm9tZSI6Ikpvw6NvIGRhIFNpbHZhIiwiaWF0IjoxNzU0NTA0NjQ0LCJleHAiOjE3NTQ1MDgyNDR9.8uQGff3f4bRDOQ8VrE_JPZLzY_8CA-eIagiQvpkV49s`,
+          Authorization: `Bearer ${token}`,
         },
         body: formData,
       });
@@ -35,7 +68,6 @@ export default function UsuarioSuporte() {
         setMensagem('Enviado com sucesso!');
         setTitulo('');
         setDescricao('');
-
       } else {
         setMensagem('Erro ao enviar a dúvida.');
       }
@@ -45,8 +77,12 @@ export default function UsuarioSuporte() {
     }
   };
 
-  return (
+  
+  useEffect(() => {
+    fetchUsuario();
+  }, []);
 
+  return (
     <div className="fundo">
       <div className="geral-suporte">
         <div className="fundoBrancoSuporte">
@@ -55,7 +91,9 @@ export default function UsuarioSuporte() {
               <div className="col-12 col-lg-6 endereco-suporte">
                 <p className="subtitulo-suporte">Precisa de ajuda?</p>
                 <h1 className="titulo-endereco-suporte">Prontos para ouvir você e oferecer a melhor solução.</h1>
-                <p className="title-escola mt-2">Quer mais informações, suporte ou ajuda personalizada? Preencha o formulário e nossa equipe retornará o mais rápido possível.</p>
+                <p className="title-escola mt-2">
+                  Quer mais informações, suporte ou ajuda personalizada? Preencha o formulário e nossa equipe retornará o mais rápido possível.
+                </p>
 
                 <div className="geral-suporte-infos-exp">
                   <i className="bi bi-house-door-fill icon-suporte"></i>
@@ -74,9 +112,7 @@ export default function UsuarioSuporte() {
                     </div>
                   </div>
                 </div>
-
               </div>
-
 
               <div className="col-12 col-lg-6 formularioSuporte p-4">
                 <div className="col-12 col-lg-6 fundo-formularioSuporte">
@@ -84,29 +120,26 @@ export default function UsuarioSuporte() {
                     <div className="mb-3">
                       <fieldset disabled>
                         <div className="mb-3">
-                          <label htmlFor="disabledTextInput" className="form-label suporte-label">
-                            Nome
-                          </label>
+                          <label className="form-label suporte-label">Nome</label>
                           <input
                             type="text"
-                            id="disabledTextInput"
                             className="form-control"
+                            defaultValue={usuario?.nome}
                             placeholder="Nome da pessoa"
                           />
                         </div>
 
                         <div className="mb-3">
-                          <label htmlFor="disabledTextInput" className="form-label suporte-label">
-                            Função
-                          </label>
+                          <label className="form-label suporte-label">Função</label>
                           <input
                             type="text"
-                            id="disabledTextInput"
                             className="form-control"
+                            defaultValue={usuario?.funcao}
                             placeholder="Função da pessoa"
                           />
                         </div>
                       </fieldset>
+
                       <label htmlFor="titulo" className="form-label suporte-label">Título</label>
                       <input
                         type="text"
@@ -126,17 +159,11 @@ export default function UsuarioSuporte() {
                         value={descricao}
                         onChange={(e) => setDescricao(e.target.value)}
                       />
-
                     </div>
                     <button type="submit" className="cssbuttons-io-button">
                       Enviar
                       <div className="icon">
-                        <svg
-                          height={24}
-                          width={24}
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
+                        <svg height={24} width={24} viewBox="0 0 24 24">
                           <path d="M0 0h24v24H0z" fill="none" />
                           <path
                             d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"
@@ -154,6 +181,5 @@ export default function UsuarioSuporte() {
         </div>
       </div>
     </div>
-
   );
 }

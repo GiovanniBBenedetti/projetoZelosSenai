@@ -1,4 +1,4 @@
-import { read, readAll, create, deleteRecord } from "../config/database.js";
+import { read, readAll, create, deleteRecord, update } from "../config/database.js";
 
 const listarDuvidas = async () => {
     try {
@@ -36,4 +36,17 @@ const criarDuvida = async (DuvidaData) => {
         throw error;
         }
     };
-export { listarDuvidas, obterDuvidaPorId, criarDuvida, excluirDuvida}
+
+
+
+
+    const atualizarDuvida = async (id, duvidaData) => {
+    try {
+    await update('duvidas', duvidaData, `id = ${id}`);
+    } catch (error) {
+    console.error('Erro ao atualizar duvida:', error);
+    throw error;
+    }
+    
+};
+export { listarDuvidas, obterDuvidaPorId, criarDuvida, excluirDuvida, atualizarDuvida}

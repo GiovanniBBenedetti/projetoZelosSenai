@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import Select from 'react-select';
 import Box from '@mui/material/Box';
-import { getCookie } from 'cookies-next';   // ⬅️ importa o getCookie
+import { getCookie } from 'cookies-next';
 import './styleSuporteAdm.css';
 
 export default function TabelaPatrimonios() {
@@ -14,49 +14,47 @@ export default function TabelaPatrimonios() {
     const [filtroDescricao, setFiltroDescricao] = useState('');
     const [filtroStatus, setFiltroStatus] = useState('');
 
-    // buscar API
+    const statusOptions = [
+        { value: 'pendente', label: 'Pendente' },
+        { value: 'resolvido', label: 'Resolvido' },
+    ];
+
     useEffect(() => {
         setMounted(true);
 
-        const token = getCookie("token"); // ⬅️ pega o token do cookie
+        const token = getCookie('token');
 
-        fetch("http://localhost:8080/duvidas", {
-            headers: {
-                "Authorization": `Bearer ${token}` // ⬅️ envia o token no header
-            }
+        fetch('http://localhost:8080/duvidas', {
+            headers: { Authorization: `Bearer ${token}` },
         })
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error("Erro ao buscar dados da API");
-                }
+            .then(res => {
+                if (!res.ok) throw new Error('Erro ao buscar dados da API');
                 return res.json();
             })
-            .then((data) => {
-                const adaptado = data.map((item) => ({
+            .then(data => {
+                const adaptado = data.map(item => ({
                     id: item.id,
-                    remetente: item.autor,   // API usa "autor"
+                    remetente: item.autor,
                     titulo: item.titulo,
                     descricao: item.descricao,
-                    status: "Pendente"       // se a API não retorna status
+                    status_duvida: item.status_duvida,
                 }));
                 setTickets(adaptado);
             })
-            .catch((err) => console.error("Erro ao buscar dados:", err));
+            .catch(err => console.error('Erro ao buscar dados:', err));
     }, []);
 
     const handleStatusChange = (id, novoStatus) => {
         setTickets(prev =>
-            prev.map(ticket =>
-                ticket.id === id ? { ...ticket, status: novoStatus } : ticket
-            )
+            prev.map(ticket => (ticket.id === id ? { ...ticket, status_duvida: novoStatus } : ticket))
         );
     };
-
-    const filtrado = tickets.filter((item) =>
-        item.remetente.toLowerCase().includes(filtroRemetente.toLowerCase()) &&
-        item.titulo.toLowerCase().includes(filtroTitulo.toLowerCase()) &&
-        item.descricao.toLowerCase().includes(filtroDescricao.toLowerCase()) &&
-        item.status.toLowerCase().includes(filtroStatus.toLowerCase())
+    const filtrado = tickets.filter(
+        item =>
+            item.remetente.toLowerCase().includes(filtroRemetente.toLowerCase()) &&
+            item.titulo.toLowerCase().includes(filtroTitulo.toLowerCase()) &&
+            item.descricao.toLowerCase().includes(filtroDescricao.toLowerCase()) &&
+            item.status_duvida.toLowerCase().includes(filtroStatus.toLowerCase())
     );
 
     const columns = [
@@ -69,64 +67,78 @@ export default function TabelaPatrimonios() {
             flex: 1,
             minWidth: 300,
             disableColumnMenu: true,
-            renderCell: (params) => <span title={params.value}>{params.value}</span>,
+            renderCell: params => <span title={params.value}>{params.value}</span>,
         },
         {
-            field: 'status',
-            headerName: 'Status',
+            field: 'status_duvida',
+            headerName: 'status_duvida',
             width: 150,
             disableColumnMenu: true,
-            renderCell: (params) => (
-                <Select
-                    value={{ value: params.value, label: params.value }}
-                    onChange={(option) => handleStatusChange(params.row.id, option.value)}
-                    options={[
-                        { value: 'Pendente', label: 'Pendente' },
-                        { value: 'Resolvido', label: 'Resolvido' },
-                    ]}
-                    menuPortalTarget={document.body}
-                    styles={{
-                        control: (provided) => ({
-                            ...provided,
-                            backgroundColor: 'transparent',
-                            border: 'none',
-                            boxShadow: 'none',
-                            minHeight: '30px',
-                            fontSize: '0.9rem',
-                        }),
-                        singleValue: (provided) => ({
-                            ...provided,
-                            color: '#000000',
-                        }),
-                        option: (provided, state) => ({
-                            ...provided,
-                            backgroundColor: state.isFocused ? '#8e0009' : '#b5000c',
-                            color: '#fff',
-                            '&:active': {
-                                backgroundColor: '#8e0009',
+            renderCell: params => {
+                const token = getCookie('token');
+                const [selectedStatus, setSelectedStatus] = useState({
+                    value: params.value,
+                    label: params.value.charAt(0).toUpperCase() + params.value.slice(1),
+                });
+
+                const handleChange = async option => {
+                    setSelectedStatus(option);
+                    handleStatusChange(params.row.id, option.value);
+
+                    try {
+                        await fetch(`http://localhost:8080/duvidas/${params.row.id}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Authorization: `Bearer ${token}`,
                             },
-                        }),
-                        indicatorSeparator: () => ({
-                            display: 'none',
-                        }),
-                    }}
-                    isSearchable={false}
-                />
-            )
-        }
+                            body: JSON.stringify({ status_duvida: option.value }),
+                        });
+                    } catch (err) {
+                        console.error('Erro ao atualizar status:', err);
+                    }
+                };
+
+                return (
+                    <Select
+                        options={statusOptions}
+                        value={selectedStatus}
+                        onChange={handleChange}
+                        menuPortalTarget={document.body}
+                        styles={{
+                            control: provided => ({
+                                ...provided,
+                                backgroundColor: 'transparent',
+                                border: 'none',
+                                boxShadow: 'none',
+                                minHeight: '30px',
+                                fontSize: '0.9rem',
+                            }),
+                            singleValue: provided => ({ ...provided, color: '#000000' }),
+                            option: (provided, state) => ({
+                                ...provided,
+                                backgroundColor: state.isFocused ? '#8e0009' : '#b5000c',
+                                color: '#fff',
+                                '&:active': { backgroundColor: '#8e0009' },
+                            }),
+                            indicatorSeparator: () => ({ display: 'none' }),
+                            menuPortal: base => ({ ...base, zIndex: 9999 }),
+                        }}
+                        isSearchable={false}
+                    />
+                );
+            },
+        },
     ];
 
-    const [paginationModel, setPaginationModel] = useState({
-        page: 0,
-        pageSize: 10,
-    });
+    const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 });
 
     return (
         <div className="geral-patrimonios vh-100 d-flex flex-column">
             <div className="container total-adm flex-grow-1 d-flex flex-column">
                 <p className="tituloMedicos mb-3">Controle de Suporte:</p>
 
-                {/* filtros (mantidos) */}
+                {/* filtros */}
                 <div className="container-filtro-pacientes mb-5 mb-sm-4 mt-4 mt-sm-0">
                     <div className="row g-3">
                         <div className="col-12 col-md-6 custom-col-1080">
@@ -140,7 +152,7 @@ export default function TabelaPatrimonios() {
                                     className="form-control"
                                     placeholder="Nome do remetente"
                                     value={filtroRemetente}
-                                    onChange={(e) => setFiltroRemetente(e.target.value)}
+                                    onChange={e => setFiltroRemetente(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -156,7 +168,7 @@ export default function TabelaPatrimonios() {
                                     className="form-control"
                                     placeholder="Título"
                                     value={filtroTitulo}
-                                    onChange={(e) => setFiltroTitulo(e.target.value)}
+                                    onChange={e => setFiltroTitulo(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -172,7 +184,7 @@ export default function TabelaPatrimonios() {
                                     className="form-control"
                                     placeholder="Descrição"
                                     value={filtroDescricao}
-                                    onChange={(e) => setFiltroDescricao(e.target.value)}
+                                    onChange={e => setFiltroDescricao(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -188,7 +200,7 @@ export default function TabelaPatrimonios() {
                                     className="form-control"
                                     placeholder="Status"
                                     value={filtroStatus}
-                                    onChange={(e) => setFiltroStatus(e.target.value)}
+                                    onChange={e => setFiltroStatus(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -205,7 +217,7 @@ export default function TabelaPatrimonios() {
                                 paginationModel={paginationModel}
                                 onPaginationModelChange={setPaginationModel}
                                 pageSizeOptions={[10, 15, 20, 50]}
-                                getRowId={(row) => row.id}
+                                getRowId={row => row.id}
                                 disableRowSelectionOnClick
                             />
                         </Box>

@@ -12,6 +12,8 @@ const Sidebar = ({ isSidebarOpen }) => {
   const [funcao, setFuncao] = useState('');
   const pathname = usePathname();
   const [isDropdownOpen, setIsDropdownOpen] = useState({});
+  const [userData, setUserData] = useState(null);
+  const [photoUrl, setPhotoUrl] = useState(null);
 
   useEffect(() => {
     const name = getCookie('nome');
@@ -21,6 +23,29 @@ const Sidebar = ({ isSidebarOpen }) => {
     if (name) setUserName(name);
     if (email) setUserEmail(email);
     if (funcaoCookie) setFuncao(funcaoCookie.toLowerCase());
+
+    const fetchUserData = async () => {
+      try {
+        const token = getCookie('token');
+        const res = await fetch('http://localhost:8080/usuarios/perfil', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (!res.ok) throw new Error('Erro ao buscar dados do usuário');
+
+        const data = await res.json();
+        setUserData(data);
+
+        // Se a resposta tiver caminho da foto, define a URL
+        if (data.foto) {
+          setPhotoUrl(`http://localhost:8080${data.foto}`);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchUserData();
   }, []);
 
   const handleLogout = () => {
@@ -52,6 +77,7 @@ const Sidebar = ({ isSidebarOpen }) => {
 
   const menus = {
     admin: [
+      { link: '/admin/perfil', icon: 'bi bi-person-fill', label: 'Perfil' },
       { link: '/admin', icon: 'bi bi-pie-chart-fill', label: 'Dashboard' },
       {
         type: 'dropdown',
@@ -68,6 +94,7 @@ const Sidebar = ({ isSidebarOpen }) => {
       { link: '/admin/suporte', icon: 'bi bi-chat-text-fill', label: 'Ajuda' },
     ],
     usuario: [
+       { link: '/usuario/perfil', icon: 'bi bi-person-fill', label: 'Perfil' },
       { link: '/usuario', icon: 'bi bi-pie-chart-fill', label: 'Dashboard' },
       {
         type: 'dropdown',
@@ -81,6 +108,7 @@ const Sidebar = ({ isSidebarOpen }) => {
       { link: '/usuario/suporte', icon: 'bi bi-chat-text-fill', label: 'Ajuda' },
     ],
     tecnico: [
+       { link: '/tecnico/perfil', icon: 'bi bi-person-fill', label: 'Perfil' },
       { link: '/tecnico/', icon: 'bi bi-pie-chart-fill', label: 'Dashboard' },
       {
         type: 'dropdown',
@@ -100,10 +128,7 @@ const Sidebar = ({ isSidebarOpen }) => {
       const isOpen = isDropdownOpen[menu.label];
       return (
         <div key={menu.label}>
-          <a
-            className={`sidebar__link`}
-            onClick={() => toggleDropdown(menu.label)}
-          >
+          <a className="sidebar__link" onClick={() => toggleDropdown(menu.label)}>
             <i className={menu.icon}></i>
             <span>{menu.label}</span>
             <i className={`bi bi-chevron-down dropdown-icon ${isOpen ? 'rotate' : ''}`}></i>
@@ -143,13 +168,18 @@ const Sidebar = ({ isSidebarOpen }) => {
       <div className="sidebar__container">
         <div className="sidebar__user">
           <div className="sidebar__img">
-            <div className="sidebar__avatar">{iniciais}</div>
+            {photoUrl ? (
+              <img src={photoUrl} alt="Foto do usuário" className="sidebar__avatar-img" />
+            ) : (
+              <div className="sidebar__avatar">{iniciais}</div>
+            )}
           </div>
           <div className="sidebar__info">
             <h3><strong>{nomeExibido}</strong></h3>
             <span>{userEmail}</span>
           </div>
         </div>
+
         <div className="sidebar__content">
           <div>
             <h3 className="sidebar__title">MENU</h3>
@@ -158,6 +188,7 @@ const Sidebar = ({ isSidebarOpen }) => {
             </div>
           </div>
         </div>
+
         <div className="sidebar__actions">
           <button className="sidebar__link" onClick={handleLogout}>
             <i className="bi bi-door-closed-fill"></i>

@@ -1,4 +1,4 @@
-import { listarDuvidas, obterDuvidaPorId, criarDuvida, excluirDuvida} from '../models/Duvidas.js';
+import { listarDuvidas, obterDuvidaPorId, criarDuvida, excluirDuvida, atualizarDuvida} from '../models/Duvidas.js';
 
 
 const listarDuvidasController = async (req, res) => {
@@ -43,6 +43,24 @@ const criarDuvidaController = async (req, res) => {
         res.status(500).json({ mensagem: 'Erro ao criar duvida' });
     }
 }
+const atualizarStatusDuvidaController = async (req, res) => {
+    try {
+        const duvidaId = req.params.id;
+        const { status_duvida } = req.body;
+
+        if (!status_duvida) {
+            return res.status(400).json({ mensagem: "Status é obrigatório" });
+        }
+
+        await atualizarDuvida(duvidaId, { status_duvida });
+
+        res.status(200).json({ mensagem: "Status da duvída atualizado com sucesso" });
+    } catch (error) {
+        console.error("Erro ao atualizar status da duvída:", error);
+        res.status(500).json({ mensagem: "Erro ao atualizar status do duvída" });
+    }
+};
+
 
 
 const excluirDuvidaController = async (req, res) => {
@@ -58,5 +76,5 @@ const excluirDuvidaController = async (req, res) => {
 
 export {
     listarDuvidasController, obterDuvidaPorIdController,
-    criarDuvidaController,  excluirDuvidaController
+    criarDuvidaController,  excluirDuvidaController, atualizarStatusDuvidaController
 };

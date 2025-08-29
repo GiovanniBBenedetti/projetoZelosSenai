@@ -1,4 +1,4 @@
-import { read, readAll, create, deleteRecord } from "../config/database.js";
+import { read, readAll, create, deleteRecord, update } from "../config/database.js";
 
 const listarPatrimonios = async () => {
     try {
@@ -28,6 +28,14 @@ const criarPatrimonio = async (patrimonioData) => {
 };
 
 
+    const atualizarStatusPatrimonio = async (id, equipamentoData) => {
+    try {
+    await update('equipamentos', equipamentoData, `PATRIMONIO = ${id}`);
+    } catch (error) {
+    console.error('Erro ao atualizar patrimônio:', error);
+    throw error;
+    }
+}
 
 
     const excluirPatrimonio  = async (id) => {
@@ -38,4 +46,4 @@ const criarPatrimonio = async (patrimonioData) => {
         throw error;
         }
     };
-export {listarPatrimonios, obterPatrimonioPorId, criarPatrimonio,excluirPatrimonio}
+export {listarPatrimonios, obterPatrimonioPorId, criarPatrimonio,excluirPatrimonio, atualizarStatusPatrimonio}
