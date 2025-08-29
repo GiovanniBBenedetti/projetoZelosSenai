@@ -1,8 +1,12 @@
 import { read, readAll, create, deleteRecord, update } from "../config/database.js";
 
-const listarPatrimonios = async () => {
+const listarPatrimonios = async (status = null) => {
     try {
-        return await readAll('equipamentos')
+           if (status) {
+            return await readAll('equipamentos', `status = '${status}'`);
+        } else {
+            return await readAll('equipamentos');
+        }
     } catch (err) {
         console.error('Erro ao listar Patrimônios: ', err)
         throw err

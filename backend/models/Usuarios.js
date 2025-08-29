@@ -9,7 +9,7 @@ const obterUsuario = async (numeroRegistro) => {
     }
 };
 
-const criarUsuario = async (dados) =>{
+const criarUsuario = async (dados) => {
     try {
         return await create('usuarios', dados)
     } catch (err) {
@@ -18,9 +18,13 @@ const criarUsuario = async (dados) =>{
     }
 }
 
-const listarTodosUsuarios = async () => {
+const listarTodosUsuarios = async (status = null) => {
     try {
-        return await readAll('usuarios')
+        if (status) {
+            return await readAll('usuarios', `status = '${status}'`);
+        } else {
+            return await readAll('usuarios');
+        }
     } catch (err) {
         console.error('Erro ao listar usuarios: ', err)
         throw err
@@ -28,21 +32,21 @@ const listarTodosUsuarios = async () => {
 };
 
 const listarUsuarioPorId = async (id) => {
-  try {
-    return await read('usuarios', `id = ${id}`);
-  } catch (error) {
-    console.error('Erro ao listar usuário por ID:', error);
-    throw error;
-  }
+    try {
+        return await read('usuarios', `id = ${id}`);
+    } catch (error) {
+        console.error('Erro ao listar usuário por ID:', error);
+        throw error;
+    }
 }
 const atualizarUsuario = async (id, usuarioData) => {
     try {
-    await update('usuarios', usuarioData, `id = ${id}`);
+        await update('usuarios', usuarioData, `id = ${id}`);
     } catch (error) {
-    console.error('Erro ao atualizar usuario:', error);
-    throw error;
+        console.error('Erro ao atualizar usuario:', error);
+        throw error;
     }
 };
 
 
-export { obterUsuario, criarUsuario, listarTodosUsuarios, listarUsuarioPorId, atualizarUsuario};
+export { obterUsuario, criarUsuario, listarTodosUsuarios, listarUsuarioPorId, atualizarUsuario };

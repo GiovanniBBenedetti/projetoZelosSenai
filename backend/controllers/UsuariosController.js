@@ -9,9 +9,19 @@ const __dirname = path.dirname(__filename);
 
 
 const listarUsuariosController = async (req, res) => {
+
+
     try {
-        const usuariuos = await listarTodosUsuarios()
-        res.status(200).json(usuariuos)
+        const { status } = req.query;
+
+        let usuarios;
+        if (status) {
+            usuarios = await listarTodosUsuarios(status);
+        } else {
+            usuarios = await listarTodosUsuarios();
+        }
+     
+        res.status(200).json(usuarios)
     } catch (err) {
         console.error('Erro ao listar usuarios: ', err)
         res.status(500).json({ mensagem: 'Erro ao listar usuarios' })
@@ -73,14 +83,14 @@ const atualizarFotoUsuarioController = async (req, res) => {
 
         let fotoPath = null;
         if (req.file) {
-            
+
             fotoPath = req.file.path.replace(__dirname.replace('\\controllers', ''), '');
         }
 
-     
+
         const dadosAtualizacao = {};
-        if (fotoPath) dadosAtualizacao.foto = fotoPath; 
-      
+        if (fotoPath) dadosAtualizacao.foto = fotoPath;
+
 
         if (Object.keys(dadosAtualizacao).length === 0) {
             return res.status(400).json({ mensagem: "Nenhum dado para atualizar" });
