@@ -73,7 +73,6 @@ const atualizarFotoUsuarioController = async (req, res) => {
 
         let fotoPath = null;
         if (req.file) {
-
             fotoPath = req.file.path.replace(__dirname.replace('\\controllers', ''), '');
         }
 

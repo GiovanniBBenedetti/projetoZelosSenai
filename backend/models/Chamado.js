@@ -36,7 +36,6 @@ const chamadosVirgens = async (status) => {
   }
 };
 
-
 const atribuicaoChamadosVirgens = async (id, chamadoData) => {
   try {
     await update('chamados', chamadoData, `id = ${id}`);
@@ -46,8 +45,18 @@ const atribuicaoChamadosVirgens = async (id, chamadoData) => {
   }
 };
 
+const leituraDeTodosChamados = async () => {
+  try {
+    return await readAll('chamados');
+  } catch (error) {
+    console.error('Erro ao obter consultas:', error);
+    throw error;
+  }
+};
+
 export {
   criarChamado,
+  leituraDeTodosChamados,
   leituraChamados,
   chamadosVirgens,
   atribuicaoChamadosVirgens,

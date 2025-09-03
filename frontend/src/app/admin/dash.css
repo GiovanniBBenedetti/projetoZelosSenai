@@ -135,6 +135,10 @@ height: 250px;
   color: #e30615; /* Cor para chamados não iniciados */
 }
 
+.dash-porcent {
+  border: 1px solid var(--preto);
+}
+
 .dash-porcent span {
   font-weight: bold;
   font-size: 2rem;

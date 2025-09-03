@@ -3,7 +3,12 @@ import {
   leituraChamados,
   chamadosVirgens,
   atribuicaoChamadosVirgens,
+  leituraDeTodosChamados
 } from '../models/Chamado.js';
+import { fileURLToPath } from 'url';
+import path from 'path'
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const criarChamadoController = async (req, res) => {
   if (!req.usuario.id) {
@@ -23,6 +28,13 @@ const criarChamadoController = async (req, res) => {
         mensagem:
           'Não foi possível criar seu chamado, pois já existe um registro para este mesmo patrimônio e tipo solicitado em aberto.',
       });
+    }
+
+    let arquivos = null;
+    if (req.files && req.files.length > 0) {
+      arquivos = req.files
+        .map(file => file.path.replace(__dirname.replace("\\controllers", ""), ""))
+        .join(",");
     }
 
     const chamadoData = {
@@ -48,7 +60,7 @@ const criarChamadoController = async (req, res) => {
 
 const listarChamadosController = async (req, res) => {
   try {
-    const { status } = req.query; 
+    const { status } = req.query;
 
     let chamados;
     if (status) {
@@ -90,8 +102,19 @@ const atribuirChamadoController = async (req, res) => {
   }
 };
 
+const listarTodosChamadosController = async (req, res) => {
+  try {
+    const chamados = await leituraDeTodosChamados();
+    res.status(200).json(chamados);
+  } catch (err) {
+    console.error(`Erro ao listar todos os chamados: `, err);
+    res.status(500).json({ mensagem: 'Erro ao listar chamados' });
+  }
+};
+
 export {
   criarChamadoController,
   listarChamadosController,
   atribuirChamadoController,
+  listarTodosChamadosController
 };

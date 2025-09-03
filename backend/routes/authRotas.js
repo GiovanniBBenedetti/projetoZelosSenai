@@ -19,6 +19,8 @@ router.post('/login', (req, res, next) => {
           return res.status(500).json({ error: 'Erro ao criar sessão' });
         }
 
+        console.log(user);
+
         await loginSucessoController(req, res); 
       });
     } catch (error) {
