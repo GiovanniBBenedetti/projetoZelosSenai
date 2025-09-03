@@ -15,69 +15,261 @@
 
 .card-virgem {
   border-radius: 10px;
-  height: 6rem;
-  width: 55rem;
+  margin-right: 1rem;
+  margin-left: 1rem;
   flex-direction: row;
+  height: auto;
+  min-height: 6rem;
+  padding: 0.5rem;
+
 }
 
-.imgPerfil-virgem{
+.avatar-card-user{
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--vermelho), var(--vermelhoEscuro));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  color: var(--branco);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.imgPerfil-virgem {
   border-radius: 100%;
-  height: 4.3rem;
-  width: 5rem;
+  height: 4.8rem;
+  width: 4.8rem;
 }
 
 .borderColorPrioridade-1-virgem {
-  border-left: solid var(--prioridade-maxima) 15px;
+  border-left: solid #417bd5 15px;
 }
 
 .borderColorPrioridade-2-virgem {
-  border-left: solid var(--prioridade-minima) 15px;
+  border-left: solid #4cc78b  15px;
 }
 
 .borderColorPrioridade-3-virgem {
-  border-left: solid var(--prioridade-baixa) 15px;
+  border-left: solid #ff9d59  15px;
 }
 
 .borderColorPrioridade-4-virgem {
-  border-left: solid var(--prioridade-maxima) 15px;
+  border-left: solid #d83d65  15px;
 }
 
-.prioridadeP-1{
-  color: var(--prioridade-maxima);
+.prioridadeP {
+  color: #fff;
 }
 
-.prioridadeP-2{
-  color: var(--prioridade-minima);
-}
 
-.prioridadeP-3{
-  color: var(--prioridade-baixa);
-}
-
-.prioridadeP-4{
-  color: var(--prioridade-maxima);
-}
-
-.prioridade-virgem-1{
-  background-color: #dbc9ca;
+.prioridade-virgem-1 {
+  background-color: #417bd5;
   border-radius: 20px;
   padding: 10px;
 }
 
-.prioridade-virgem-2{
-  background-color: #dce5ae;
+
+.prioridade-virgem-2 {
+  background-color: #4cc78b;
   border-radius: 20px;
   padding: 10px;
 }
 
-.prioridade-virgem-3{
-  background-color: #b1c7ba;
+.prioridade-virgem-3 {
+  background-color: #ff9d59;
   border-radius: 20px;
   padding: 10px;
 }
 
-.prioridade-virgem-4{
-  background-color: #c0868a;
+.prioridade-virgem-4 {
+  background-color: #d83d65;
   border-radius: 20px;
   padding: 10px;
+}
+
+.titulo-virgem h2 {
+  font-size: 16px;
+  width: 11rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.titulo-virgem p {
+  font-size: 14px;
+}
+
+.user-virgem div h6 {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.user-virgem p {
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btn-ficha-virgem-ativado {
+  border-bottom: solid 2px #e30615;
+
+}
+
+.btn-chat-virgem-ativado {
+  border-bottom: solid 2px #e30615;
+
+}
+
+.modal-body {
+  max-height: 400px;
+  overflow-y: auto;
+  height: 25rem;
+}
+
+.info-ficha-virgem>p {
+  width: 60%;
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .card-virgem {
+    padding: 0.3rem;
+    min-height: 5rem;
+  }
+
+  .imgPerfil-virgem {
+    height: 3.5rem;
+    width: 3.5rem;
+  }
+
+  .titulo-virgem h2 {
+    font-size: 14px;
+    width: 8rem;
+  }
+
+  .titulo-virgem p {
+    font-size: 12px;
+  }
+
+  .prioridade-virgem-1,
+  .prioridade-virgem-2,
+  .prioridade-virgem-3,
+  .prioridade-virgem-4 {
+    padding: 6px 8px;
+  }
+
+  .prioridade-virgem-1 p,
+  .prioridade-virgem-2 p,
+  .prioridade-virgem-3 p,
+  .prioridade-virgem-4 p {
+    font-size: 11px;
+  }
+
+  .user-virgem div h6 {
+    font-size: 12px;
+  }
+
+  .user-virgem p {
+    font-size: 12px;
+  }
+
+  .more-virgem i {
+    font-size: 1.4rem;
+  }
+
+  
+   .info-ficha-virgem{
+    gap: 0 !important;
+   }
+
+   .modal-body .infos-ficha-virgem{
+    gap: 0 !important;
+   }
+
+ .info-ficha-virgem>p {
+    width: 100%;
+  }
+}
+
+@media (max-width: 575px) {
+
+   .info-ficha-virgem{
+    gap: 0 !important;
+   }
+
+   .modal-body .infos-ficha-virgem{
+    gap: 0 !important;
+   }
+
+ .info-ficha-virgem>p {
+    width: 100%;
+  }
+}
+
+
+.ficha-tecnica-user {
+  font-size: 14px;
+  color: var(--preto-zelos);
+}
+
+.label-user {
+  font-weight: 400;
+  font-size: 16px;
+  margin-bottom: 2px;
+  border-bottom: 2px solid var(--vermelho-principal);
+  display: inline-block;
+}
+
+.valor-user {
+  margin-top: 2px;
+  font-weight: 700;
+  font-size: 15px;
+  margin: 0;
+}
+
+
+.BotaoCriarChamado{
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: inherit;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 17px;
+    padding: 0.5em 0.5em;
+    color: white;
+    background: linear-gradient(
+      to right,
+      var(--vermelho),
+      var(--vermelhoMedio),
+      var(--vermelhoEscuro)
+    );
+    border: none;
+    letter-spacing: 0.05em;
+    border-radius: 20px;
+    width: 100%;
+  }
+
+  button i {
+    margin-right: 20px;
+    font-size: 1.2rem;
+    transform: rotate(0deg);
+    transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+  }
+
+  button span {
+    transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+  }
+
+  button:hover i {
+    transform: translateX(5px) rotate(30deg);
+  }
+
+  button:hover span {
+    transform: translateX(7px);
+  }
 }

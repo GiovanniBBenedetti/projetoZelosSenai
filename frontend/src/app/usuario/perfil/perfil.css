@@ -1,77 +1,129 @@
+:root {
+    --branco: #ffff;
+    --vermelhoEscuro: #8e0009;
+    --vermelhoMedio: #b5000c;
+    --vermelho: #e30615;
+    --vermelhoClaro: #ffb6b6;
+    --preto: #000000;
+    --pretuAzulado: #101820;
+    --pretoNav: #1f1d1d;
+    --cinzaFundo: #f4f4f4;
+    --cinza: #eaeaea;
+}
+
+.superior-perfil {
+    background-color: var(--pretoNav);
+    width: 99%;
+    border-radius: 12px;
+    margin-top: -15px;
+    margin-bottom: -13px;
+}
+
 .photo-content-perfil {
-  padding-right: 2.5rem;
-  margin-bottom: 1.5rem;
+    padding-right: 2.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .photo-perfil {
-  border-radius: 20px;
-  background-color: var(--pretoNav);
-  color: var(--branco);
-  padding: 2rem;
+    border-radius: 12px;
+    background-color: var(--pretoNav);
+    color: var(--branco);
+    padding: 2rem;
 }
 
 .photo-perfil .photo-img-perfil {
-  text-align: center;
+    text-align: center;
 }
 
 .photo-btn-perfil {
-  border: 1px solid var(--branco);
-  color: var(--branco);
+    border: 1px solid var(--branco);
+    color: var(--branco);
 }
 
 .photo-btn-perfil:hover {
-  background-color: var(--vermelho);
+    background-color: var(--vermelho);
 }
+
 
 .AvatarPerfil {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--vermelho), var(--vermelhoEscuro));
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.5rem;
-  color: var(--branco);
-  text-transform: uppercase;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--vermelho), var(--vermelhoEscuro));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    color: var(--branco);
+    text-transform: uppercase;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.infos-perfil {
-  border-radius: 20px;
-  background-color: var(--pretoNav);
-  color: var(--branco);
-  padding: 2.5rem;
+.inferior-perfil {
+    display: flex;
 }
 
-.infos-perfil label {
-  font-size: .9rem;
-}
 
-input.form-control.InputPerfil.fst-italic {
-  background-color: var(--pretoNav);
-  border: none;
-  color: var(--branco);
-  margin: 0;
-  padding: 0;
-  font-size: 1.1rem;
+.inferior-direita-perfil {
+    background-color: var(--pretoNav);
+    border-radius: 12px;
+    width: 35%;
 }
 
 .react-calendar {
-  background: var(--pretoNav);
-  color: var(--branco);
-  border-radius: 10px;
-  width: 350px;
-  max-width: 100%;
-  font-family: Arial, Helvetica, sans-serif;
-  line-height: 1.125em;
-  padding: 1rem;
+    background: var(--pretoNav);
+    color: var(--branco);
+    border-radius: 12px;
+    width: 350px;
+    max-width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.125em;
+    padding: 1rem;
+    border: none;
+}
+
+.react-calendar__tile--now {
+    background: var(--vermelhoClaro) !important;
+}
+
+.react-calendar__tile--active {
+    color: #fff;
+    background: var(--vermelho) !important;
 }
 
 
-@media (max-width: 768px) {
-  .photo-content-perfi {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
+
+.inferior-esquerda-perfil {
+    width: 65%;
+    color: var(--branco);
+}
+
+.cima-inferior-esquerda-perfil {
+    background-color: var(--pretoNav);
+    border-radius: 12px;
+    width: 100%;
+}
+
+.form-control:disabled {
+    background-color: transparent;
+    border: none;
+    color: var(--branco);
+    font-size: 17px;
+}
+
+.InputPerfil {
+    margin-left: -12px;
+}
+
+.baixo-inferior-esquerda-perfil {
+    background-color: var(--pretoNav);
+    border-radius: 12px;
+    width: 100%;
+}
+
+.linha-inferior-perfil {
+    background-color: var(--vermelho);
+    width: 100%;
+    height: 1.5px;
+    border-radius: 5px;
 }

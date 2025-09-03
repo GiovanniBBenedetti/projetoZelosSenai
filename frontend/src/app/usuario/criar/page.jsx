@@ -297,7 +297,6 @@ export default function CriarChamado() {
           </div>
           <Button funcao={chamado} />
         </div>
-        {resposta && <h1>{resposta}</h1>}
       </div>
     </>
   );

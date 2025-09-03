@@ -1,17 +1,32 @@
-// src/components/Card/CardUser.jsx
-
 "use client";
 import "./cardUser.css";
 import React, { useEffect, useState } from "react";
-import BtnChat from "@/components/BtnChatUser/Btnchat";
-import Chat from "@/components/Chat/Chat.jsx";
-import Progress from "@/components/progress/progress-bar.jsx";
-import { getCookie } from "cookies-next";
+import Chat from "../Chat/Chat";
+import ProgressBar from "../progress/progress-bar";
+import { getCookie } from "cookies-next/client";
 
 export default function Carrosel({ chamados = [] }) {
   const [funcao, setFuncao] = useState("");
   const [iniciais, setIniciais] = useState("");
   const [nomeExibido, setNomeExibido] = useState("");
+  const [photoUrl, setPhotoUrl] = useState(null);
+  const [page, setPage] = useState(1);
+  const [tipoChamado, setTipoChamado] = useState();
+
+  const opcoesTipos = [
+    { value: '1', label: 'Externo' },
+    { value: '2', label: 'Manutenção' },
+    { value: '3', label: 'Apoio Técnico' },
+    { value: '4', label: 'Limpeza' },
+  ];
+
+
+  function page1() {
+    setPage(1);
+  }
+  function page2() {
+    setPage(2);
+  }
 
   useEffect(() => {
     const funcaoCookie = getCookie("funcao");
@@ -22,18 +37,67 @@ export default function Carrosel({ chamados = [] }) {
     if (nome) {
       const partes = nome.trim().split(" ");
       const iniciaisCalculadas =
-        (partes[0]?.charAt(0).toUpperCase() || '') +
-        (partes[partes.length - 1]?.charAt(0).toUpperCase() || '');
-      const nomeExibidoCalculado = `${partes[0]?.charAt(0).toUpperCase() + partes[0]?.slice(1).toLowerCase()} ${
-        partes[partes.length - 1]
+        (partes[0]?.charAt(0).toUpperCase() || "") +
+        (partes[partes.length - 1]?.charAt(0).toUpperCase() || "");
+      const nomeExibidoCalculado = `${partes[0]?.charAt(0).toUpperCase() +
+        partes[0]?.slice(1).toLowerCase()
+        } ${partes[partes.length - 1]
           ? partes[partes.length - 1].charAt(0).toUpperCase() +
-            partes[partes.length - 1].slice(1).toLowerCase()
-          : ''
-      }`;
+          partes[partes.length - 1].slice(1).toLowerCase()
+          : ""
+        }`;
       setIniciais(iniciaisCalculadas);
       setNomeExibido(nomeExibidoCalculado);
     }
+
+    const fetchTipoChamado = async () => {
+      try {
+        const token = getCookie("token");
+        const res = await fetch("http://localhost:8080/chamadosArea", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+
+        if (!res.ok) throw new Error("Erro ao buscar tipos de chamados");
+
+        const data = await res.json();
+        setTipoChamado(data);
+
+      } catch (err) {
+        console.error("Erro ao buscar tipos de chamados:", err);
+      }
+    };
+
+
+    const fetchUserData = async () => {
+      try {
+        const token = getCookie("token");
+        const res = await fetch("http://localhost:8080/usuarios/perfil", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (!res.ok) throw new Error("Erro ao buscar dados do usuário");
+
+        const data = await res.json();
+        if (data.foto) {
+          setPhotoUrl(`http://localhost:8080${data.foto}`);
+        }
+      } catch (err) {
+        console.error("Erro ao buscar foto do usuário:", err);
+      }
+    };
+
+    fetchUserData();
+    fetchTipoChamado();
   }, []);
+
+  function capitalizeFirst(str = "") {
+    if (!str) return "";
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  }
 
   const prioridades = {
     1: "Intervenção Preventiva",
@@ -44,127 +108,178 @@ export default function Carrosel({ chamados = [] }) {
 
   return (
     <>
-      {Array(chamados).map((chamado) => {
+      {chamados.map((chamado, index) => {
         const isConcluido = chamado.status === "concluído";
-        
         return (
-          <div key={chamado.id} className="d-flex flex-wrap justify-content-center gap-4">
+          <div key={index}>
             <div
-              className={`${
-                isConcluido ? "card-desativado-user" : "card-user"
-              } d-flex flex-column align-items-center justify-content-center`}
+              className={`card mt-2 ${isConcluido ? "card-user-desativado" : "card-user"
+                } row borderColorPrioridade-${chamado.grau_prioridade}-user`}
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target={`#exampleModal-${chamado.id}`}
             >
-              <div
-                className={`card-prioridade-${chamado.grau_prioridade}-user d-flex align-items-center justify-content-center`}
-              >
-                <p>{prioridades[chamado.grau_prioridade]}</p>
+              <div className="col-12 col-sm-2 col-md-2 ms-md-2 align-items-center d-flex justify-content-center justify-content-sm-start">
+                {photoUrl ? (
+                  <img
+                    src={photoUrl}
+                    alt="Foto do usuário"
+                    className="rounded-circle"
+                    style={{ width: "80px", height: "80px", objectFit: "cover" }}
+                  />
+                ) : (
+                  <div className="avatar-card-user">{iniciais}</div>
+                )}
               </div>
 
-              <main className="d-grid mt-4">
-                <div className="card-titulo-user ">
-                  <h3>{chamado.titulo}</h3>
-                
-                </div>
-                <div className="card-patrimonio-user d-grid w-100 justify-content-center align-items-center">
-                  <p>{chamado.patrimonio}</p>
-                </div>
-                <div className="card-data-user d-grid w-100 justify-content-center align-items-center">
-                  <p>
-                    <b>Criado em:</b>{" "}
+              <div className="col-12 col-sm-3 col-md-3 align-items-center justify-content-center justify-content-sm-start d-grid mt-2 mt-sm-0">
+                <div className="titulo-user justify-content-start align-items-center d-grid text-center text-sm-start">
+                  <h2>{chamado.titulo}</h2>
+                  <p className="m-0">
+                    Iniciado no dia{" "}
                     {new Date(chamado.criado_em).toLocaleDateString("pt-BR")}
                   </p>
                 </div>
-                <div className="status-card-user d-flex align-items-center justify-content-center">
-                  <p>{chamado.status}</p>
-                </div>
-                <div className="">
-                  <Progress step={chamado.status} />
-                </div>
-              </main>
+              </div>
 
-              <button
-                  type="button"
-                  className={`btn ${
-                    isConcluido ? "btn-desativado" : ""
-                  } mt-2 mb-3`}
-                  data-bs-toggle="modal"
-                  data-bs-target={`#modal-${chamado.id}`}
+              <div className="col-12 col-sm-3 col-md-3 align-items-center justify-content-center d-flex mt-2 mt-sm-0">
+                <div
+                  className={`prioridade-user-${chamado.grau_prioridade} align-items-center justify-content-center d-flex`}
                 >
-                  <BtnChat />
-                </button>
+                  <p
+                    className={`m-0 prioridadeP-$`}
+                  >
+                    {capitalizeFirst(chamado.status)}
+                  </p>
+                </div>
+              </div>
 
-              {/* Modal */}
+              <div className="user-user col-12 col-sm-2 col-md-2 align-items-center justify-content-center justify-content-sm-start d-grid mt-2 mt-sm-0">
+                <div className="align-items-center justify-content-center d-grid">
+                  <h6 className="m-0 text-center text-sm-start">Usuário</h6>
+                  <p className="m-0">{chamado.usuario_id}</p>
+                </div>
+              </div>
+
+              <div className="col-12 col-sm-1 col-md-1 more-user align-items-center justify-content-center d-flex mt-2 mt-sm-0">
+                <i className="bi bi-plus fs-1"></i>
+              </div>
             </div>
+
+
+
+
             <div
               className="modal fade"
-              id={`modal-${chamado.id}`}
+              id={`exampleModal-${chamado.id}`}
               tabIndex={-1}
-              aria-labelledby={`modalLabel-${chamado.id}`}
+              aria-labelledby={`exampleModalLabel-${chamado.id}`}
               aria-hidden="true"
             >
-              <div className="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered">
-                <div className="modal-content flex-column flex-md-inline">
-                  <div className="modal-header d-flex ms-4 align-items-center justify-content-center">
-                    <h2 className="modal-title" id={`modalLabel-${chamado.id}`}>
-                      <b>Ficha Técnica:</b>
-                    </h2>
-                    {chamado.tecnico_id ==  0 &&  (
-                      <div className="modal-inicial-user d-md-grid d-none sticky-top bg-white">
-                        <div className="d-flex">
-                          <div className="img-avatar-user">
-                            <p>{iniciais}</p>
-                          </div>
-                          <div className="nome-chat-user">{nomeExibido}</div>
-                        </div>
-                      </div>
-                    ) }
+              <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content">
+                  <div className="modal-header gap-4">
+                    {page === 1 ? (
+                      <>
+                        <button onClick={page1} className="btn-ficha-user-ativado">
+                          <h1 className="modal-title fs-5">Ficha Técnica</h1>
+                        </button>
+
+                        <button onClick={page2}>
+                          <h1 className="modal-title fs-5">Chat</h1>
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button onClick={page1}>
+                          <h1 className="modal-title fs-5" id={`exampleModal-${chamado.id}`}>
+                            Ficha Técnica
+                          </h1>
+                        </button>
+
+                        <button onClick={page2} className="btn-chat-user-ativado">
+                          <h1 className="modal-title fs-5">Chat</h1>
+                        </button>
+                      </>
+                    )}
                     <button
                       type="button"
                       className="btn-close"
                       data-bs-dismiss="modal"
                       aria-label="Close"
-                    ></button>
+                    />
                   </div>
 
-                  <div className="modal-body d-md-flex align-items-center justify-content-center d-grid">
-                    <div className="ficha-user d-grid gap-0 m-0">
-                      <p>
-                        <b>Título:</b> {chamado.titulo}
-                      </p>
-                      <p>
-                        <b>Prioridade:</b> {prioridades[chamado.grau_prioridade]}
-                      </p>
-                      <p>
-                        <b>Criação: </b>
-                        {new Date(chamado.criado_em).toLocaleDateString("pt-BR")}
-                      </p>
-                      <p>
-                        <b>Técnico:</b>{" "}
-                        {chamado.tecnico_id ? nomeExibido : "Sem Técnico Atribuído"}
-                      </p>
-                      <p>
-                        <b>Patrimônio:</b> {chamado.patrimonio}
-                      </p>
-                      <p>
-                        <b>Tipo:</b> {chamado.tipo_id}
-                      </p>
-                      <p>
-                        <b>Descrição:</b> {chamado.descricao}
-                      </p>
-                    </div>
-                   
-                      <div className="chat-container-user">
-                        <div className="modal-inicial-user d-md-none d-flex sticky-top bg-white">
-                          <div className="d-flex">
-                            <div className="img-avatar-user">
-                              <p>{iniciais}</p>
-                            </div>
-                            <div className="nome-chat-user">{nomeExibido}</div>
-                          </div>
+                  {page === 1 ? (
+                    <div className="modal-body p-4 ficha-tecnica-user">
+                      <div className="row mb-3">
+                        <div className="col-6 espacoDireita">
+                          <p className="label-user">Título:</p>
+                          <p className="valor-user mb-3">{chamado.titulo}</p>
                         </div>
-                        <Chat idChamado={chamado.id} />
+                        <div className="col-6">
+                          <p className="label-user">Criação:</p>
+                          <p className="valor-user mb-3">
+                            {new Date(chamado.criado_em).toLocaleDateString(
+                              "pt-BR"
+                            )}
+                          </p>
+                        </div>
                       </div>
-                  </div>
+
+                      <div className="row mb-3">
+                        <div className="col-6">
+                          <p className="label-user">Prioridade:</p>
+                          <p className="valor-user mb-3">
+                            {prioridades[chamado.grau_prioridade]}
+                          </p>
+                        </div>
+                        <div className="col-6">
+                          <p className="label-user">Status:</p>
+                          <p className="valor-user">
+                            {capitalizeFirst(chamado.status)}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="row mb-3">
+                        <div className="col-6">
+                          <p className="label-user">Área:</p>
+                          <p className="valor-user">{chamado.tipo_id}</p>
+                        </div>
+                        <div className="col-6">
+                          <p className="label-user">Patrimônio:</p>
+                          <p className="valor-user">{chamado.patrimonio}</p>
+                        </div>
+                      </div>
+
+                      <div className="row">
+                        <div className="col-12">
+                          <p className="label-user">Descrição:</p>
+                          <p className="valor-user">{chamado.descricao}</p>
+                        </div>
+                      </div>
+
+                      <div className="row mt-4">
+                        <ProgressBar 
+                        funcao={'usuario'} 
+                        step={["enviado", "em andamento", "concluído"].indexOf(chamado.status)}/>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="modal-body">
+                      <div className="d-flex aling-items-center gap-3">
+                        <i className="bi bi-person-circle text-center fs-5"></i>
+                        <h4>{chamado.tecnico_id}</h4>
+                      </div>
+
+                      <Chat
+                        idChamado={chamado.id}
+                        possuiTecnico={true}
+                        isConcluido={isConcluido}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

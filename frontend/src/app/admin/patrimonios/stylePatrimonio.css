@@ -106,6 +106,10 @@ body {
     box-shadow: none !important;
 }
 
+.btn {
+    background-color: var(--branco) !important;
+    border: transparent !important;
+}
 
 .btn-close {
     --bs-btn-close-focus-shadow: 0 0 0 .25rem rgb(255 0 0 / 25%) !important;

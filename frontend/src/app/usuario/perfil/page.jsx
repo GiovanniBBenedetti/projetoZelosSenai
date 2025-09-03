@@ -7,9 +7,8 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './perfil.css';
 
+export default function Perfil2() {
 
-
-export default function Perfil() {
     const [userData, setUserData] = useState(null);
     const [photoPreview, setPhotoPreview] = useState(null);
     const [uploading, setUploading] = useState(false);
@@ -38,6 +37,7 @@ export default function Perfil() {
     if (!userData) {
         return <Loader />;
     }
+
 
     const nome = userData.nome || '';
     const partes = nome.trim().split(' ');
@@ -82,8 +82,8 @@ export default function Perfil() {
 
     return (
         <>
-            <div className="container">
-                <div className="row photo-content-perfil">
+            <div className='geral-perfil p-4'>
+                <div className='superior-perfil me-4 ms-2'>
                     <div className="col-md-12 photo-perfil d-flex flex-column flex-md-row align-items-center mb-4">
                         <div className="photo-img-perfil me-md-4 mb-3 mb-md-0">
                             {userData.foto || photoPreview ? (
@@ -125,41 +125,44 @@ export default function Perfil() {
                             )}
                         </div>
                         <div className="text-center text-md-start">
-                            <h3 className="card-title">{nomeExibido}</h3>
+                            <h3 className="card-title fs-1">{nomeExibido}</h3>
                             <p className="">{userData.descricao || 'Sem descrição'}</p>
                         </div>
                     </div>
+                </div>
 
-
-
-
-
-                    <div className="infos-perfil col-md-8 d-flex justify-content-between ">
-                        <div className="lado1">
-                            <label className="">Email</label>
-                            <input type="text" className="fw-bolder form-control InputPerfil fst-italic" value={userData.email || ''} readOnly disabled />
-
-                            <label className="">N° de Registro</label>
-                            <input type="text" className="fw-bolder form-control InputPerfil fst-italic" value={userData.numeroRegistro || ''} readOnly disabled />
+                <div className='inferior-perfil'>
+                    <div className='inferior-esquerda-perfil me-2'>
+                        <div className='cima-inferior-esquerda-perfil p-4 m-2'>
+                            <div className="row">
+                                <div className="col-md-6 lado1">
+                                    <label className="">Email:</label>
+                                    <input type="text" className="fw-bolder form-control InputPerfil fst-italic" value={userData.email || ''} readOnly disabled />
+                                    <label className="">N° de Registro:</label>
+                                    <input type="text" className="fw-bolder form-control InputPerfil fst-italic" value={userData.numeroRegistro || ''} readOnly disabled />
+                                </div>
+                                <div className="col-md-6 lado2">
+                                    <label className="">Função:</label>
+                                    <input type="text" className="fw-bolder form-control InputPerfil fst-italic" value={userData.funcao || ''} readOnly disabled />
+                                    <label className="">Conta Criada em:</label>
+                                    <input
+                                        type="text"
+                                        className="fw-bolder form-control InputPerfil fst-italic"
+                                        value={userData.criado_em ? new Date(userData.criado_em).toLocaleDateString('pt-BR') : ''}
+                                        readOnly disabled
+                                    />
+                                </div>
+                            </div>
                         </div>
-                        <div className="lado2">
-                            <label className="">Função</label>
-                            <input type="text" className="fw-bolder form-control InputPerfil fst-italic" value={userData.funcao || ''} readOnly disabled />
-
-                            <label className="">Conta Criada</label>
-                            <input
-                                type="text"
-                                className="fw-bolder form-control InputPerfil fst-italic"
-                                value={userData.criado_em ? new Date(userData.criado_em).toLocaleDateString('pt-BR') : ''}
-                                readOnly disabled
-                            />
+                        <div className='baixo-inferior-esquerda-perfil p-4 m-2 mt-3'>
+                            <p className='welcome fs-5 mt-1'>Bem-vindo ao sistema de suporte. Estamos aqui para ajudar a resolver suas demandas rapidamente!</p>
+                            <div className='linha-inferior-perfil mb-2'></div>
                         </div>
                     </div>
 
-                  <div className="col-md-4">
-                    <Calendar onChange={onChange} value={value} />
-                  </div>
-
+                    <div className='inferior-direita-perfil p-2 m-2 ms-4 ps-3'>
+                        <Calendar onChange={onChange} value={value} />
+                    </div>
                 </div>
             </div>
         </>

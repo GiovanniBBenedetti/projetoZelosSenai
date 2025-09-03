@@ -3,11 +3,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import styled from 'styled-components';
 
 const ProgressBar = ({ step, onChange, funcao }) => {
-  const status = {
-    'procurando responsável': 0,
-    'em andamento': 1,
-    'concluído': 2,
-  };
+  
 
   const steps = [
     { icon: 'bi-clock-history', label: 'Chamado não iniciado' },
@@ -20,14 +16,14 @@ const ProgressBar = ({ step, onChange, funcao }) => {
       {steps.map((s, index) => (
         <Step
           key={index}
-          active={status[step] >= index}
+          active={step >= index}
           $isTech={funcao === 'técnico'}
           onClick={funcao === 'técnico' ? () => onChange(index) : undefined}
           title={s.label}
         >
           <i className={`bi ${s.icon}`}></i>
           {index < steps.length - 1 && (
-            <Bar active={status[step] > index} />
+            <Bar active={step > index} />
           )}
         </Step>
       ))}

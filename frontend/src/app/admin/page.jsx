@@ -1,7 +1,7 @@
 'use client';
 
 import './dash.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import Loader from '@/components/Loader/Loader';
 import CardTecnicoDestaque from '@/components/CardTecnicoDestaque/CardTecnicoDestaque';
@@ -11,79 +11,104 @@ import GraficoChamadosPorTecnico from '@/components/Graficos/GraficoChamadosPorT
 import GraficoTotalChamados from '@/components/Graficos/GraficoTotalChamados';
 import { getCookie } from 'cookies-next';
 
-
 export default function DashboardZeloPage() {
     const [patrimonios, setPatrimonios] = useState([]);
     const [usuarios, setUsuarios] = useState([]);
+    const [chamadosAtrasados, setChamadosAtrasados] = useState(0);
+    const [tecnicos, setTecnicos] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [chamadosAtrasados] = useState(10);
-    const [chamadosTotais] = useState(30);
-    const [chamadosAbertos] = useState(21);
-    const [chamadosNaoIniciados] = useState(9);
-    const [tecnicos] = useState([
-        { nome: 'Arthur Buscalino', departamento: 'Técnico', chamadosResolvidos: 40, email: 'arthur.b@email.com', iniciais: 'AB' },
-        { nome: 'Giovanna Freitas', departamento: 'Técnico', chamadosResolvidos: 35, email: 'giovanna.f@email.com', iniciais: 'GF' },
-        { nome: 'João Pedro', departamento: 'Técnico', chamadosResolvidos: 32, email: 'joao.p@email.com', iniciais: 'JP' },
-    ]);
 
+    const [chamadosTotais, setChamadosTotais] = useState(0);
+    const [chamadosAbertos, setChamadosAbertos] = useState(0);
+    const [chamadosNaoIniciados, setChamadosNaoIniciados] = useState(0);
+
+    const [inputValue, setInputValue] = useState(0);
+    const progressBarRef = useRef(null);
 
     useEffect(() => {
+        const token = getCookie('token');
+
+        const fetchChamadosTotais = async () => {
+            const res = await fetch('http://localhost:8080/dashboard/chamadosParams', {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            if (!res.ok) throw new Error('Erro ao buscar chamados totais');
+            const data = await res.json();
+            setChamadosTotais(data.length || 0);
+        };
+
+        const fetchChamadosAbertos = async () => {
+            const res = await fetch('http://localhost:8080/dashboard/chamadosParams?status=em andamento', {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            if (!res.ok) throw new Error('Erro ao buscar chamados abertos');
+            const data = await res.json();
+            setChamadosAbertos(data.length || 0);
+        };
+
+        const fetchChamadosNaoIniciados = async () => {
+            const res = await fetch('http://localhost:8080/dashboard/chamadosParams?status=enviado', {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            if (!res.ok) throw new Error('Erro ao buscar chamados não iniciados');
+            const data = await res.json();
+            setChamadosNaoIniciados(data.length || 0);
+        };
+
+        Promise.all([
+            fetchChamadosTotais(),
+            fetchChamadosAbertos(),
+            fetchChamadosNaoIniciados(),
+        ]).catch(err => console.error(err));
+
+    }, []);
+
+    useEffect(() => {
+        const token = getCookie('token');
+
         const fetchUsuariosAtivos = async () => {
-            setLoading(true);
-            try {
-                const token = getCookie('token'); 
-                const res = await fetch('http://localhost:8080/dashboard/usuarios?status=ativo', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json',
-                    },
-                });
-
-                if (!res.ok) throw new Error('Erro ao buscar usuários');
-
-                const data = await res.json();
-                setUsuarios(data);
-            } catch (error) {
-                console.error(error);
-            } finally {
-                setLoading(false);
-            }
+            const res = await fetch('http://localhost:8080/dashboard/usuarios?status=ativo', {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            if (!res.ok) throw new Error('Erro ao buscar usuários');
+            setUsuarios(await res.json());
         };
 
         const fetchPatrimoniosAtivos = async () => {
-            setLoading(true);
-            try {
-                const token = getCookie('token');
-                const res = await fetch('http://localhost:8080/dashboard/patrimonios?status=ativo', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json',
-                    },
-                });
-
-                if (!res.ok) throw new Error('Erro ao buscar patrimonios');
-
-                const data = await res.json();
-                setPatrimonios(data);
-            } catch (error) {
-                console.error(error);
-            } finally {
-                setLoading(false);
-            }
+            const res = await fetch('http://localhost:8080/dashboard/patrimonios?status=ativo', {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            if (!res.ok) throw new Error('Erro ao buscar patrimonios');
+            setPatrimonios(await res.json());
         };
 
+        const fetchChamadosAtrasados = async () => {
+            const res = await fetch('http://localhost:8080/dashboard/atrasados', {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            if (!res.ok) throw new Error('Erro ao buscar chamados atrasados');
+            const data = await res.json();
+            setChamadosAtrasados(data.length || 0);
+        };
 
-        fetchPatrimoniosAtivos();
-        fetchUsuariosAtivos();
+        const fetchTecnicosDestaque = async () => {
+            const res = await fetch('http://localhost:8080/dashboard/tecnicosDestaque', {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            if (!res.ok) throw new Error('Erro ao buscar técnicos em destaque');
+            setTecnicos(await res.json());
+        };
+
+        setLoading(true);
+        Promise.all([
+            fetchUsuariosAtivos(),
+            fetchPatrimoniosAtivos(),
+            fetchChamadosAtrasados(),
+            fetchTecnicosDestaque(),
+        ])
+            .catch(err => console.error(err))
+            .finally(() => setLoading(false));
     }, []);
-
-
-    useEffect(() => {
-
-
-
-    }, []);
-
 
     if (loading) {
         return <Loader />;
@@ -143,7 +168,7 @@ export default function DashboardZeloPage() {
             <div className="row mt-3">
                 <div className="col-md-12">
                     <div className="chart-card">
-                        <h3 className="chart-title">Chamados por técnicos</h3>
+                        <h3 className="chart-title">Chamados abertos por mais tempo</h3>
                         <div className="chart-wrapper">
                             <GraficoChamadosPorTecnico />
                         </div>
@@ -175,6 +200,24 @@ export default function DashboardZeloPage() {
                 </div>
             </div>
 
+            <div className="row mt-2">
+                <div className="dash-porcent d-flex gap-5">
+                    <p><span>70%</span> dos chamados estão aberto</p>
+                    <p><span>30%</span> dos chamados ainda não foram iniciados</p>
+                </div>
+                <div className="dash-barra">
+                    <div ref={progressBarRef} style={{ width: `${inputValue}%` }}></div>
+                </div>
+                <input
+                    type="number"
+                    value={inputValue}
+                    onChange={(e) => {
+                        const value = Math.max(0, Math.min(100, parseInt(e.target.value) || 0));
+                        setInputValue(value);
+                    }}
+                />
+            </div>
+
             <div className="row mt-5">
                 <div className="col-md-12">
                     <div className="chart-card">
@@ -185,24 +228,12 @@ export default function DashboardZeloPage() {
                     </div>
                 </div>
             </div>
-
             <div className="row mt-5">
                 <div className="col-md-12">
                     <div className="tecnicos-destaque-container">
                         <h3 className="section-title">Técnicos em Destaque</h3>
                         <p className="section-subtitle">Os 3 técnicos com o maior número de chamados resolvidos</p>
-                        <div className="row mt-4">
-                            {tecnicos.map((tecnico, index) => (
-                                <div key={index} className="col-md-4 mb-4">
-                                    <CardTecnicoDestaque
-                                        nome={tecnico.nome}
-                                        departamento={tecnico.departamento}
-                                        chamadosResolvidos={tecnico.chamadosResolvidos}
-                                        email={tecnico.email}
-                                    />
-                                </div>
-                            ))}
-                        </div>
+                        <CardTecnicoDestaque />
                     </div>
                 </div>
             </div>

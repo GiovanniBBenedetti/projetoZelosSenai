@@ -1,0 +1,282 @@
+'use client';
+import { useState, useEffect } from 'react';
+import Box from '@mui/material/Box';
+import BotaoNovo from '@/components/BotaoNovo/BotaoNovo';
+import { DataGrid } from '@mui/x-data-grid';
+import { getCookie } from 'cookies-next';
+import Select from 'react-select';
+import './styleChamado.css';
+
+const prioridadeOptions = [
+  { value: '1', label: 'Preventiva' },
+  { value: '2', label: 'Sem Urgência' },
+  { value: '3', label: 'Prioritária' },
+  { value: '4', label: 'Imediata' },
+];
+
+const statusOptions = [
+  { value: 'enviado', label: 'Enviado' },
+  { value: 'em andamento', label: 'Em andamento' },
+  { value: 'concluído', label: 'Concluído' }
+];
+
+export default function TabelaChamados() {
+  const [chamados, setChamados] = useState([]);
+  const [filtroPatrimonio, setFiltroPatrimonio] = useState('');
+  const [filtroArea, setFiltroArea] = useState('');
+  const [filtroData, setFiltroData] = useState('');
+  const [filtroDescricoes, setFiltroDescricoes] = useState('');
+  const [mounted, setMounted] = useState(false);
+  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 });
+
+  useEffect(() => {
+    setMounted(true);
+    fetchChamados();
+  }, []);
+
+  const fetchChamados = async () => {
+    try {
+      const token = getCookie('token');
+      const response = await fetch('http://localhost:8080/chamado/todos', {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) throw new Error('Erro ao buscar chamados');
+
+      const data = await response.json();
+
+      const mapped = data.map((item) => ({
+        id: item.id,
+        titulo: item.titulo,
+        descricao: item.descricao,
+        patrimonio: item.patrimonio,
+        grau_prioridade: item.grau_prioridade,
+        tipo_id: item.tipo_id,
+        tecnico_id: item.tecnico_id ? item.tecnico_id : 'Sem técnico ainda',
+        usuario_id: item.usuario_id,
+        status: item.status,
+        criado_em: new Date(item.criado_em).toLocaleString('pt-BR'),
+        atualizado_em: new Date(item.atualizado_em).toLocaleString('pt-BR')
+      }));
+
+      setChamados(mapped);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const atualizarCampo = async (id, campo, valor) => {
+    try {
+      const token = getCookie('token');
+      await fetch(`http://localhost:8080/chamado/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ [campo]: valor }),
+      });
+
+      setChamados((prev) =>
+        prev.map((chamado) =>
+          chamado.id === id ? { ...chamado, [campo]: valor } : chamado
+        )
+      );
+    } catch (err) {
+      console.error(`Erro ao atualizar ${campo}:`, err);
+    }
+  };
+
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 40, disableColumnMenu: true },
+    { field: 'titulo', headerName: 'Título', width: 230, disableColumnMenu: true },
+    { field: 'descricao', headerName: 'Descrição', width: 250, disableColumnMenu: true },
+    { field: 'patrimonio', headerName: 'Patrimônio', width: 150, disableColumnMenu: true },
+    {
+      field: 'grau_prioridade',
+      headerName: 'Prioridade',
+      width: 150,
+      disableColumnMenu: true,
+      renderCell: (params) => (
+        <Select
+          options={prioridadeOptions}
+          value={prioridadeOptions.find(opt => opt.value === params.row.grau_prioridade)}
+          onChange={(selectedOption) => atualizarCampo(params.row.id, 'grau_prioridade', selectedOption.value)}
+          menuPortalTarget={document.body}
+          styles={{
+            control: (provided) => ({
+              ...provided,
+              backgroundColor: 'transparent',
+              border: 'none',
+              boxShadow: 'none',
+              minHeight: '30px',
+              fontSize: '0.9rem',
+            }),
+            singleValue: (provided) => ({
+              ...provided,
+              color: '#000000',
+            }),
+            option: (provided, state) => ({
+              ...provided,
+              backgroundColor: state.isFocused ? '#8e0009' : '#b5000c',
+              color: '#fff',
+              '&:active': { backgroundColor: '#8e0009' },
+            }),
+            indicatorSeparator: () => ({ display: 'none' }),
+            menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+          }}
+          isSearchable={false}
+        />
+      )
+    },
+    { field: 'tipo_id', headerName: 'Tipo ID', width: 100, disableColumnMenu: true },
+    { field: 'tecnico_id', headerName: 'Técnico ID', width: 150, disableColumnMenu: true },
+    { field: 'usuario_id', headerName: 'Usuário ID', width: 80, disableColumnMenu: true },
+    {
+      field: 'status',
+      headerName: 'Status',
+      width: 150,
+      disableColumnMenu: true,
+      renderCell: (params) => (
+        <Select
+          options={statusOptions}
+          value={statusOptions.find(opt => opt.value === params.row.status)}
+          onChange={(selectedOption) => atualizarCampo(params.row.id, 'status', selectedOption.value)}
+          menuPortalTarget={document.body}
+          styles={{
+            control: (provided) => ({
+              ...provided,
+              backgroundColor: 'transparent',
+              border: 'none',
+              boxShadow: 'none',
+              minHeight: '30px',
+              fontSize: '0.9rem',
+            }),
+            singleValue: (provided) => ({
+              ...provided,
+              color: '#000000',
+            }),
+            option: (provided, state) => ({
+              ...provided,
+              backgroundColor: state.isFocused ? '#8e0009' : '#b5000c',
+              color: '#fff',
+              '&:active': { backgroundColor: '#8e0009' },
+            }),
+            indicatorSeparator: () => ({ display: 'none' }),
+            menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+          }}
+          isSearchable={false}
+        />
+      )
+    },
+    { field: 'criado_em', headerName: 'Criado em', width: 180, disableColumnMenu: true },
+    { field: 'atualizado_em', headerName: 'Atualizado em', width: 180, disableColumnMenu: true }
+  ];
+
+  const filtrado = chamados.filter((item) =>
+    (item.patrimonio || '').toString().toLowerCase().includes(filtroPatrimonio.toLowerCase()) &&
+    (item.area || '').toLowerCase().includes(filtroArea.toLowerCase()) &&
+    (item.descricao || '').toLowerCase().includes(filtroDescricoes.toLowerCase()) &&
+    (!filtroData || (item.criado_em && item.criado_em.startsWith(filtroData)))
+  );
+
+  return (
+    <>
+      <div className="geral-patrimonios d-flex flex-column">
+        <div className="container total-adm flex-grow-1 d-flex flex-column">
+          <p className="tituloMedicos mb-3">Controle de Chamados:</p>
+
+          <div className="container-filtro-pacientes mb-5 mb-sm-4 mt-4 mt-sm-0">
+            <div className="row g-3">
+              <div className="col-12 col-md-6 custom-col-1080">
+                <label className="form-label">Filtrar por Nº Patrimônio:</label>
+                <div className="input-group borda-filtro-usuario">
+                  <button className="btn" type="button">
+                    <i className="bi bi-upc-scan"></i>
+                  </button>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Nº Patrimônio"
+                    value={filtroPatrimonio}
+                    onChange={(e) => setFiltroPatrimonio(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="col-12 col-md-6 custom-col-1080">
+                <label className="form-label">Filtrar por Área:</label>
+                <div className="input-group borda-filtro-usuario">
+                  <button className="btn" type="button">
+                    <i className="bi bi-building"></i>
+                  </button>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Área"
+                    value={filtroArea}
+                    onChange={(e) => setFiltroArea(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="col-12 col-md-6 custom-col-1080">
+                <label className="form-label">Filtrar por Data:</label>
+                <div className="input-group borda-filtro-usuario">
+                  <button className="btn" type="button">
+                    <i className="bi bi-calendar-event"></i>
+                  </button>
+                  <input
+                    type="date"
+                    className="form-control"
+                    value={filtroData}
+                    onChange={(e) => setFiltroData(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="col-12 col-md-6 custom-col-1080">
+                <label className="form-label">Filtrar por Descrição:</label>
+                <div className="input-group borda-filtro-usuario">
+                  <button className="btn" type="button">
+                    <i className="bi bi-journal-text"></i>
+                  </button>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Descrição"
+                    value={filtroDescricoes}
+                    onChange={(e) => setFiltroDescricoes(e.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <BotaoNovo placeholder={'Realizar novo chamado'} data={'#'} />
+        </div>
+      </div>
+
+      <div className="geral-table-patrimonio flex-grow-1 d-flex ps-4 pe-4 pb-4">
+        <Box sx={{ flex: 1, display: 'flex', width: '100%' }}>
+          {mounted && (
+            <Box sx={{ width: '100%' }}>
+              <DataGrid
+                rows={filtrado}
+                columns={columns}
+                getRowId={(row) => row.id}
+                paginationModel={paginationModel}
+                onPaginationModelChange={setPaginationModel}
+                pageSizeOptions={[10, 50, 80, 120, 200]}
+                disableRowSelectionOnClick
+              />
+            </Box>
+          )}
+        </Box>
+      </div>
+    </>
+  );
+}

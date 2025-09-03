@@ -5,7 +5,7 @@ import React from 'react';
 import './chat.css';
 import { getCookie } from 'cookies-next';
 
-export default function Chat({ idChamado }) {
+export default function Chat({ idChamado, possuiTecnico, isConcluido }) {
   const [mensagens, setMensagens] = useState([]);
   const [carregandoMensagens, setCarregandoMensagens] = useState(true);
   const [novoApontamento, setNovoApontamento] = useState('');
@@ -138,14 +138,31 @@ export default function Chat({ idChamado }) {
         </div>
       </div>
       <div className="d-flex bottom-0">
-        <input
-          type="text"
-          className="form-control input-nova-chat w-100"
-          placeholder="Digite sua mensagem..."
-          value={novoApontamento}
-          onChange={(e) => setNovoApontamento(e.target.value)}
-          required
-        />
+        {possuiTecnico === true || isConcluido === false ? (
+          <>
+            <input
+              type="text"
+              className="form-control input-nova-chat w-100"
+              placeholder="Digite sua mensagem..."
+              value={novoApontamento}
+              onChange={(e) => setNovoApontamento(e.target.value)}
+              required
+            />
+          </>
+        ) : (
+          <>
+            <input
+              type="text"
+              className="form-control input-nova-chat w-100"
+              placeholder="Digite sua mensagem..."
+              value={novoApontamento}
+              onChange={(e) => setNovoApontamento(e.target.value)}
+              required
+              readOnly
+            />
+          </>
+        )}
+
         <button className="btn btn-modal-chat ms-2" onClick={mensagem}>
           <i className="bi bi-arrow-right"></i>
         </button>

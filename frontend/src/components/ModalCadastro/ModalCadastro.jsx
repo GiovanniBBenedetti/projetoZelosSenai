@@ -5,6 +5,7 @@ import BotaoNovo from '@/components/BotaoNovo/BotaoNovo';
 import Select from 'react-select';
 import { getCookie } from 'cookies-next';
 import './ModalCadastro.css';
+import Toast from '@/components/Toast/Toast';
 
 const equipamentoOptions = [
   { value: 'Computador', label: 'Computador' },
@@ -39,6 +40,9 @@ export default function CadastroPatrimonio() {
   const [status, setStatus] = useState(null);
   const [observacoes, setObservacoes] = useState('');
 
+  const [conteudoResposta, setConteudoResposta] = useState('');
+  const [tipoToast, setTipoToast] = useState('');
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -67,16 +71,18 @@ export default function CadastroPatrimonio() {
         body: JSON.stringify(payload)
       });
 
-      if (!response.ok) throw new Error('Erro ao cadastrar patrimônio');
+      const data = await response.json();
 
-      alert('Patrimônio cadastrado com sucesso!');
-
-      // Recarrega a página
-      window.location.reload();
-
+      if (response.ok) {
+        setConteudoResposta(data.mensagem)
+        setTipoToast('ok')
+      } else {
+        setConteudoResposta('Erro ao cadastrar patrimônio verifique se o número ja existe.')
+        setTipoToast('!ok')
+      }
     } catch (error) {
       console.error(error);
-      alert('Erro ao cadastrar patrimônio.');
+      <Toast conteudo={'Erro ao cadastrar patrimônio.'} tipo={'ok'} />
     }
   };
 
@@ -181,7 +187,7 @@ export default function CadastroPatrimonio() {
                   />
                 </div>
 
-                <div className="input-group mb-3">
+                <div className="input-group mb-3 rounded-5">
                   <span className="input-group-text">
                     <i className="bi bi-journal-text"></i>
                   </span>
@@ -201,6 +207,10 @@ export default function CadastroPatrimonio() {
                 >
                   Cadastrar
                 </button>
+
+                {conteudoResposta && (
+                  <Toast conteudo={conteudoResposta} tipo={tipoToast} />
+                )}  
 
               </div>
             </div>

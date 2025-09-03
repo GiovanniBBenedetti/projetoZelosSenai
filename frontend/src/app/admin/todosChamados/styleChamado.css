@@ -7,6 +7,23 @@
     --cinza: #808080;
 }
 
+body {
+    overflow: hidden;
+}
+
+.geral-patrimonios {
+    display: flex;
+    flex-direction: column;
+}
+
+.total-adm {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-right: 50px;
+}
+
+
 .MuiDataGrid-cell:focus,
 .MuiDataGrid-cell:focus-within,
 .MuiDataGrid-cell:focus-visible,
@@ -17,6 +34,7 @@
 .MuiDataGrid-row:focus-visible .MuiDataGrid-main:focus {
     outline: none !important;
     box-shadow: none !important;
+    margin-bottom: 96px !important;
 }
 
 .MuiDataGrid-row:hover {
@@ -25,11 +43,6 @@
 
 .MuiDataGrid-row.Mui-selected {
     background-color: transparent !important;
-}
-
-.optionRed{
-    background-color: var(--vermelhoEscuro);
-    color: var(--branco);
 }
 
 .tituloMedicos {
@@ -42,7 +55,6 @@
     background-color: var(--branco) !important;
     border: transparent !important;
 }
-
 
 .borda-filtro-usuario {
     border: 2px solid var(--vermelhoEscuro);
@@ -74,83 +86,40 @@
     margin-bottom: 2.5%;
 }
 
-
 .MuiTablePagination-selectLabel.css-s09cke-MuiTablePagination-selectLabel,
 .MuiTablePagination-displayedRows.css-11cfq65-MuiTablePagination-displayedRows {
     margin: 0 !important;
 }
 
 .form-select {
+    border: solid 2px #ffffff !important;
     margin-right: 10px;
-    margin-top: 8%;
-    border: 2px solid #fff !important;
 }
 
-.form-select:focus {
-    border-color: var(--vermelhoEscuro);
-    outline: 0;
-    box-shadow: 0 0 0 .25rem#8e00096a !important;
-}
-
-
-.geral-patrimonios {
-    display: flex;
-    flex-direction: column;
-}
-
-.total-adm {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding-right: 45px;
-}
-
-.geral-table-patrimonio {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.tabela-patrimonio {
-    flex: 1;
-    overflow: auto;
-}
-
-
-
-.css-1qmqbjp-control{
+.form-select.select-transparent {
     border: none !important;
     background-color: transparent !important;
+    box-shadow: none !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
 }
 
-.css-tj5bde-Svg {
-    display: inline-block;
-    fill: var(--vermelhoEscuro) !important;
-    line-height: 1;
-    stroke: var(--vermelhoEscuro) !important;
-    margin-left: -9px !important;
-    margin-right: 11px !important;
-    stroke-width: 0;
-}
-
-.css-1u9des2-indicatorSeparator {
-    -webkit-align-self: stretch;
-    -ms-flex-item-align: stretch;
-    align-self: stretch;
-    width: 0 !important;
-    margin-left: -4px !important;
+.form-select.select-transparent:focus {
+    border: none !important;
     background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+
+.btn-close {
+    --bs-btn-close-focus-shadow: 0 0 0 .25rem rgb(255 0 0 / 25%) !important;
 }
 
 @media (max-width: 767px) {
     .inputs-filtro-adm {
         width: 100% !important;
     }
-}
-
-
-.geral-patrimonios {
-    padding: 20px;
 }
 
 

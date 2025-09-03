@@ -1,290 +1,263 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+tecnico:root {
+  --vermelho-principal: #e30615;
+  --vermelho-escuro: #8e0009;
+  --preto-zelos: #101820;
+  --cinza-claro: #eaeaea;
+  --branco: #ffffff;
+  --prioridade-maxima: #e30615;
+  --prioridade-minima: #ffbf00;
+  --prioridade-baixa: #008000;
+  --body-font: 'Nunito Sans', system-ui;
+  --font-regular: 400;
+  --font-semi-bold: 600;
+  --normal-font-size: 0.938rem;
+}
 
-:root {
-  --branco: #ffff;
-  --vermelhoEscuro: #8e0009;
-  --vermelhoMedio: #b5000c;
-  --vermelho: #e30615;
-  --preto: #000000;
-  --cinza: #808080;
-  font-family: "Montserrat", sans-serif;
+.avatar-card-tecnico{
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--vermelho), var(--vermelhoEscuro));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  color: var(--branco);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .card-tecnico {
-  width: 15.3rem;
-  border-radius: 20px;
-  
-  border: 0;
-  transition: all 0.2s ease-in-out;
-  background-color: #fff !important;
+  border-radius: 10px;
+  margin-right: 1rem;
+  margin-left: 1rem;
+  flex-direction: row;
+  height: auto;
+  min-height: 6rem;
+  padding: 0.5rem;
+
 }
 
-.card-desativado-tecnico {
-  width: 15.3rem;
-  border-radius: 20px;
-  border: 0;
-  transition: all 0.2s ease-in-out;
-  opacity: 0.5;
-  background-color: #fff;
+.card-tecnico-desativado {
+  border-radius: 10px;
+  margin-right: 1rem;
+  margin-left: 1rem;
+  flex-direction: row;
+  height: auto;
+  min-height: 6rem;
+  padding: 0.5rem;
+  opacity: 0.6;
 }
 
-.card-tecnico:hover {
-  transform: translateY(-5);
-  
+.imgPerfil-tecnico {
+  border-radius: 100%;
+  height: 4.8rem;
+  width: 4.8rem;
 }
 
-.card-prioridade-4-tecnico {
-  background-color: #d83d65;
-  width: 100%;
-  border-radius: 20px 20px 0px 0;
-  padding: 3px 10px 1px 10px;
+.borderColorPrioridade-1-tecnico {
+  border-left: solid #417bd5 15px;
 }
 
-.card-prioridade-4-tecnico p {
-  background-color: #d83d65;
-  margin-bottom: 1%;
-  margin-top: 1%;
+.borderColorPrioridade-2-tecnico {
+  border-left: solid #4cc78b  15px;
+}
+
+.borderColorPrioridade-3-tecnico {
+  border-left: solid #ff9d59  15px;
+}
+
+.borderColorPrioridade-4-tecnico {
+  border-left: solid #d83d65  15px;
+}
+
+.prioridadeP {
   color: #fff;
-  font-family: "Montserrat", sans-serif !important;
 }
 
-.card-prioridade-3-tecnico {
+
+.prioridade-tecnico-1 {
   background-color: #417bd5;
-  width: 100%;
-  border-radius: 20px 20px 0px 0;
-  padding: 3px 10px 1px 10px;
+  border-radius: 20px;
+  padding: 10px;
 }
 
-.card-prioridade-3-tecnico p {
-  background-color: #417bd5;
-  margin-bottom: 1%;
-  margin-top: 1%;
-  color: #fff;
-  font-family: "Montserrat", sans-serif !important;
-}
 
-.card-prioridade-2-tecnico {
-  background-color: #ff9d59;
-  width: 100%;
-  border-radius: 20px 20px 0px 0;
-  padding: 3px 10px 1px 10px;
-}
-
-.card-prioridade-2-tecnico p {
-  background-color: #ff9d59;
-  margin-bottom: 1%;
-  margin-top: 1%;
-  color: #fff;
-  font-family: "Montserrat", sans-serif !important;
-}
-
-.card-prioridade-1-tecnico {
+.prioridade-tecnico-2 {
   background-color: #4cc78b;
-  width: 100%;
-  border-radius: 20px 20px 0px 0;
-  padding: 3px 10px 1px 10px;
+  border-radius: 20px;
+  padding: 10px;
 }
 
-.card-prioridade-1-tecnico p {
-  background-color: #4cc78b;
-  margin-bottom: 1%;
-  margin-top: 1%;
-  color: #fff;
-  font-family: "Montserrat", sans-serif !important;
+.prioridade-tecnico-3 {
+  background-color: #ff9d59;
+  border-radius: 20px;
+  padding: 10px;
 }
 
-.card-titulo-tecnico h3 {
-  color: #000;
-  font-size: 22px;
+.prioridade-tecnico-4 {
+  background-color: #d83d65;
+  border-radius: 20px;
+  padding: 10px;
+}
+
+.titulo-tecnico h2 {
+  font-size: 16px;
+  width: 11rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.titulo-tecnico p {
+  font-size: 14px;
+}
+
+.tecnico-tecnico div h6 {
+  font-size: 13px;
   font-weight: 700;
 }
 
-.card-patrimonio-tecnico {
-  max-width: 98%;
-  width: 82%;
-  align-items: center;
-  justify-content: center;
-  display: grid;
+.tecnico-tecnico p {
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.card-patrimonio-tecnico p {
-  color: #000;
-  background-color: #fff;
-  font-size: 15px;
-  margin-bottom: 0;
-  font-weight: 600;
+.btn-ficha-tecnico-ativado {
+  border-bottom: solid 2px #e30615;
+
 }
 
-.card-data-tecnico {
-  align-items: center;
-  justify-content: center;
-  display: flex;
+.btn-chat-tecnico-ativado {
+  border-bottom: solid 2px #e30615;
+
+}
+
+.modal-body {
+  max-height: 400px;
+  overflow-y: auto;
+  height: 25rem;
+}
+
+.info-ficha-tecnico>p {
+  width: 40%;
+}
+
+.infos-ficha-tecnico{
+  max-width: 100%;
+}
+
+.info-descricao-tecnico {
+  max-width: 100%;       
+  word-wrap: break-word; 
+  overflow-wrap: break-word; 
+  white-space: normal;   
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .card-tecnico {
+    padding: 0.3rem;
+    min-height: 5rem;
+  }
+
+  .imgPerfil-tecnico {
+    height: 3.5rem;
+    width: 3.5rem;
+  }
+
+  .titulo-tecnico h2 {
+    font-size: 14px;
+    width: 8rem;
+  }
+
+  .titulo-tecnico p {
+    font-size: 12px;
+  }
+
+  .prioridade-tecnico-1,
+  .prioridade-tecnico-2,
+  .prioridade-tecnico-3,
+  .prioridade-tecnico-4 {
+    padding: 6px 8px;
+  }
+
+  .prioridade-tecnico-1 p,
+  .prioridade-tecnico-2 p,
+  .prioridade-tecnico-3 p,
+  .prioridade-tecnico-4 p {
+    font-size: 11px;
+  }
+
+  .tecnico-tecnico div h6 {
+    font-size: 12px;
+  }
+
+  .tecnico-tecnico p {
+    font-size: 12px;
+  }
+
+  .more-tecnico i {
+    font-size: 1.4rem;
+  }
+
+  
+   .info-ficha-tecnico{
+    gap: 0 !important;
+   }
+
+   .modal-body .infos-ficha-tecnico{
+    gap: 0 !important;
+   }
+
+ .info-ficha-tecnico>p {
+    width: 100%;
+  }
+}
+
+@media (max-width: 575px) {
+
+   .info-ficha-tecnico{
+    gap: 0 !important;
+   }
+
+   .modal-body .infos-ficha-tecnico{
+    gap: 0 !important;
+   }
+
+ .info-ficha-tecnico>p {
+    width: 100%;
+  }
+}
+
+.linhaVermelha{
+  background-color: var(--vermelho-principal);
   width: 100%;
-  margin-top: 6px;
+  height: 2px;
 }
 
-.card-data-tecnico p {
-  font-size: 15px;
+p{
+  margin-bottom: 0rem !important;
 }
 
-.card-descricao-tecnico {
-  max-width: 85%;
-  padding-left: 12%;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  margin-top: 3px;
-}
-
-.card-descricao-tecnico p {
+.ficha-tecnica-tecnico {
   font-size: 14px;
+  color: var(--preto-zelos);
 }
 
-.card-atualizacao-tecnico {
-  max-width: 85%;
-  padding-left: 12%;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  margin-top: 3px;
-}
-
-.card-atualizacao-tecnico p {
-  font-size: 14px;
-}
-
-.card-tecnico-tecnico {
-  font-family: "Montserrat", sans-serif;
-  max-width: 85%;
-  padding-left: 12%;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  margin-top: 3px;
-}
-
-.status-card-tecnico {
-  margin-top: 5px;
-  color: var(--vermelhoEscuro);
-  font-size: 14px;
-}
-
-.chat-tecnico {
-  width: 100%;
-}
-
-.chat-tecnico input {
-  border-radius: 15px;
-  padding: 5px;
-}
-
-.btn-desativado-tecnico {
-  margin-bottom: 10px;
-  opacity: 0.4;
-  pointer-events: none;
-  cursor: none;
-}
-
-.modal-content {
-  height: 30rem;
-  margin-right: 0;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: center;
-  display: grid;
-  padding: 1rem;
-  width: 100%;
-  border-radius: 15px;
-}
-
-.modal-content p {
-  color: #000;
-  font-size: 14px;
-}
-
-.modal-content p b {
-  font-size: 17px;
-  font-weight: 600;
-}
-
-.modal-content h2 {
-  font-size: 23px;
-}
-
-.img-avatar-tecnico {
-  background-color: var(--vermelho);
-  border-radius: 100%;
-  width: 30px;
-  height: 30px;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-}
-
-.img-avatar-tecnico p {
-  color: #fff;
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 0;
-}
-
-.nome-chat-tecnico {
+.label-tecnico {
+  font-weight: 400;
   font-size: 16px;
-  font-weight: 600;
-  margin-left: 10px;
-  color: var(--preto);
-  margin-top: 3.5px;
+  margin-bottom: 2px;
+  border-bottom: 2px solid var(--vermelho-principal);
+  display: inline-block;
 }
 
-.ficha-tecnico {
-  width: 100%;
-  margin-left: 5rem;
+.valor-tecnico {
+  margin-top: 2px;
+  font-weight: 700;
+  font-size: 15px;
+  margin: 0;
 }
 
-.modal-inicial-tecnico {
-  margin-left: 38%;
-}
-
-.chat-container-tecnico {
-  width: 100% !important;
-  height: 95%;
-  margin-left: 5%;
-  overflow-x: hidden;
-}
-
-.modal-header-tecnico {
-  border-bottom: solid 1px var(--vermelhoMedio);
-}
-
-@media (max-width: 995px) {
-  .modal-lg {
-    max-width: 90% !important;
-  }
-}
-
-@media (max-width: 768px) {
-  .modal-celular {
-    max-width: 100% !important;
-    display: block;
-  }
-
-  .modal-inicial-tecnico {
-    margin-left: 0;
-    margin-top: 2rem;
-  }
-
-  .chat-container-tecnico {
-    margin: 0;
-  }
-
-  .ficha-tecnico{
-    align-items: center;
-    justify-content: center;
-    display: grid;
-  }
-
-  .modal-content{
-    overflow-y: scroll !important;
-  }
-
-}

@@ -88,7 +88,7 @@ const Sidebar = ({ isSidebarOpen }) => {
           { link: '/admin/meusChamados', icon: 'bi bi-folder-fill', label: 'Meus Chamados' },
         ],
       },
-      { link: '/admin/usuarios', icon: 'bi bi-person-fill', label: 'Usuários' },
+      { link: '/admin/usuarios', icon: 'bi bi-person-vcard-fill', label: 'Usuários' },
       { link: '/admin/patrimonios', icon: 'bi bi-cpu-fill', label: 'Patrimônios' },
       { link: '/admin/suporte', icon: 'bi bi-chat-text-fill', label: 'Ajuda' },
     ],

@@ -135,6 +135,28 @@ height: 250px;
   color: #e30615; /* Cor para chamados não iniciados */
 }
 
+.dash-porcent span {
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+.dash-barra {
+  width: 100rem;
+  height: 20px;
+  border-radius: 10px;
+  background-color: var(--cinza-claro);
+}
+
+.dash-barra div {
+  height: 100%;
+  border-radius: 10px;
+  background-color: var(--vermelho-escuro);
+}
+
+.dash-barr input {
+  margin-top: 50px;
+}
+
 /*=============== TÉCNICOS EM DESTAQUE ===============*/
 .tecnicos-destaque-container {
   background-color: var(--preto-zelos);

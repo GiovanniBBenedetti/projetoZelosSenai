@@ -21,12 +21,11 @@ body {
 }
 
 .swal2-confirm.swal2-styled {
-  background: linear-gradient(
-    to right,
-    var(--vermelho),
-    var(--vermelhoMedio),
-    var(--vermelhoEscuro)
-  );
+  background: linear-gradient(to right,
+      var(--vermelho),
+      var(--vermelhoMedio),
+      var(--vermelhoEscuro));
+  text-align: center;
   width: 200px;
   border-radius: 20px;
 }
