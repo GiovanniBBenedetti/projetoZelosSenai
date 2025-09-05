@@ -1,13 +1,18 @@
 'use client';
 
+import Loader from '@/components/Loader/Loader';
 import React, { useEffect, useState } from 'react';
 import { getCookie } from 'cookies-next';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 import './perfil.css';
 
 export default function Perfil() {
+
     const [userData, setUserData] = useState(null);
     const [photoPreview, setPhotoPreview] = useState(null);
     const [uploading, setUploading] = useState(false);
+    const [value, onChange] = useState(new Date());
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -30,8 +35,9 @@ export default function Perfil() {
     }, []);
 
     if (!userData) {
-        return <p className="text-center mt-5">Carregando perfil...</p>;
+        return <Loader />;
     }
+
 
     const nome = userData.nome || '';
     const partes = nome.trim().split(' ');
@@ -63,9 +69,8 @@ export default function Perfil() {
 
 
             console.log(res)
-       
-            setPhotoPreview(URL.createObjectURL(file));
 
+            setPhotoPreview(URL.createObjectURL(file));
             setUserData({ ...userData, foto: URL.createObjectURL(file) });
 
         } catch (err) {
@@ -76,21 +81,11 @@ export default function Perfil() {
     };
 
     return (
-        <div className="container my-5">
-            <div className="card shadow">
-                {userData.cover && (
-                    <img
-                        src={`http://localhost:8080${userData.foto}`}
-                        className="card-img-top"
-                        alt="Cover"
-                        style={{ objectFit: 'cover', height: '200px' }}
-                    />
-                )}
-
-
-                <div className="card-perfil">
-                    <div className="d-flex flex-column flex-md-row align-items-center mb-4">
-                        <div className="me-md-4 mb-3 mb-md-0">
+        <>
+            <div className='geral-perfil py-4'>
+                <div className='superior-perfil me-4 ms-2'>
+                    <div className="col-md-12 photo-perfil d-flex flex-column flex-md-row align-items-center mb-4">
+                        <div className="photo-img-perfil me-md-4 mb-3 mb-md-0">
                             {userData.foto || photoPreview ? (
                                 <>
                                     <img
@@ -99,8 +94,9 @@ export default function Perfil() {
                                         className="rounded-circle"
                                         style={{ width: '120px', height: '120px', objectFit: 'cover' }}
                                     />
-                                    <label className="btn btn-primary btn-sm">
-                                        {uploading ? 'Enviando...' : 'Upload Foto'}
+                                    <label className="btn photo-btn-perfil mt-3">
+                                        {uploading ? 'Enviando...' : 'Upload Foto '}
+                                        <i className="bi bi-cloud-arrow-up"></i>
                                         <input
                                             type="file"
                                             accept="image/*"
@@ -110,13 +106,12 @@ export default function Perfil() {
                                         />
                                     </label>
                                 </>
-
-
                             ) : (
                                 <div className="fotoPerfil d-flex flex-column align-items-center justify-content-center">
                                     <div className="AvatarPerfil mb-2">{iniciais}</div>
-                                    <label className="btn btn-primary btn-sm">
-                                        {uploading ? 'Enviando...' : 'Upload Foto'}
+                                    <label className="btn photo-btn-perfil">
+                                        {uploading ? 'Enviando...' : 'Upload Foto '}
+                                        <i className="bi bi-cloud-arrow-up"></i>
                                         <input
                                             type="file"
                                             accept="image/*"
@@ -124,46 +119,52 @@ export default function Perfil() {
                                             style={{ display: 'none' }}
                                             disabled={uploading}
                                         />
+
                                     </label>
                                 </div>
                             )}
                         </div>
-
                         <div className="text-center text-md-start">
-                            <h3 className="card-title">{nomeExibido}</h3>
-                            <p className="text-muted">{userData.descricao || 'Sem descrição'}</p>
-                        </div>
-                    </div>
-
-                    <div className="row g-3">
-                        <div className="col-md-6">
-                            <label className="form-label">Full Name</label>
-                            <input type="text" className="form-control" value={userData.nome || ''} readOnly />
-                        </div>
-                        <div className="col-md-6">
-                            <label className="form-label">Email</label>
-                            <input type="text" className="form-control" value={userData.email || ''} readOnly />
-                        </div>
-                        <div className="col-md-6">
-                            <label className="form-label">Numero de Registro</label>
-                            <input type="text" className="form-control" value={userData.numeroRegistro || ''} readOnly />
-                        </div>
-                        <div className="col-md-6">
-                            <label className="form-label">Função</label>
-                            <input type="text" className="form-control" value={userData.funcao || ''} readOnly />
-                        </div>
-                        <div className="col-md-6">
-                            <label className="form-label">Conta Criada</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                value={userData.criado_em ? new Date(userData.criado_em).toLocaleDateString('pt-BR') : ''}
-                                readOnly
-                            />
+                            <h3 className="card-title fs-1">{nomeExibido}</h3>
+                            <p className="">{userData.descricao || 'Sem descrição'}</p>
                         </div>
                     </div>
                 </div>
+
+                <div className='inferior-perfil'>
+                    <div className='inferior-esquerda-perfil me-2'>
+                        <div className='cima-inferior-esquerda-perfil p-4 m-2'>
+                            <div className="row">
+                                <div className="col-md-6 lado1">
+                                    <label className="">Email:</label>
+                                    <input type="text" className="fw-bolder form-control form-controlPerfil InputPerfil fst-italic" value={userData.email || ''} readOnly disabled />
+                                    <label className="">N° de Registro:</label>
+                                    <input type="text" className="fw-bolder form-control  form-controlPerfil InputPerfil fst-italic" value={userData.numeroRegistro || ''} readOnly disabled />
+                                </div>
+                                <div className="col-md-6 lado2">
+                                    <label className="">Função:</label>
+                                    <input type="text" className="fw-bolder form-control form-controlPerfil InputPerfil fst-italic" value={userData.funcao || ''} readOnly disabled />
+                                    <label className="">Conta Criada em:</label>
+                                    <input
+                                        type="text"
+                                        className="fw-bolder form-control form-controlPerfil InputPerfil fst-italic"
+                                        value={userData.criado_em ? new Date(userData.criado_em).toLocaleDateString('pt-BR') : ''}
+                                        readOnly disabled
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className='baixo-inferior-esquerda-perfil p-4 m-2 mt-3'>
+                            <p className='welcome fs-5 mt-1'>Bem-vindo ao sistema de suporte. Estamos aqui para ajudar a resolver suas demandas rapidamente!</p>
+                            <div className='linha-inferior-perfil mb-2'></div>
+                        </div>
+                    </div>
+
+                    <div className='inferior-direita-perfil p-2 m-2 ms-4 ps-3'>
+                        <Calendar onChange={onChange} value={value} />
+                    </div>
+                </div>
             </div>
-        </div>
+        </>
     );
 }

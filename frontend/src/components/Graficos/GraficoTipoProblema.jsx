@@ -14,7 +14,7 @@ export default function GraficoTipoProblema() {
   const tipos = [
     { key: 1, label: 'Externo' },
     { key: 2, label: 'Manutenção' },
-    { key: 3, label: 'Apoio Tecnico' },
+    { key: 3, label: 'Apoio Técnico' },
     { key: 4, label: 'Limpeza' },
   ];
 
@@ -63,12 +63,17 @@ export default function GraficoTipoProblema() {
       legend: {
         position: 'right',
         labels: {
-          color: 'white',
-          // Não é necessário modificar aqui, pois a propriedade `data.labels` já está sendo usada.
+          color: 'black',
         },
       },
       title: {
-        display: false,
+        display: true,
+
+        color: 'black',
+        font: {
+          size: 18,
+          weight: 'bold',
+        },
       },
     },
   };

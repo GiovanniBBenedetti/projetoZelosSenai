@@ -252,6 +252,7 @@
     letter-spacing: 0.05em;
     border-radius: 20px;
     width: 100%;
+    z-index: 1000 !important;
   }
 
   button i {

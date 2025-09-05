@@ -161,7 +161,7 @@ export default function TabelaPatrimonios() {
               <div className="col-12 col-md-6 custom-col-1080">
                 <label className="form-label">Filtrar por Nº Patrimônio:</label>
                 <div className="input-group borda-filtro-usuario">
-                  <button className="btn" type="button">
+                  <button className="btn btn-filtro-adm" type="button">
                     <i className="bi bi-upc-scan"></i>
                   </button>
                   <input
@@ -177,7 +177,7 @@ export default function TabelaPatrimonios() {
               <div className="col-12 col-md-6 custom-col-1080">
                 <label className="form-label">Filtrar por Sala:</label>
                 <div className="input-group borda-filtro-usuario">
-                  <button className="btn" type="button">
+                  <button className="btn btn-filtro-adm" type="button">
                     <i className="bi bi-door-open"></i>
                   </button>
                   <input
@@ -193,7 +193,7 @@ export default function TabelaPatrimonios() {
               <div className="col-12 col-md-6 custom-col-1080">
                 <label className="form-label">Filtrar por Tipo:</label>
                 <div className="input-group borda-filtro-usuario">
-                  <button className="btn" type="button">
+                  <button className="btn btn-filtro-adm" type="button">
                     <i className="bi bi-hdd-network"></i>
                   </button>
                   <input
@@ -209,7 +209,7 @@ export default function TabelaPatrimonios() {
               <div className="col-12 col-md-6 custom-col-1080">
                 <label className="form-label">Filtrar por Observações:</label>
                 <div className="input-group borda-filtro-usuario">
-                  <button className="btn" type="button">
+                  <button className="btn btn-filtro-adm" type="button">
                     <i className="bi bi-journal-text"></i>
                   </button>
                   <input
@@ -241,6 +241,18 @@ export default function TabelaPatrimonios() {
                 onPaginationModelChange={setPaginationModel}
                 pageSizeOptions={[10, 50, 80, 120, 200]}
                 disableRowSelectionOnClick
+                sx={{
+                  '& .MuiDataGrid-virtualScroller': {
+                    overflowX: 'auto',
+                  },
+                  '& .MuiDataGrid-columnHeaders': {
+                    width: '100%',
+                  },
+                  '& .MuiDataGrid-cell': {
+                    whiteSpace: 'normal',
+                    wordWrap: 'break-word',
+                  }
+                }}
               />
             </Box>
           )}

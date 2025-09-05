@@ -101,7 +101,7 @@ async function compare(senha, hash) {
     }
 }
 
-// --- Nova função para executar consultas diretas ---
+
 async function executeRawQuery(sql, values = []) {
     const connection = await getConnection();
     try {

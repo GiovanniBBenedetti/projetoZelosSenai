@@ -1,38 +1,25 @@
-import { obterUsuario, criarUsuario } from "../models/Usuarios.js";
-import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../config/jwt.js";
-import generateHashedPassword from "../hashPassword.js"
+import jwt from 'jsonwebtoken'
+import { read, compare } from '../config/database.js'
+import { JWT_SECRET } from '../config/jwt.js'
 
-const loginSucessoController = async (req, res) => {
+const loginController = async (req, res) => {
+  const { username, password } = req.body
+
   try {
-    const email = req.user.userPrincipalName;
-    const nome = req.user.displayName;
-    const numeroRegistro = req.user.sAMAccountName;
-    const password = req.body.password
-    const descricao = req.user.description
+    const usuario = await read('usuarios', `numeroRegistro= '${username}'`)
+    if (!usuario) {
+      return res.status(404).json({ mensagem: 'Usuário não encontrado' })
+    }
 
-    let usuario = await obterUsuario(numeroRegistro);
-    const senha = await generateHashedPassword(password);
+    const senhaCorreta = await compare(password, usuario.senha)
 
-    if (!usuario || usuario.length === 0) {
-      console.log(`Usuário não encontrado no banco. Criando: ${nome}`);
-
-      const usuarioData = {
-        email,
-        nome,
-        numeroRegistro,
-        senha,
-        descricao
-      };
-
-      await criarUsuario(usuarioData);
-
-      usuario = await obterUsuario(numeroRegistro);
+    if (!senhaCorreta) {
+      return res.status(401).json({ mensagem: 'Senha Incorreta' })
     }
 
 
 
-  const token =  jwt.sign(
+    const token = jwt.sign(
       {
         id: usuario.id,
         nome: usuario.nome,
@@ -40,11 +27,12 @@ const loginSucessoController = async (req, res) => {
         funcao: usuario.funcao
       },
       JWT_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "12h" }
     );
 
 
-    return res.json({
+
+    res.json({
       message: "Autenticado com sucesso",
       token,
       user: {
@@ -56,9 +44,14 @@ const loginSucessoController = async (req, res) => {
         funcao: usuario.funcao
       }
     });
-  } catch (error) {
-    console.error("Erro ao criar/verificar usuário no banco:", error);
-    return res.status(500).json({ error: "Erro interno ao salvar usuário" });
+  } catch (err) {
+    console.error('Erro ao fazer login: ', err)
+    res.status(500).json({ mensagem: 'Erro ao fazer login' })
   }
-};
-export { loginSucessoController }
+}
+
+export { loginController }
+
+
+
+

@@ -22,8 +22,8 @@ export default function DashboardZeloPage() {
     const [chamadosAbertos, setChamadosAbertos] = useState(0);
     const [chamadosNaoIniciados, setChamadosNaoIniciados] = useState(0);
 
-    const [inputValue, setInputValue] = useState(0);
-    const progressBarRef = useRef(null);
+    const [porcentagemAbertos, setPorcentagemAbertos] = useState(0);
+    const [porcentagemNaoIniciados, setPorcentagemNaoIniciados] = useState(0);
 
     useEffect(() => {
         const token = getCookie('token');
@@ -62,6 +62,19 @@ export default function DashboardZeloPage() {
         ]).catch(err => console.error(err));
 
     }, []);
+
+    useEffect(() => {
+        const totalAtivos = chamadosAbertos + chamadosNaoIniciados;
+        if (totalAtivos > 0) {
+            const percAbertos = Math.round((chamadosAbertos / totalAtivos) * 100);
+            const percNaoIniciados = Math.round((chamadosNaoIniciados / totalAtivos) * 100);
+            setPorcentagemAbertos(percAbertos);
+            setPorcentagemNaoIniciados(percNaoIniciados);
+        } else {
+            setPorcentagemAbertos(0);
+            setPorcentagemNaoIniciados(0);
+        }
+    }, [chamadosAbertos, chamadosNaoIniciados]);
 
     useEffect(() => {
         const token = getCookie('token');
@@ -165,7 +178,7 @@ export default function DashboardZeloPage() {
                 </div>
             </div>
 
-            <div className="row mt-3">
+            {/* <div className="row mt-3">
                 <div className="col-md-12">
                     <div className="chart-card">
                         <h3 className="chart-title">Chamados abertos por mais tempo</h3>
@@ -174,7 +187,7 @@ export default function DashboardZeloPage() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             <div className="row mt-5">
                 <div className="col-md-4 mb-4">
@@ -200,28 +213,20 @@ export default function DashboardZeloPage() {
                 </div>
             </div>
 
-            <div className="row mt-2">
+            <div className="row dash-progress-bar mt-2 mb-2">
                 <div className="dash-porcent d-flex gap-5">
-                    <p><span>70%</span> dos chamados estão aberto</p>
-                    <p><span>30%</span> dos chamados ainda não foram iniciados</p>
+                    <p><span>{porcentagemAbertos}%</span> dos chamados estão aberto</p>
+                    <p><span>{porcentagemNaoIniciados}%</span> dos chamados ainda não foram iniciados</p>
                 </div>
                 <div className="dash-barra">
-                    <div ref={progressBarRef} style={{ width: `${inputValue}%` }}></div>
+                    <div className="abertos" style={{ width: `${porcentagemAbertos}%` }}></div>
                 </div>
-                <input
-                    type="number"
-                    value={inputValue}
-                    onChange={(e) => {
-                        const value = Math.max(0, Math.min(100, parseInt(e.target.value) || 0));
-                        setInputValue(value);
-                    }}
-                />
             </div>
 
             <div className="row mt-5">
                 <div className="col-md-12">
                     <div className="chart-card">
-                        <h3 className="chart-title">total de chamados por semana</h3>
+                        <h3 className="chart-title">Total de chamados por semana</h3>
                         <div className="chart-wrapper">
                             <GraficoTotalChamados />
                         </div>

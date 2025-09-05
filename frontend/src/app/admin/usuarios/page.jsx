@@ -160,7 +160,7 @@ export default function TabelaUsuarios() {
               <div className="col-12 col-md-6 custom-col-1080">
                 <label className="form-label">Filtrar por Nome:</label>
                 <div className="input-group borda-filtro-usuario">
-                  <button className="btn" type="button">
+                  <button className="btn btn-filtro-adm" type="button">
                     <i className="bi bi-person"></i>
                   </button>
                   <input
@@ -176,7 +176,7 @@ export default function TabelaUsuarios() {
               <div className="col-12 col-md-6 custom-col-1080">
                 <label className="form-label">Filtrar por Nº Registro:</label>
                 <div className="input-group borda-filtro-usuario">
-                  <button className="btn" type="button">
+                  <button className="btn btn-filtro-adm" type="button">
                     <i className="bi bi-upc"></i>
                   </button>
                   <input
@@ -192,7 +192,7 @@ export default function TabelaUsuarios() {
               <div className="col-12 col-md-6 custom-col-1080">
                 <label className="form-label">Filtrar por Função:</label>
                 <div className="input-group borda-filtro-usuario">
-                  <button className="btn" type="button">
+                  <button className="btn btn-filtro-adm" type="button">
                     <i className="bi bi-briefcase"></i>
                   </button>
                   <input
@@ -208,7 +208,7 @@ export default function TabelaUsuarios() {
               <div className="col-12 col-md-6 custom-col-1080">
                 <label className="form-label">Filtrar por Email:</label>
                 <div className="input-group borda-filtro-usuario">
-                  <button className="btn" type="button">
+                  <button className="btn btn-filtro-adm" type="button">
                     <i className="bi bi-envelope"></i>
                   </button>
                   <input
@@ -241,7 +241,7 @@ export default function TabelaUsuarios() {
                   overflowX: 'auto',
                 },
                 '& .MuiDataGrid-columnHeaders': {
-                  minWidth: '100%',
+                  width: '100%',
                 },
                 '& .MuiDataGrid-cell': {
                   whiteSpace: 'normal',

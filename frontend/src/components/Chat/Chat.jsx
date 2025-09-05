@@ -34,7 +34,6 @@ export default function Chat({ idChamado, possuiTecnico, isConcluido }) {
       const data = await res.json();
       setMensagens(data);
     } catch (err) {
-      console.error(err);
       setMensagens([]);
     } finally {
       setCarregandoMensagens(false);
@@ -57,13 +56,13 @@ export default function Chat({ idChamado, possuiTecnico, isConcluido }) {
     const token = getCookie('token');
 
     if (novoApontamento == '' || !novoApontamento.trim()) {
-      return
+      return;
     }
 
     const dados = JSON.stringify({
       chamadoId: idChamado,
       novoApontamento,
-      usuario: funcao === 'usuario',
+      usuario: funcao === 'usuario' || funcao === 'admin',
       tecnico: funcao === 'tecnico',
     });
 
@@ -77,8 +76,6 @@ export default function Chat({ idChamado, possuiTecnico, isConcluido }) {
         body: dados,
       });
 
-      const data = await response.json();
-
       if (response.ok) {
         await carregarMensagens();
         setNovoApontamento('');
@@ -86,7 +83,6 @@ export default function Chat({ idChamado, possuiTecnico, isConcluido }) {
         alert('errado');
       }
     } catch (error) {
-      console.error('Erro:', error);
       alert('Erro ao enviar os dados.');
     }
   }
@@ -97,41 +93,46 @@ export default function Chat({ idChamado, possuiTecnico, isConcluido }) {
         <div className="card-container">
           <div className="card-body">
             <div className="messages-container">
-              {mensagens.map((mensagem, chave) => (
-                <div
-                  key={chave}
-                  className={`message-box ${(funcao === 'usuario' && mensagem.usuario_id) ||
-                    (funcao === 'tecnico' && !mensagem.usuario_id)
-                    ? 'right'
-                    : 'left'
-                    }`}
-                >
-                  <p className="titulo-msg">
-                    {mensagem.usuario_id ? 'Usuário' : 'Técnico'}
-                  </p>
-                  <p>{mensagem.descricao}</p>
-                  <div className="d-flex justify-content-between">
-                    <p
-                      className={`message-box ${mensagem.usuario_id ? 'hora-chat2' : 'hora-chat'
-                        }`}
-                    >
-                      {new Date(mensagem.criado_em).toLocaleTimeString(
-                        'pt-BR',
-                        {
-                          hour: '2-digit',
-                          minute: '2-digit',
-                        }
-                      )}
+              {mensagens.map((mensagem, chave) => {
+                const souMensagem =
+                  ((funcao === 'usuario' || funcao === 'admin') && mensagem.usuario_id) ||
+                  (funcao === 'tecnico' && !mensagem.usuario_id);
+                return (
+                  <div
+                    key={chave}
+                    className={`message-box ${souMensagem ? 'right' : 'left'}`}
+                  >
+                    <p className="titulo-msg">
+                      {souMensagem
+                        ? 'Você'
+                        : funcao === 'tecnico'
+                          ? 'Solicitante'
+                          : 'Técnico'}
                     </p>
-                    <p
-                      className={`message-box ${mensagem.usuario_id ? 'data-chat' : 'data-chat2'
-                        }`}
-                    >
-                      {new Date(mensagem.criado_em).toLocaleDateString('pt-BR')}
-                    </p>
+                    <p>{mensagem.descricao}</p>
+                    <div className="d-flex justify-content-between">
+                      <p
+                        className={`message-box ${mensagem.usuario_id ? 'hora-chat2' : 'hora-chat'}`}
+                      >
+                        {new Date(mensagem.criado_em).toLocaleTimeString(
+                          'pt-BR',
+                          {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                          }
+                        )}
+                      </p>
+                      <p
+                        className={`message-box ${mensagem.usuario_id ? 'data-chat' : 'data-chat2'}`}
+                      >
+                        {new Date(mensagem.criado_em).toLocaleDateString(
+                          'pt-BR'
+                        )}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
               <div ref={fimDasMensagensRef} />
             </div>
           </div>

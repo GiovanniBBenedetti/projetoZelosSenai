@@ -6,7 +6,7 @@ const ProgressBar = ({ step, onChange, funcao }) => {
   
 
   const steps = [
-    { icon: 'bi-clock-history', label: 'Chamado não iniciado' },
+    { icon: 'bi-clock-history', label: 'Enviado' },
     { icon: 'bi-wrench-adjustable', label: 'Em andamento' },
     { icon: 'bi-check-lg', label: 'Concluído' },
   ];

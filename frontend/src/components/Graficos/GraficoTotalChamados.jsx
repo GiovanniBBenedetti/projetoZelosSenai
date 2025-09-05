@@ -1,50 +1,72 @@
 'use client';
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import { getCookie } from 'cookies-next';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 export default function GraficoTotalChamados() {
-  const data = {
-    labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-    datasets: [{
-      label: 'Chamados Abertos',
-      data: [50, 45, 60, 55, 70, 65, 80, 75, 90, 85, 100, 95], // Dados fictícios
-      borderColor: '#e30615',
-      backgroundColor: 'rgba(227, 6, 21, 0.5)',
-      tension: 0.4,
-      fill: false,
-    }],
-  };
+  const [chartData, setChartData] = useState({ labels: [], datasets: [] });
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const token = getCookie('token'); 
+
+        const res = await fetch("http://localhost:8080/dashboard/semanal", {
+          headers: { 'Authorization': `Bearer ${token}` },
+        });
+
+        const data = await res.json();
+
+        setChartData({
+          labels: data.labels,
+          datasets: [
+            {
+              label: "Chamados Enviados",
+              data: data.datasets.enviados,
+              borderColor: "#e30615",
+              backgroundColor: "rgba(227, 6, 21, 0.5)",
+              tension: 0.4
+            },
+            {
+              label: "Chamados Em Andamento",
+              data: data.datasets.andamento,
+              borderColor: "#f0ad4e",
+              backgroundColor: "rgba(240, 173, 78, 0.5)",
+              tension: 0.4
+            },
+            {
+              label: "Chamados Concluídos",
+              data: data.datasets.concluidos,
+              borderColor: "#007bff",
+              backgroundColor: "rgba(0, 123, 255, 0.5)",
+              tension: 0.4
+            },
+            
+          ]
+        });
+      } catch (error) {
+        console.error("Erro ao buscar dados do gráfico:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
 
   const options = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: {
-        labels: {
-            color: 'white',
-        }
-      },
-      title: {
-        display: false,
-      },
+      legend: { labels: { color: 'black' } },
+      title: { display: false },
     },
     scales: {
-        y: {
-            ticks: {
-                color: 'white',
-            }
-        },
-        x: {
-            ticks: {
-                color: 'white',
-            }
-        }
-    }
+      y: { ticks: { color: 'black' } },
+      x: { ticks: { color: 'black' } },
+    },
   };
 
-  return <Line data={data} options={options} />;
+  return <Line data={chartData} options={options} />;
 }

@@ -5,6 +5,7 @@
     --vermelho: #e30615;
     --preto: #000000;
     --cinza: #808080;
+    --cinza2: #ac0000;
 }
 
 body {
@@ -34,7 +35,6 @@ body {
 .MuiDataGrid-row:focus-visible .MuiDataGrid-main:focus {
     outline: none !important;
     box-shadow: none !important;
-    margin-bottom: 96px !important;
 }
 
 .MuiDataGrid-row:hover {
@@ -51,7 +51,7 @@ body {
     color: var(--vermelhoMedio);
 }
 
-.btn {
+.btn-filtro-adm {
     background-color: var(--branco) !important;
     border: transparent !important;
 }
@@ -59,6 +59,7 @@ body {
 .borda-filtro-usuario {
     border: 2px solid var(--vermelhoEscuro);
     border-radius: 20px;
+    background-color: var(--branco);
 }
 
 .borda-filtro-usuario button {

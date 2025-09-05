@@ -16,7 +16,7 @@
 }
 
 /*=============== DASHBOARD GERAL ===============*/
-.row > * {
+.user-dash > * {
   padding-left: 0 !important;
 }
 
@@ -128,76 +128,6 @@
   font-weight: var(--font-semi-bold);
   text-align: center;
   margin-bottom: 2rem;
-}
-
-/*=============== CARDS DE CHAMADOS ===============*/
-.card-user, .card-desativado-user {
-  background-color: var(--branco);
-  border-radius: 1rem;
-  padding: 1rem;
-  width: 100%;
-  max-width: 300px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  color: var(--preto-zelos);
-  border: 2px solid transparent;
-  transition: border-color 0.3s;
-}
-
-.card-user:hover {
-  border-color: var(--vermelho-principal);
-}
-
-.card-desativado-user {
-  opacity: 0.6;
-  filter: grayscale(1);
-  background-color: var(--cinza-claro);
-}
-
-.card-prioridade-1-user,
-.card-prioridade-2-user,
-.card-prioridade-3-user,
-.card-prioridade-4-user {
-  border-radius: 1rem;
-  padding: 0.5rem 1rem;
-  color: var(--branco);
-  width: 100%;
-  font-weight: var(--font-semi-bold);
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-.card-prioridade-1-user {
-  background-color: var(--prioridade-baixa);
-}
-
-.card-prioridade-2-user {
-  background-color: var(--prioridade-minima);
-}
-
-.card-prioridade-3-user {
-  background-color: var(--prioridade-maxima);
-}
-
-.card-prioridade-4-user {
-  background-color: var(--vermelho-escuro);
-}
-
-.card-titulo-user h3 {
-  font-size: 1.25rem;
-  font-weight: var(--font-semi-bold);
-  color: var(--preto-zelos);
-}
-
-.card-patrimonio-user p,
-.card-data-user p,
-.status-card-user p {
-  font-size: 0.9rem;
-  color: #555;
-  margin: 0.25rem 0;
-}
-
-.status-card-user p {
-  text-transform: capitalize;
 }
 
 /*=============== RESPONSIVIDADE ===============*/

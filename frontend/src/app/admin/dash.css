@@ -21,7 +21,7 @@
   color: var(--preto-zelos);
 }
 
-.row > * {
+.dashboard-header>* {
   padding-left: 0 !important;
 }
 
@@ -95,8 +95,8 @@
 }
 
 .chart-wrapper {
-position: relative;
-height: 250px;
+  position: relative;
+  height: 250px;
 }
 
 /*=============== CARDS DE NÚMEROS ===============*/
@@ -128,27 +128,36 @@ height: 250px;
 }
 
 .info-box-2 span {
-  color: #FFD700; /* Cor para chamados em aberto */
+  color: #FFD700;
 }
 
 .info-box-3 span {
-  color: #e30615; /* Cor para chamados não iniciados */
+  color: #e30615;
+}
+
+.dash-progress-bar {
+  background-color: var(--branco);
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: #101820;
 }
 
 .dash-porcent {
-  border: 1px solid var(--preto);
+  justify-content: space-between;
 }
 
 .dash-porcent span {
   font-weight: bold;
-  font-size: 2rem;
+  font-size: 2.5rem;
 }
 
 .dash-barra {
   width: 100rem;
   height: 20px;
   border-radius: 10px;
-  background-color: var(--cinza-claro);
+  background-color: var(--vermelhoCinza);
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
 .dash-barra div {
@@ -193,7 +202,7 @@ height: 250px;
   border: 2px solid transparent;
   transition: border-color 0.3s;
   border-color: #D7D7D7;
-  
+
 }
 
 .tecnico-header {
@@ -274,11 +283,12 @@ height: 250px;
 /*=============== RESPONSIVIDADE ===============*/
 @media (max-width: 768px) {
   .dashboard-admin {
-      padding-left: 1rem;
-      padding-right: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
+
   .dashboard-header .card-information-col {
-      padding-right: 0 !important;
-      margin-bottom: 1rem;
+    padding-right: 0 !important;
+    margin-bottom: 1rem;
   }
 }

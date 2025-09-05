@@ -23,8 +23,8 @@ const statusOptions = [
 export default function TabelaChamados() {
   const [chamados, setChamados] = useState([]);
   const [filtroPatrimonio, setFiltroPatrimonio] = useState('');
-  const [filtroArea, setFiltroArea] = useState('');
-  const [filtroData, setFiltroData] = useState('');
+  const [filtroTitulo, setFiltroTitulo] = useState('');
+  const [filtroPrioridade, setFiltroPrioridade] = useState('');
   const [filtroDescricoes, setFiltroDescricoes] = useState('');
   const [mounted, setMounted] = useState(false);
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 });
@@ -92,8 +92,8 @@ export default function TabelaChamados() {
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 40, disableColumnMenu: true },
-    { field: 'titulo', headerName: 'Título', width: 230, disableColumnMenu: true },
-    { field: 'descricao', headerName: 'Descrição', width: 250, disableColumnMenu: true },
+    { field: 'titulo', headerName: 'Título', width: 270, disableColumnMenu: true },
+    { field: 'descricao', headerName: 'Descrição', width: 270, disableColumnMenu: true },
     { field: 'patrimonio', headerName: 'Patrimônio', width: 150, disableColumnMenu: true },
     {
       field: 'grau_prioridade',
@@ -178,9 +178,9 @@ export default function TabelaChamados() {
 
   const filtrado = chamados.filter((item) =>
     (item.patrimonio || '').toString().toLowerCase().includes(filtroPatrimonio.toLowerCase()) &&
-    (item.area || '').toLowerCase().includes(filtroArea.toLowerCase()) &&
+    (item.titulo || '').toLowerCase().includes(filtroTitulo.toLowerCase()) &&
     (item.descricao || '').toLowerCase().includes(filtroDescricoes.toLowerCase()) &&
-    (!filtroData || (item.criado_em && item.criado_em.startsWith(filtroData)))
+    (!filtroPrioridade || item.grau_prioridade === filtroPrioridade)
   );
 
   return (
@@ -194,7 +194,7 @@ export default function TabelaChamados() {
               <div className="col-12 col-md-6 custom-col-1080">
                 <label className="form-label">Filtrar por Nº Patrimônio:</label>
                 <div className="input-group borda-filtro-usuario">
-                  <button className="btn" type="button">
+                  <button className="btn btn-filtro-adm" type="button">
                     <i className="bi bi-upc-scan"></i>
                   </button>
                   <input
@@ -208,32 +208,57 @@ export default function TabelaChamados() {
               </div>
 
               <div className="col-12 col-md-6 custom-col-1080">
-                <label className="form-label">Filtrar por Área:</label>
+                <label className="form-label">Filtrar por Título:</label>
                 <div className="input-group borda-filtro-usuario">
-                  <button className="btn" type="button">
-                    <i className="bi bi-building"></i>
+                  <button className="btn btn-filtro-adm" type="button">
+                    <i className="bi bi-fonts"></i>
                   </button>
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Área"
-                    value={filtroArea}
-                    onChange={(e) => setFiltroArea(e.target.value)}
+                    placeholder="Título"
+                    value={filtroTitulo}
+                    onChange={(e) => setFiltroTitulo(e.target.value)}
                   />
                 </div>
               </div>
 
               <div className="col-12 col-md-6 custom-col-1080">
-                <label className="form-label">Filtrar por Data:</label>
+                <label className="form-label">Filtrar por Prioridade:</label>
                 <div className="input-group borda-filtro-usuario">
-                  <button className="btn" type="button">
-                    <i className="bi bi-calendar-event"></i>
+                  <button className="btn btn-filtro-adm" type="button">
+                    <i className="bi bi-exclamation-triangle"></i>
                   </button>
-                  <input
-                    type="date"
-                    className="form-control"
-                    value={filtroData}
-                    onChange={(e) => setFiltroData(e.target.value)}
+                  <Select
+                    options={prioridadeOptions}
+                    value={prioridadeOptions.find(opt => opt.value === filtroPrioridade) || null}
+                    onChange={(selectedOption) => setFiltroPrioridade(selectedOption ? selectedOption.value : '')}
+                    placeholder="Prioridade"
+                    isClearable
+                    menuPortalTarget={document.body}
+                    styles={{
+                      control: (provided) => ({
+                        ...provided,
+                        backgroundColor: 'transparent',
+                        border: 'none',
+                        boxShadow: 'none',
+                        minHeight: '38px',
+                        borderRadius: '20px',
+                        color: 'var(--vermelhoEscuro)',
+                      }),
+                      singleValue: (provided) => ({
+                        ...provided,
+                        color: 'var(--vermelhoEscuro)',
+                      }),
+                      option: (provided, state) => ({
+                        ...provided,
+                        backgroundColor: state.isFocused ? 'var(--vermelhoEscuro)' : 'var(--cinza2)',
+                        color: '#ffffffff',
+                        '&:active': { backgroundColor: 'var(--vermelhoEscuro)' },
+                      }),
+                      indicatorSeparator: () => ({ display: 'none' }),
+                      menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                    }}
                   />
                 </div>
               </div>
@@ -241,7 +266,7 @@ export default function TabelaChamados() {
               <div className="col-12 col-md-6 custom-col-1080">
                 <label className="form-label">Filtrar por Descrição:</label>
                 <div className="input-group borda-filtro-usuario">
-                  <button className="btn" type="button">
+                  <button className="btn btn-filtro-adm" type="button">
                     <i className="bi bi-journal-text"></i>
                   </button>
                   <input
@@ -256,7 +281,6 @@ export default function TabelaChamados() {
             </div>
           </div>
 
-          <BotaoNovo placeholder={'Realizar novo chamado'} data={'#'} />
         </div>
       </div>
 

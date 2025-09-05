@@ -13,7 +13,6 @@ export default function UserDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-
   const statusPrioridade = {
     'enviado': 0,
     'procurando responsável': 1,
@@ -78,15 +77,16 @@ export default function UserDashboard() {
   }
 
   const chamadosEmAndamento = chamados.filter(
-    (chamado) => chamado.status !== 'concluído'
-  );
+    (chamado) => chamado.status === 'Em andamento'
+  ).slice(0, 3);
+
   const chamadosResolvidos = chamados.filter(
-    (chamado) => chamado.status === 'concluido'
-  );
+    (chamado) => chamado.status === 'concluído'
+  ).sort((a, b) => new Date(b.criado_em) - new Date(a.criado_em)).slice(0, 3);
 
   return (
     <div className="container-fluid dashboard-user">
-      <div className="row">
+      <div className="row user-dash">
         <div className="col-md-4 mt-4 card-information-col">
           <Link href="/usuario/criar" className="card-information">
             <div className="text-content">
@@ -109,7 +109,7 @@ export default function UserDashboard() {
           <div className="card-information">
             <div className="text-content">
               <p>{chamadosResolvidos.length} Chamados</p>
-              <span>Criados no ultimo semestre</span>
+              <span>Concluídos recentemente</span>
             </div>
           </div>
         </div>
@@ -123,43 +123,26 @@ export default function UserDashboard() {
           </div>
         </div>
       </div>
-
-
-      {/* {chamadosEmAndamento.length > 0 && (
-        <div className="chamados-andamento-container mt-5">
-          <h2 className="text-center">Chamados em Andamento</h2>
-          <div className="d-flex flex-wrap justify-content-center gap-4 mt-4">
-            {ordenarChamados(chamadosEmAndamento).map((chamado) => (
-              <div key={chamado.id}>
-                <CardUser chamados={[chamado]} />
-              </div>
-            ))}
-          </div>
+      
+      <div className="row mt-4">
+        <div className="col-12">
+          <h3 className="mb-3">Chamados em Andamento</h3>
+          {chamadosEmAndamento.length > 0 ? (
+            <CardUser chamados={chamadosEmAndamento} />
+          ) : (
+            <p>Nenhum chamado em andamento encontrado.</p>
+          )}
         </div>
-      )}
 
-      {chamadosResolvidos.length > 0 && (
-        <div className="chamados-resolvidos-container mt-5">
-          <h2 className="text-center">Chamados Resolvidos</h2>
-          <div className="d-flex flex-wrap justify-content-center gap-4 mt-4">
-            {ordenarChamados(chamadosResolvidos).map((chamado) => (
-              <div key={chamado.id}>
-                <CardUser chamados={[chamado]} />
-              </div>
-            ))}
-          </div>
+        <div className="col-12 mt-4">
+          <h3 className="mb-3">Chamados Concluídos</h3>
+          {chamadosResolvidos.length > 0 ? (
+            <CardUser chamados={chamadosResolvidos} />
+          ) : (
+            <p>Nenhum chamado concluído encontrado.</p>
+          )}
         </div>
-      )}
-
-      {chamados.length === 0 && (
-        <div className="sem-chamados d-grid justify-content-center align-items-center mt-5">
-          <img src="/fundo_semChamados.png" className='img-fluid' alt="" />
-          <p>Ops! Você não possui nenhum chamado</p>
-          <div className="">
-            <BtnVenhaCriar />
-          </div>
-        </div>
-      )} */}
+      </div>
     </div>
   );
 }

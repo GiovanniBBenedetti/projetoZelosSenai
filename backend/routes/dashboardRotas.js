@@ -1,6 +1,6 @@
 import express from 'express';
 import authMiddleware from '../middlewares/authMiddleware.js';
-import { listarUsuariosDashboardController, listarPatrimonioDashboardController, listarChamadosAtrasadosController,listarGraficoGrauPrioridadeController, listarGraficoTipoController, getTecnicosDestaque, listarchamadosParamsController } from '../controllers/DashboardController.js';
+import { listarUsuariosDashboardController, listarPatrimonioDashboardController, listarChamadosAtrasadosController,listarGraficoGrauPrioridadeController, listarGraficoTipoController, getTecnicosDestaque, listarchamadosParamsController, getChamadosPorSemana  } from '../controllers/DashboardController.js';
 
 
 const router = express.Router();
@@ -13,6 +13,8 @@ router.get('/grauPrioridade', authMiddleware, listarGraficoGrauPrioridadeControl
 router.get('/tipo', authMiddleware, listarGraficoTipoController);
 router.get('/tecnicosDestaque', authMiddleware, getTecnicosDestaque);
 router.get('/chamadosParams', authMiddleware, listarchamadosParamsController);
+
+router.get("/semanal", authMiddleware, getChamadosPorSemana);
 
 
 

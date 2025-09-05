@@ -1,13 +1,12 @@
+import RotaProtegida from "@/components/RotaProtegida/RotaProtegida";
 import SidebarLayout from "@/components/SidebarLayout";
 
-export default function usuarioLayout({ children }) {
+export default function tecnicoLayout({ children }) {
   return (
-     <html lang="pt-BR">
-      <body>
-        <SidebarLayout>
-          {children}
-        </SidebarLayout>
-      </body>
-    </html>
+    <RotaProtegida permitido={["usuario"]}>
+      <SidebarLayout>
+        {children}
+      </SidebarLayout>
+    </RotaProtegida>
   );
-}
+} 

@@ -17,7 +17,7 @@ const criarMensagensController = async (req, res) => {
   }
 
   try {
-    const { chamadoId, novoApontamento, usuario, tecnico, admin } = req.body;
+    const { chamadoId, novoApontamento, usuario, tecnico } = req.body;
     const pessoaMensagem = req.usuario.id;
 
     const chatData = {
@@ -29,8 +29,6 @@ const criarMensagensController = async (req, res) => {
       chatData.usuario_id = pessoaMensagem;
     } else if (tecnico) {
       chatData.tecnico_id = pessoaMensagem;
-    } else if (admin) {
-      chatData.admin_id = pessoaMensagem;
     }
 
     const chatId = await criarMensagens(chatData);

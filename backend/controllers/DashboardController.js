@@ -1,5 +1,5 @@
 import { listarPatrimoniosDashboard, listarTodosUsuariosDashboard, listarChamadosAtrasados, listarGraficoGrauPrioridade, listarGraficoTipoChamado, listarChamadosParams } from "../models/Dashboard.js"
-import { readAll, executeRawQuery  } from '../config/database.js';
+import { readAll, executeRawQuery } from '../config/database.js';
 
 const listarPatrimonioDashboardController = async (req, res) => {
     try {
@@ -103,7 +103,7 @@ const getTecnicosDestaque = async (req, res) => {
                 chamados_resolvidos DESC
             LIMIT 3;
         `;
-        const tecnicos = await executeRawQuery(query); 
+        const tecnicos = await executeRawQuery(query);
         res.status(200).json(tecnicos);
     } catch (error) {
         console.error('Erro ao buscar técnicos em destaque:', error);
@@ -114,18 +114,18 @@ const getTecnicosDestaque = async (req, res) => {
 
 const listarchamadosParamsController = async (req, res) => {
     try {
-        const {status} = req.query;
+        const { status } = req.query;
 
         let chamados
-        if(status){
-             chamados = await listarChamadosParams(status);
-        }else{
-             chamados = await listarChamadosParams()
+        if (status) {
+            chamados = await listarChamadosParams(status);
+        } else {
+            chamados = await listarChamadosParams()
         }
-    
 
 
-    
+
+
         res.status(200).json(chamados);
     } catch (err) {
         console.error(`Erro ao listar chamados por status: `, err);
@@ -134,6 +134,67 @@ const listarchamadosParamsController = async (req, res) => {
 };
 
 
+
+const getChamadosPorSemana = async (req, res) => {
+    try {
+        const sql = `
+            SELECT 
+                DAYNAME(criado_em) as dia,
+                status,
+                COUNT(*) as total
+            FROM chamados
+            WHERE criado_em >= CURDATE() - INTERVAL 6 DAY
+            GROUP BY dia, status
+            ORDER BY FIELD(
+                DAYNAME(criado_em),
+                'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'
+            );
+        `;
+
+        const rows = await executeRawQuery(sql);
+
+        const mapaDias = {
+            Monday: "Segunda",
+            Tuesday: "Terça",
+            Wednesday: "Quarta",
+            Thursday: "Quinta",
+            Friday: "Sexta",
+            Saturday: "Sábado",
+            Sunday: "Domingo"
+        };
+
+        const diasSemana = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"];
+        
+        const result = {
+            labels: diasSemana,
+            datasets: {
+                enviados: [],
+                andamento: [],
+                concluidos: [],
+            
+            }
+        };
+
+        diasSemana.forEach(dia => {
+            const enviados = rows.find(r => mapaDias[r.dia] === dia && r.status === "enviado");
+            const andamento = rows.find(r => mapaDias[r.dia] === dia && r.status === "em andamento");
+            const concluidos = rows.find(r => mapaDias[r.dia] === dia && r.status === "concluído");
+
+            result.datasets.enviados.push(enviados ? enviados.total : 0);
+            result.datasets.andamento.push(andamento ? andamento.total : 0);
+            result.datasets.concluidos.push(concluidos ? concluidos.total : 0);
+            
+        });
+
+        res.json(result);
+    } catch (error) {
+        console.error("Erro ao buscar chamados:", error);
+        res.status(500).json({ error: "Erro ao buscar chamados" });
+    }
+};
+
+
+
 export {
-    listarPatrimonioDashboardController, getTecnicosDestaque, listarUsuariosDashboardController, listarChamadosAtrasadosController, listarGraficoGrauPrioridadeController, listarGraficoTipoController, listarchamadosParamsController
+    listarPatrimonioDashboardController, getTecnicosDestaque, listarUsuariosDashboardController, listarChamadosAtrasadosController, listarGraficoGrauPrioridadeController, listarGraficoTipoController, listarchamadosParamsController, getChamadosPorSemana
 };

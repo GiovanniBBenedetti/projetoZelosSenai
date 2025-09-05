@@ -144,7 +144,7 @@ export default function TabelaPatrimonios() {
                         <div className="col-12 col-md-6 custom-col-1080">
                             <label className="form-label">Filtrar por Remetente:</label>
                             <div className="input-group borda-filtro-usuario">
-                                <button className="btn" type="button">
+                                <button className="btn btn-filtro-adm" type="button">
                                     <i className="bi bi-person-lines-fill"></i>
                                 </button>
                                 <input
@@ -160,7 +160,7 @@ export default function TabelaPatrimonios() {
                         <div className="col-12 col-md-6 custom-col-1080">
                             <label className="form-label">Filtrar por Título:</label>
                             <div className="input-group borda-filtro-usuario">
-                                <button className="btn" type="button">
+                                <button className="btn btn-filtro-adm" type="button">
                                     <i className="bi bi-text-wrap"></i>
                                 </button>
                                 <input
@@ -176,7 +176,7 @@ export default function TabelaPatrimonios() {
                         <div className="col-12 col-md-6 custom-col-1080">
                             <label className="form-label">Filtrar por Descrição:</label>
                             <div className="input-group borda-filtro-usuario">
-                                <button className="btn" type="button">
+                                <button className="btn btn-filtro-adm" type="button">
                                     <i className="bi bi-pencil-square"></i>
                                 </button>
                                 <input
@@ -192,7 +192,7 @@ export default function TabelaPatrimonios() {
                         <div className="col-12 col-md-6 custom-col-1080">
                             <label className="form-label">Filtrar por Status:</label>
                             <div className="input-group borda-filtro-usuario">
-                                <button className="btn" type="button">
+                                <button className="btn btn-filtro-adm" type="button">
                                     <i className="bi bi-plus-slash-minus"></i>
                                 </button>
                                 <input
@@ -222,6 +222,18 @@ export default function TabelaPatrimonios() {
                             pageSizeOptions={[10, 15, 20, 50]}
                             getRowId={row => row.id}
                             disableRowSelectionOnClick
+                            sx={{
+                                '& .MuiDataGrid-virtualScroller': {
+                                    overflowX: 'auto',
+                                },
+                                '& .MuiDataGrid-columnHeaders': {
+                                    width: '100%',
+                                },
+                                '& .MuiDataGrid-cell': {
+                                    whiteSpace: 'normal',
+                                    wordWrap: 'break-word',
+                                }
+                            }}
                         />
                     </Box>
                 )}

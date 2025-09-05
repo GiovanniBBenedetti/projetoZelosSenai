@@ -10,13 +10,7 @@ export default function Carrosel({ chamados = [] }) {
   const [userChamadoData, setUserChamadoData] = useState({});
   const [funcao, setFuncao] = useState("");
 
-  const opcoesTipos = [
-    { value: '1', label: 'Externo' },
-    { value: '2', label: 'Manutenção' },
-    { value: '3', label: 'Apoio Técnico' },
-    { value: '4', label: 'Limpeza' },
-  ];
-  
+
 
   function page1() {
     setPage(1);
@@ -24,6 +18,13 @@ export default function Carrosel({ chamados = [] }) {
   function page2() {
     setPage(2);
   }
+
+const opcoesTipos = {
+    1: 'Externo',
+    2: 'Manutenção',
+    3: 'Apoio Técnico',
+    4: 'Limpeza'
+   };
 
   useEffect(() => {
     const funcaoCookie = getCookie("funcao");
@@ -88,7 +89,7 @@ export default function Carrosel({ chamados = [] }) {
 
       if (response.ok) {
         alert("Chamado atribuído com sucesso");
-        // window.location.reload();
+        window.location.reload();
       } else {
         alert("Erro ao atribuir chamado");
       }
@@ -165,8 +166,8 @@ export default function Carrosel({ chamados = [] }) {
                 aria-labelledby={`modalLabel-${chamado.id}`}
                 aria-hidden="true"
               >
-                <div className="modal-dialog modal-dialog-centered">
-                  <div className="modal-content">
+                <div className="modal-dialog  modal-lg modal-dialog-centered">
+                  <div className="modal-content pb-5">
                     <div className="modal-header gap-4">
                       {page === 1 ? (
                         <>
@@ -237,7 +238,7 @@ export default function Carrosel({ chamados = [] }) {
                       <div className="row mb-3">
                         <div className="col-6">
                           <p className="label-user">Área:</p>
-                          <p className="valor-user">{chamado.tipo_id}</p>
+                          <p className="valor-user">{opcoesTipos[chamado.tipo_id]}</p>
                         </div>
                         <div className="col-6">
                           <p className="label-user">Patrimônio:</p>
@@ -252,7 +253,7 @@ export default function Carrosel({ chamados = [] }) {
                         </div>
                       </div>
 
-                      <div className="mt-4 BotaoCriarChamado">
+                      <div className="mt-4  BotaoCriarChamado">
                       
                           <button onClick={() => atribuirTecnico(chamado.id)}>
                           <i className="bi bi-ticket-fill"></i>

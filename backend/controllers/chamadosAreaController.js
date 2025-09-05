@@ -15,7 +15,7 @@ const lerChamadoController = async (req, res) => {
     const areaTecnico = areaTecnicoCompleta[0].id_pool;
 
     const page = parseInt(req.query.page) || 1;
-    const limit = 2;
+    const limit = 5;
     const offset = (page - 1) * limit;
 
     const chamadosArea = await leituraChamados(areaTecnico, limit, offset);
@@ -36,7 +36,8 @@ const lerChamadoController = async (req, res) => {
         totalPages,
         totalItems: total,
         pageSize: limit
-      }
+      },
+      tipo: areaTecnico
     });
   } catch (error) {
     console.error('Erro ao carregar chamados:', error);

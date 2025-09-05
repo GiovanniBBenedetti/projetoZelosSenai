@@ -3,7 +3,8 @@ import {
   criarChamadoController,
   listarChamadosController,
   atribuirChamadoController,
-  listarTodosChamadosController
+  listarTodosChamadosController,
+  atualizarStatusController
 } from '../controllers/ChamadoController.js';
 import authMiddleware from '../middlewares/authMiddleware.js';
 const router = express.Router();
@@ -11,6 +12,8 @@ const router = express.Router();
 router.get('/', listarChamadosController);
 
 router.get('/todos', listarTodosChamadosController);
+
+router.put('/status/:id', authMiddleware, atualizarStatusController);
 
 router.post('/', authMiddleware, criarChamadoController);
 

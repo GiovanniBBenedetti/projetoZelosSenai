@@ -7,7 +7,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './perfil.css';
 
-export default function Perfil2() {
+export default function Perfil() {
 
     const [userData, setUserData] = useState(null);
     const [photoPreview, setPhotoPreview] = useState(null);
@@ -137,17 +137,17 @@ export default function Perfil2() {
                             <div className="row">
                                 <div className="col-md-6 lado1">
                                     <label className="">Email:</label>
-                                    <input type="text" className="fw-bolder form-control InputPerfil fst-italic" value={userData.email || ''} readOnly disabled />
+                                    <input type="text" className="fw-bolder form-control form-controlPerfil InputPerfil fst-italic" value={userData.email || ''} readOnly disabled />
                                     <label className="">N° de Registro:</label>
-                                    <input type="text" className="fw-bolder form-control InputPerfil fst-italic" value={userData.numeroRegistro || ''} readOnly disabled />
+                                    <input type="text" className="fw-bolder form-control  form-controlPerfil InputPerfil fst-italic" value={userData.numeroRegistro || ''} readOnly disabled />
                                 </div>
                                 <div className="col-md-6 lado2">
                                     <label className="">Função:</label>
-                                    <input type="text" className="fw-bolder form-control InputPerfil fst-italic" value={userData.funcao || ''} readOnly disabled />
+                                    <input type="text" className="fw-bolder form-control form-controlPerfil InputPerfil fst-italic" value={userData.funcao || ''} readOnly disabled />
                                     <label className="">Conta Criada em:</label>
                                     <input
                                         type="text"
-                                        className="fw-bolder form-control InputPerfil fst-italic"
+                                        className="fw-bolder form-control form-controlPerfil InputPerfil fst-italic"
                                         value={userData.criado_em ? new Date(userData.criado_em).toLocaleDateString('pt-BR') : ''}
                                         readOnly disabled
                                     />

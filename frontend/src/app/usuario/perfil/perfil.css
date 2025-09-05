@@ -11,6 +11,12 @@
     --cinza: #eaeaea;
 }
 
+.geral-perfil{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
 .superior-perfil {
     background-color: var(--pretoNav);
     width: 99%;
@@ -59,15 +65,14 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.inferior-perfil {
-    display: flex;
-}
-
 
 .inferior-direita-perfil {
     background-color: var(--pretoNav);
     border-radius: 12px;
     width: 35%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
 }
 
 .react-calendar {
@@ -91,7 +96,23 @@
     background: var(--vermelho) !important;
 }
 
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+    background-color: transparent;
+}
 
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+    background-color: transparent;
+}
+
+.react-calendar__navigation button:disabled {
+    background-color: transparent;
+}
+
+abbr[title] {
+    text-decoration: none;
+}
 
 .inferior-esquerda-perfil {
     width: 65%;
@@ -104,16 +125,13 @@
     width: 100%;
 }
 
-.form-control:disabled {
+.form-controlPerfil:disabled {
     background-color: transparent;
     border: none;
     color: var(--branco);
     font-size: 17px;
 }
 
-.InputPerfil {
-    margin-left: -12px;
-}
 
 .baixo-inferior-esquerda-perfil {
     background-color: var(--pretoNav);
@@ -126,4 +144,27 @@
     width: 100%;
     height: 1.5px;
     border-radius: 5px;
+}
+
+@media (max-width: 897px) {
+    .baixo-inferior-esquerda-perfil {
+        display: none !important;
+    }
+
+    .cima-inferior-esquerda-perfil {
+        width: 152% !important;
+    }
+
+    .inferior-direita-perfil {
+        margin-left: 1% !important;
+        width: 99% !important;
+    }
+}
+
+@media (min-width: 897px) {
+
+    .inferior-perfil {
+        display: flex;
+    }
+
 }

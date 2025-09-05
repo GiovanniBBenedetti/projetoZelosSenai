@@ -3,7 +3,9 @@ import {
   leituraChamados,
   chamadosVirgens,
   atribuicaoChamadosVirgens,
-  leituraDeTodosChamados
+  leituraDeTodosChamados,
+  obterChamadoStatus,
+  atualizarStatus
 } from '../models/Chamado.js';
 import { fileURLToPath } from 'url';
 import path from 'path'
@@ -102,6 +104,34 @@ const atribuirChamadoController = async (req, res) => {
   }
 };
 
+
+const atualizarStatusController = async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  const statusPermitidos = ["enviado", "em andamento", "concluído"];
+  const statusLower = status?.toLowerCase();
+
+  if (!statusPermitidos.includes(statusLower)) {
+    return res.status(400).json({ mensagem: "Status inválido" });
+  }
+
+  const idNum = parseInt(id);
+  if (isNaN(idNum)) {
+    return res.status(400).json({ mensagem: "ID inválido" });
+  }
+
+  try {
+    const atualizado = await atualizarStatus(idNum, { status: statusLower });
+    res.status(200).json(atualizado);
+  } catch (err) {
+    console.error("Erro ao atualizar chamado:", err);
+    res.status(500).json({ mensagem: "Erro ao atualizar chamado", atualizado });
+  }
+};
+
+
+
 const listarTodosChamadosController = async (req, res) => {
   try {
     const chamados = await leituraDeTodosChamados();
@@ -116,5 +146,6 @@ export {
   criarChamadoController,
   listarChamadosController,
   atribuirChamadoController,
-  listarTodosChamadosController
+  listarTodosChamadosController,
+  atualizarStatusController
 };

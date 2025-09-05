@@ -49,32 +49,28 @@ export default function Meus_chamados() {
 
   return (
     <>
+      <div>
+        <div className="d-flex align-items-center justify-content-center">
+          <h2>Meus Chamados</h2>
+        </div>
 
-      <div className="titulo-meus-chamados-cel mt-4 align-items-center d-flex d-md-none justify-content-center">
-        <h2>Meus Chamados</h2>
-      </div>
-
-      <div className="titulo-meus-chamados align-items-center d-none d-md-flex justify-content-center mt-4">
-        <h2>Meus Chamados</h2>
-      </div>
-
-      <div className="conteudo-com-sidebar">
         {chamados.length === 0 ? (
-          <div className="sem-chamados d-grid justify-content-center align-items-center">
-            <img src="/img/fundo_semChamados.png" className='img-fluid' alt="" />
-            <p>Ops! Você não possui nenhum chamado</p>
-            <div className="">
+          <div className="d-grid mt-4 align-items-center justify-content-center">
+          
+            <h3 className="text-center">Ops! Você não possui nenhum chamado criado</h3>
+            <div className="align-items-center mt-2 mb-3 d-flex justify-content-center">
               <BtnVenhaCriar />
             </div>
 
           </div>
         ) : (
-          <div className="cards-meus-chamados d-flex align-items-center justify-content-center flex-wrap gap-4">
-            {ordenarChamados(chamados).map((chamado) => (
-              <div key={chamado.id} className="d-grid flex-wrap">
-                <CardUser chamados={chamado} />
-              </div>
-            ))}
+          <div>
+            {ordenarChamados(chamados).map((chamado) => {
+              return(
+                <CardUser key={chamado.id} chamados={[chamado]} />
+              )
+              
+            })}
           </div>
         )}
       </div>

@@ -12,13 +12,8 @@ export default function Carrosel({ chamados = [] }) {
   const [photoUrl, setPhotoUrl] = useState(null);
   const [page, setPage] = useState(1);
   const [tipoChamado, setTipoChamado] = useState();
-
-  const opcoesTipos = [
-    { value: '1', label: 'Externo' },
-    { value: '2', label: 'Manutenção' },
-    { value: '3', label: 'Apoio Técnico' },
-    { value: '4', label: 'Limpeza' },
-  ];
+  const [tecnicos, setTecnicos] = useState();
+    const [userChamadoData, setUserChamadoData] = useState({});
 
 
   function page1() {
@@ -27,6 +22,13 @@ export default function Carrosel({ chamados = [] }) {
   function page2() {
     setPage(2);
   }
+
+  const opcoesTipos = {
+    1: 'Externo',
+    2: 'Manutenção',
+    3: 'Apoio Técnico',
+    4: 'Limpeza'
+  };
 
   useEffect(() => {
     const funcaoCookie = getCookie("funcao");
@@ -50,48 +52,73 @@ export default function Carrosel({ chamados = [] }) {
       setNomeExibido(nomeExibidoCalculado);
     }
 
-    const fetchTipoChamado = async () => {
-      try {
-        const token = getCookie("token");
-        const res = await fetch("http://localhost:8080/chamadosArea", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
 
+    const fetchUsersData = async () => {
+      const token = getCookie('token');
+      const usersData = {};
 
-        if (!res.ok) throw new Error("Erro ao buscar tipos de chamados");
-
-        const data = await res.json();
-        setTipoChamado(data);
-
-      } catch (err) {
-        console.error("Erro ao buscar tipos de chamados:", err);
-      }
-    };
-
-
-    const fetchUserData = async () => {
-      try {
-        const token = getCookie("token");
-        const res = await fetch("http://localhost:8080/usuarios/perfil", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        if (!res.ok) throw new Error("Erro ao buscar dados do usuário");
-
-        const data = await res.json();
-        if (data.foto) {
-          setPhotoUrl(`http://localhost:8080${data.foto}`);
+      for (const chamado of chamados) {
+        if (!usersData[chamado.usuario_id]) {
+          try {
+            const res = await fetch(`http://localhost:8080/usuarios/${chamado.usuario_id}`, {
+              headers: { Authorization: `Bearer ${token}` },
+            });
+            if (res.ok) {
+              const data = await res.json();
+              usersData[chamado.usuario_id] = data;
+            } else {
+              console.error(`Erro ao buscar dados do usuário ${chamado.usuario_id}`);
+            }
+          } catch (err) {
+            console.error(err);
+          }
         }
+      }
+      setUserChamadoData(usersData);
+    };
+
+    if (chamados.length > 0) {
+      fetchUsersData();
+    }
+
+    const fetchTecnicos = async () => {
+      try {
+        const token = getCookie("token");
+
+        const ids = [...new Set(chamados.map((c) => c.tecnico_id).filter(Boolean))];
+
+        if (ids.length === 0) {
+          setTecnicos({});
+          return;
+        }
+
+        const promises = ids.map(async (id) => {
+          const res = await fetch(`http://localhost:8080/usuarios/${id}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          if (!res.ok) throw new Error("Erro ao buscar técnico");
+          if (!res.ok) return { id, data: { nome: "Sem Técnico" } };
+
+          const data = await res.json();
+          return { id, data };
+        });
+
+        const results = await Promise.all(promises);
+
+
+        const tecnicoMap = results.reduce((acc, { id, data }) => {
+          acc[id] = data;
+          return acc;
+        }, {});
+
+        setTecnicos(tecnicoMap);
       } catch (err) {
-        console.error("Erro ao buscar foto do usuário:", err);
+        console.error("Erro ao buscar técnicos:", err);
       }
     };
 
-    fetchUserData();
-    fetchTipoChamado();
+    fetchTecnicos();
+    fetchUsersData();
   }, []);
 
   function capitalizeFirst(str = "") {
@@ -110,6 +137,16 @@ export default function Carrosel({ chamados = [] }) {
     <>
       {chamados.map((chamado, index) => {
         const isConcluido = chamado.status === "concluído";
+        const usuario = userChamadoData[chamado.usuario_id] || {};
+        const photoUrl = usuario.foto ? `http://localhost:8080${usuario.foto}` : null;
+        const partesNome = usuario.nome ? usuario.nome.trim().split(' ') : [];
+        let iniciais = '';
+        if (partesNome.length > 0) {
+          const primeiroNome = partesNome[0];
+          const ultimoNome = partesNome[partesNome.length - 1];
+          iniciais = (primeiroNome?.charAt(0).toUpperCase() || '') + (ultimoNome?.charAt(0).toUpperCase() || '');
+        }
+        const nomeUsuario = usuario.nome ? usuario.nome.split(' ').map(name => capitalizeFirst(name)).join(' ') : 'Usuário';
         return (
           <div key={index}>
             <div
@@ -147,7 +184,7 @@ export default function Carrosel({ chamados = [] }) {
                   className={`prioridade-user-${chamado.grau_prioridade} align-items-center justify-content-center d-flex`}
                 >
                   <p
-                    className={`m-0 prioridadeP-$`}
+                    className={`m-0 prioridadeP`}
                   >
                     {capitalizeFirst(chamado.status)}
                   </p>
@@ -157,7 +194,7 @@ export default function Carrosel({ chamados = [] }) {
               <div className="user-user col-12 col-sm-2 col-md-2 align-items-center justify-content-center justify-content-sm-start d-grid mt-2 mt-sm-0">
                 <div className="align-items-center justify-content-center d-grid">
                   <h6 className="m-0 text-center text-sm-start">Usuário</h6>
-                  <p className="m-0">{chamado.usuario_id}</p>
+                  <p className="m-0">{nomeUsuario}</p>
                 </div>
               </div>
 
@@ -176,7 +213,7 @@ export default function Carrosel({ chamados = [] }) {
               aria-labelledby={`exampleModalLabel-${chamado.id}`}
               aria-hidden="true"
             >
-              <div className="modal-dialog modal-dialog-centered">
+              <div className="modal-dialog  modal-lg modal-dialog-centered">
                 <div className="modal-content">
                   <div className="modal-header gap-4">
                     {page === 1 ? (
@@ -245,7 +282,7 @@ export default function Carrosel({ chamados = [] }) {
                       <div className="row mb-3">
                         <div className="col-6">
                           <p className="label-user">Área:</p>
-                          <p className="valor-user">{chamado.tipo_id}</p>
+                          <p className="valor-user">{opcoesTipos[chamado.tipo_id]}</p>
                         </div>
                         <div className="col-6">
                           <p className="label-user">Patrimônio:</p>
@@ -261,16 +298,18 @@ export default function Carrosel({ chamados = [] }) {
                       </div>
 
                       <div className="row mt-4">
-                        <ProgressBar 
-                        funcao={'usuario'} 
-                        step={["enviado", "em andamento", "concluído"].indexOf(chamado.status)}/>
+                        <ProgressBar
+                          funcao={'usuario'}
+                          step={["enviado", "em andamento", "concluído"].indexOf(chamado.status)} />
                       </div>
                     </div>
                   ) : (
                     <div className="modal-body">
                       <div className="d-flex aling-items-center gap-3">
                         <i className="bi bi-person-circle text-center fs-5"></i>
-                        <h4>{chamado.tecnico_id}</h4>
+                        <h4>{chamado.tecnico_id
+                          ? tecnicos[chamado.tecnico_id]?.nome || "Carregando..."
+                          : "Sem técnico"}</h4>
                       </div>
 
                       <Chat

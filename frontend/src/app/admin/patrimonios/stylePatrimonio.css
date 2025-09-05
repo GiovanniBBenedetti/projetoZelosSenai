@@ -34,7 +34,6 @@ body {
 .MuiDataGrid-row:focus-visible .MuiDataGrid-main:focus {
     outline: none !important;
     box-shadow: none !important;
-    margin-bottom: 96px !important;
 }
 
 .MuiDataGrid-row:hover {
@@ -106,7 +105,7 @@ body {
     box-shadow: none !important;
 }
 
-.btn {
+.btn-filtro-adm {
     background-color: var(--branco) !important;
     border: transparent !important;
 }
