@@ -1,57 +1,51 @@
-body{
-  background-color: #eaeaea;
+tecnico:root {
+  --vermelho-principal: #e30615;
+  --vermelho-escuro: #8e0009;
+  --preto-zelos: #101820;
+  --cinza-claro: #eaeaea;
+  --branco: #ffffff;
+  --prioridade-maxima: #e30615;
+  --prioridade-minima: #ffbf00;
+  --prioridade-baixa: #008000;
+  --body-font: 'Nunito Sans', system-ui;
+  --font-regular: 400;
+  --font-semi-bold: 600;
+  --normal-font-size: 0.938rem;
 }
 
-.cards-meus-chamados{
- 
-  margin-top: 3rem;
+.icon-semchamados{
+  width: 12rem;
 }
 
-.conteudo-com-sidebar {
-  padding: 1rem;
-  width: calc(100% - 20rem); 
+.accordion-chamados-tecnico{
+  border-radius: 10px;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  padding: 2rem 0 2rem 1rem;
+  width: auto !important;
+  background-color: transparent;
+  color: #000;
 }
 
-
-.cards-meus-chamados {
-  max-width: 100%;
-  justify-content: flex-start ; 
+.accordion-item{
+  background-color: transparent;
+  
 }
 
-.sem-chamados{
-  align-items: center;
-  justify-content: center;
-  display: grid;
+.accordion-item h2 button{
+  font-size: 35px;
 }
 
-.sem-chamados img{
-
-  width: 14rem;
+.accordion-headerChamados{
+  border-left:#e30615 solid 4px ;
+  padding-left: 10px;
 }
 
-.sem-chamados p{
-  font-weight: 500;
-  font-size: 24px;
+.bi-chevron-right {
+  transition: transform 0.2s;
 }
 
-
-@media (max-width: 768px) {
-  .conteudo-com-sidebar {
-    margin-left: 0;
-    width: 100%;
-   
-  }
-
-  .cards-meus-chamados{
-    align-items: center;
-    justify-content: center;
-    display: grid;
-  }
-
-  .ficha-user{
-    margin-top: 6rem !important;
-    align-items: center;
-    justify-content: center;
-    display: grid;
-  }
+/* Quando o accordion estiver aberto, gira o ícone */
+.accordion-button:not(.collapsed) .bi-chevron-right {
+  transform: rotate(90deg); /* direita -> baixo */
 }

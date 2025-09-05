@@ -192,7 +192,7 @@ export default function CadastroPatrimonio() {
                     <i className="bi bi-journal-text"></i>
                   </span>
                   <textarea
-                    className="form-control"
+                    className="form-control rounded-end-5"
                     placeholder="Observações"
                     rows={3}
                     value={observacoes}

@@ -130,6 +130,23 @@
   margin-bottom: 2rem;
 }
 
+.dash-user-title{
+  font-size: 35px;
+  border-left: 4px solid var(--vermelho);
+  padding-left: 10px;
+  margin-left: 1rem;
+}
+
+.dash-user-btn {
+  background-color: var(--vermelhoMedio);
+  color: var(--branco);
+}
+
+.dash-user-btn:hover {
+  background-color: var(--vermelhoMedio);
+  color: var(--branco);
+}
+
 /*=============== RESPONSIVIDADE ===============*/
 @media (max-width: 768px) {
   .dashboard-user {

@@ -139,3 +139,9 @@ body {
         max-width: 50% !important;
     }
 }
+
+@media (hover: none) {
+    .css-mwb3k9-MuiDataGrid-root .MuiDataGrid-columnHeader:focus .MuiDataGrid-columnSeparator--resizable, .css-mwb3k9-MuiDataGrid-root .MuiDataGrid-columnHeader--siblingFocused .MuiDataGrid-columnSeparator--resizable {
+        color: #c01515;
+    }
+}

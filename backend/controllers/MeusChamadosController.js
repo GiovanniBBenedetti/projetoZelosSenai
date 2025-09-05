@@ -6,19 +6,19 @@ const listarMeusChamadosController = async (req, res) => {
             return res.status(401).json({ mensagem: 'Usuário não autenticado' });
         }
 
-        const tipo = req.query.tipo;
+        const status = req.query.status; 
         const id = req.usuario.id;
 
-        console.log(tipo, id)
+        console.log("status:", status, "id:", id);
 
-        let meusChamados
-
-        if (tipo === 'admin' || tipo === 'usuario') {
-            meusChamados = await listarMeusChamadosUsuario(id);
-        } else if (tipo == 'tecnico') {
-            meusChamados = await listarMeusChamadosTecnico(id);
-        }
         
+        let meusChamados;
+        if (req.usuario.funcao === 'tecnico') {
+            meusChamados = await listarMeusChamadosTecnico(id, status);
+        } else {
+            meusChamados = await listarMeusChamadosUsuario(id, status);
+        }
+
         res.status(200).json(meusChamados);
     } catch (err) {
         console.error(`Erro ao listar chamados: `, err);
@@ -26,4 +26,4 @@ const listarMeusChamadosController = async (req, res) => {
     }
 };
 
-export { listarMeusChamadosController, };
+export { listarMeusChamadosController };

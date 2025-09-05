@@ -15,7 +15,7 @@
 .loginLogoOutside {
   position: absolute;
   top: 10px;
-  left: 10px;
+  left: 30px;
   width: 100%;
   height: auto;
   animation: fadeDown 0.8s ease;
@@ -68,10 +68,11 @@
   box-shadow: 0 0 0 3px rgba(117, 9, 27, 0.2);
 }
 
-
-.loginButton {
+.loginForm{
   width: 100%;
-  padding: 1rem;
+}
+
+.loginButton { 
   background: var(--vermelhoMedio);
   border: none;
   border-radius: 12px;
@@ -80,6 +81,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  width: 100%;
 }
 
 .loginButton:hover {

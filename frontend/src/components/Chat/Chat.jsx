@@ -86,7 +86,7 @@ export default function Chat({ idChamado, possuiTecnico, isConcluido }) {
       alert('Erro ao enviar os dados.');
     }
   }
-
+console.log(isConcluido)
   return (
     <>
       <div className="">
@@ -139,7 +139,7 @@ export default function Chat({ idChamado, possuiTecnico, isConcluido }) {
         </div>
       </div>
       <div className="d-flex bottom-0">
-        {possuiTecnico === true || isConcluido === false ? (
+        {possuiTecnico === true && isConcluido === false ? (
           <>
             <input
               type="text"

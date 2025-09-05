@@ -1,10 +1,12 @@
-'use client';
+'use client'; 
 import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import BotaoNovo from '@/components/BotaoNovo/BotaoNovo';
+import ModalEditar from '@/components/ModalEditar/ModalEditar';
 import { DataGrid } from '@mui/x-data-grid';
 import { getCookie } from 'cookies-next';
 import Select from 'react-select';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './styleChamado.css';
 
 const prioridadeOptions = [
@@ -28,6 +30,7 @@ export default function TabelaChamados() {
   const [filtroDescricoes, setFiltroDescricoes] = useState('');
   const [mounted, setMounted] = useState(false);
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 });
+  const [chamadoSelecionado, setChamadoSelecionado] = useState(null);
 
   useEffect(() => {
     setMounted(true);
@@ -115,10 +118,7 @@ export default function TabelaChamados() {
               minHeight: '30px',
               fontSize: '0.9rem',
             }),
-            singleValue: (provided) => ({
-              ...provided,
-              color: '#000000',
-            }),
+            singleValue: (provided) => ({ ...provided, color: '#000000' }),
             option: (provided, state) => ({
               ...provided,
               backgroundColor: state.isFocused ? '#8e0009' : '#b5000c',
@@ -155,10 +155,7 @@ export default function TabelaChamados() {
               minHeight: '30px',
               fontSize: '0.9rem',
             }),
-            singleValue: (provided) => ({
-              ...provided,
-              color: '#000000',
-            }),
+            singleValue: (provided) => ({ ...provided, color: '#000000' }),
             option: (provided, state) => ({
               ...provided,
               backgroundColor: state.isFocused ? '#8e0009' : '#b5000c',
@@ -173,7 +170,26 @@ export default function TabelaChamados() {
       )
     },
     { field: 'criado_em', headerName: 'Criado em', width: 180, disableColumnMenu: true },
-    { field: 'atualizado_em', headerName: 'Atualizado em', width: 180, disableColumnMenu: true }
+    { field: 'atualizado_em', headerName: 'Atualizado em', width: 180, disableColumnMenu: true },
+    {
+      field: 'editar',
+      headerName: 'Editar',
+      width: 80,
+      disableColumnMenu: true,
+      sortable: false,
+      renderCell: (params) => (
+        <button
+          className="btn btn-link p-0"
+          onClick={() => {
+            setChamadoSelecionado(params.row);
+            const modal = new window.bootstrap.Modal(document.getElementById('modalEditar'));
+            modal.show();
+          }}
+        >
+          <i className="bi bi-pencil-square ms-3" style={{ color: '#b5000c', fontSize: '1.2rem' }}></i>
+        </button>
+      ),
+    }
   ];
 
   const filtrado = chamados.filter((item) =>
@@ -188,6 +204,7 @@ export default function TabelaChamados() {
       <div className="geral-patrimonios d-flex flex-column">
         <div className="container total-adm flex-grow-1 d-flex flex-column">
           <p className="tituloMedicos mb-3">Controle de Chamados:</p>
+
 
           <div className="container-filtro-pacientes mb-5 mb-sm-4 mt-4 mt-sm-0">
             <div className="row g-3">
@@ -246,10 +263,7 @@ export default function TabelaChamados() {
                         borderRadius: '20px',
                         color: 'var(--vermelhoEscuro)',
                       }),
-                      singleValue: (provided) => ({
-                        ...provided,
-                        color: 'var(--vermelhoEscuro)',
-                      }),
+                      singleValue: (provided) => ({ ...provided, color: 'var(--vermelhoEscuro)' }),
                       option: (provided, state) => ({
                         ...provided,
                         backgroundColor: state.isFocused ? 'var(--vermelhoEscuro)' : 'var(--cinza2)',
@@ -280,9 +294,9 @@ export default function TabelaChamados() {
               </div>
             </div>
           </div>
-
         </div>
       </div>
+
 
       <div className="geral-table-patrimonio flex-grow-1 d-flex ps-4 pe-4 pb-4">
         <Box sx={{ flex: 1, display: 'flex', width: '100%' }}>
@@ -294,13 +308,15 @@ export default function TabelaChamados() {
                 getRowId={(row) => row.id}
                 paginationModel={paginationModel}
                 onPaginationModelChange={setPaginationModel}
-                pageSizeOptions={[10, 50, 80, 120, 200]}
+                pageSizeOptions={[10, 20, 40, 80, 100]}
                 disableRowSelectionOnClick
               />
             </Box>
           )}
         </Box>
       </div>
+
+      <ModalEditar chamado={chamadoSelecionado} />
     </>
   );
 }

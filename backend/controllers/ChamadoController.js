@@ -5,7 +5,9 @@ import {
   atribuicaoChamadosVirgens,
   leituraDeTodosChamados,
   obterChamadoStatus,
-  atualizarStatus
+  atualizarChamados,
+  atualizarStatus,
+  obterChamadoUsuario
 } from '../models/Chamado.js';
 import { fileURLToPath } from 'url';
 import path from 'path'
@@ -21,7 +23,7 @@ const criarChamadoController = async (req, res) => {
     const { titulo, descricao, patrimonio, prioridade, tipo } = req.body;
     const usuario = req.usuario.id;
 
-    console.log(usuario)
+
 
     const chamadosExistentes = await leituraChamados(patrimonio, tipo);
 
@@ -60,7 +62,7 @@ const criarChamadoController = async (req, res) => {
   }
 };
 
-const listarChamadosController = async (req, res) => {
+const listarChamadosVirgensController = async (req, res) => {
   try {
     const { status } = req.query;
 
@@ -71,7 +73,7 @@ const listarChamadosController = async (req, res) => {
       chamados = await chamadosVirgens();
     }
 
-    console.log("Chamados retornados:", chamados);
+
     res.status(200).json(chamados);
   } catch (err) {
     console.error(`Erro ao listar chamados: `, err);
@@ -81,7 +83,7 @@ const listarChamadosController = async (req, res) => {
 
 
 const atribuirChamadoController = async (req, res) => {
-  console.log(req.usuario.id)
+
   if (!req.usuario.id) {
     return res.status(401).json({ mensagem: 'Usuário não autenticado' });
   }
@@ -89,7 +91,7 @@ const atribuirChamadoController = async (req, res) => {
     const chamadoId = req.params.id;
     const tecnico = req.usuario.id;
 
-    console.log(`${chamadoId} - ${tecnico}`);
+
 
     const tecnicoDesignado = {
       tecnico_id: tecnico,
@@ -142,10 +144,68 @@ const listarTodosChamadosController = async (req, res) => {
   }
 };
 
+const obterChamadoUsuarioController = async (req, res) => {
+  if (!req.usuario.id) {
+    return res.status(401).json({ mensagem: 'Usuário não autenticado' });
+  }
+  try {
+    const { funcao } = req.query;
+    const id = req.usuario.id;
+
+    let chamados;
+    if (funcao === 'tecnico') {
+      chamados = await obterChamadoUsuario(id, funcao);
+    } else {
+      chamados = await obterChamadoUsuario(id, funcao);
+    }
+
+    const ultimos = chamados.slice(-3)
+
+    res.status(200).json(ultimos);
+  } catch (err) {
+    console.error(`Erro ao listar chamados: `, err);
+    res.status(500).json({ mensagem: 'Erro ao listar chamados' });
+  }
+};
+
+const atualizarChamadoController = async (req, res) => {
+  if (!req.usuario?.id) {
+    return res.status(401).json({ mensagem: 'Usuário não autenticado' });
+  }
+
+  try {
+    const id = req.params.id;
+    const {
+      TITULO,
+      DESCRICAO,
+      TIPO_ID,
+      TECNICO_ID,
+    } = req.body;
+
+    console.log(TIPO_ID)
+
+    const chamadoData = {
+      titulo: TITULO,
+      descricao: DESCRICAO,
+      tipo_id: parseInt(TIPO_ID),
+      tecnico_id: parseInt(TECNICO_ID)
+    };
+
+    await atualizarChamados(id, chamadoData);
+
+    res.status(200).json({ mensagem: 'Chamado atualizado com sucesso' });
+  } catch (error) {
+    console.error('Erro ao atualizar chamado:', error);
+    res.status(500).json({ mensagem: 'Erro ao atualizar chamado' });
+  }
+};
+
 export {
   criarChamadoController,
-  listarChamadosController,
+  listarChamadosVirgensController,
   atribuirChamadoController,
   listarTodosChamadosController,
-  atualizarStatusController
+  atualizarStatusController,
+  obterChamadoUsuarioController,
+  atualizarChamadoController
 };

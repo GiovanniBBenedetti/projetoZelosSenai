@@ -219,7 +219,7 @@ export default function TabelaPatrimonios() {
                             columns={columns}
                             paginationModel={paginationModel}
                             onPaginationModelChange={setPaginationModel}
-                            pageSizeOptions={[10, 15, 20, 50]}
+                            pageSizeOptions={[10, 20, 40, 80, 100]}
                             getRowId={row => row.id}
                             disableRowSelectionOnClick
                             sx={{

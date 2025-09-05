@@ -1,23 +1,29 @@
 import express from 'express';
 import {
   criarChamadoController,
-  listarChamadosController,
+  listarChamadosVirgensController,
   atribuirChamadoController,
   listarTodosChamadosController,
-  atualizarStatusController
+  atualizarStatusController,
+  obterChamadoUsuarioController,
+  atualizarChamadoController
 } from '../controllers/ChamadoController.js';
 import authMiddleware from '../middlewares/authMiddleware.js';
 const router = express.Router();
 
-router.get('/', listarChamadosController);
+router.get('/', listarChamadosVirgensController);
 
 router.get('/todos', listarTodosChamadosController);
+
+router.get('/recente', authMiddleware, obterChamadoUsuarioController);
 
 router.put('/status/:id', authMiddleware, atualizarStatusController);
 
 router.post('/', authMiddleware, criarChamadoController);
 
 router.put('/:id', authMiddleware, atribuirChamadoController);
+
+router.put('/uptade/:id', authMiddleware, atualizarChamadoController);
 
 router.options('/', (req, res) => {
   res.setHeader('Allow', 'POST');

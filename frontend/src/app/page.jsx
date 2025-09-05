@@ -81,7 +81,13 @@ export default function Login() {
               onChange={(e) => setPassword(e.target.value)}
               className="loginInput"
             />
-            <button type="submit" className="loginButton">Entrar</button>
+            <button
+              type="submit"
+              className="loginButton"
+              style={{ padding: "1rem" }}
+            >
+              Entrar
+            </button>
           </form>
         </div>
       </div>

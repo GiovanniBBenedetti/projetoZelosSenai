@@ -9,11 +9,11 @@ import poolRotas from './routes/poolRotas.js';
 import duvidasRotas from './routes/duvidasRotas.js'
 import usuariosRotas from './routes/usuariosRotas.js'
 import patrimonioRotas from './routes/patrimoniosRotas.js'
-import chamadosRotas from './routes/chamadosCriarRota.js';
+import chamadosRotas from './routes/chamadosRota.js';
 import chamadosAreaRotas from './routes/chamadosAreaRotas.js';
 import meusChamadosRotas from './routes/meusChamadosRotas.js';
 import dashboardRotas from './routes/dashboardRotas.js';
-
+import fitragemRotas from './routes/filtragemRoutes.js'
 
 dotenv.config();
 
@@ -57,6 +57,8 @@ app.use('/pool', poolRotas);
 app.use('/chamadosArea', chamadosAreaRotas);
 app.use('/meusChamados', meusChamadosRotas);
 app.use('/dashboard', dashboardRotas);
+app.use('/fitragemRotas', fitragemRotas);
+
 
 
 

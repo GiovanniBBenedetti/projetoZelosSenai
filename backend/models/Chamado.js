@@ -54,14 +54,6 @@ const leituraDeTodosChamados = async () => {
   }
 };
 
-const leituraTecnicoChamados = async (tecnicoId) => {
-  try {
-    return await readAll('chamados', `tecnico_id = ${tecnicoId}`);
-  } catch (error) {
-    console.error('Erro ao obter consultas:', error);
-    throw error;
-  }
-}
 
 const atualizarStatus = async (id, chamadoData) => {
   try {
@@ -83,6 +75,28 @@ const obterChamadoStatus = async (id) => {
   }
 };
 
+const obterChamadoUsuario = async (id, funcao) => {
+  try {
+    if (funcao === 'tecnico') {
+      return await readAll('chamados', `tecnico_id  = ${id} AND status != 'concluído'`);
+    } else {
+      return await readAll('chamados', `usuario_id = ${id} AND status != 'concluído'`);
+    }
+  } catch (error) {
+    console.error('Erro ao obter chamado por ID:', error);
+    throw error;
+  }
+};
+
+const atualizarChamados = async (id, chamadoData) => {
+  try {
+    await update('chamados', chamadoData, `id = ${id}`);
+  } catch (error) {
+    console.error('Erro ao atualizar chamado: ', error);
+    throw error;
+  }
+};
+
 export {
   criarChamado,
   leituraDeTodosChamados,
@@ -90,5 +104,7 @@ export {
   chamadosVirgens,
   atribuicaoChamadosVirgens,
   obterChamadoStatus,
-  atualizarStatus
+  atualizarStatus,
+  obterChamadoUsuario,
+  atualizarChamados
 };

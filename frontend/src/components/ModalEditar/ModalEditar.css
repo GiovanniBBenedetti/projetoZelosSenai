@@ -106,3 +106,15 @@
   border-radius: 20px;
   width: 96%;
 }
+
+.input-group {
+  border: solid 1.5px #8e0009 !important;
+}
+
+.form-disabled:disabled {
+  background-color: #ffff;
+}
+
+.css-tj5bde-Svg {
+  color: #8e0009;
+}

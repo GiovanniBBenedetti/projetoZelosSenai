@@ -12,12 +12,61 @@ export default function UserDashboard() {
   const [chamados, setChamados] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [recentes, setRecentes] = useState([]);
+  const [emAndamentoCount, setEmAndamentoCount] = useState(0); // novos estados
+  const [concluidosCount, setConcluidosCount] = useState(0);
 
-  const statusPrioridade = {
-    'enviado': 0,
-    'procurando responsável': 1,
-    'em andamento': 2,
-    'concluído': 3,
+  const fetchChamadosRecentes = async () => {
+    const token = getCookie('token');
+    const funcao = getCookie('funcao');
+    try {
+      const response = await fetch(`http://localhost:8080/chamado/recente?funcao=${funcao}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Erro ao buscar os chamados recentes.');
+      }
+
+      const recentesChamados = await response.json();
+      setRecentes(recentesChamados);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const fetchChamadosEmAndamento = async () => {
+    const token = getCookie('token');
+    try {
+      const response = await fetch(`http://localhost:8080/meusChamados?status=em andamento`, {
+        headers: { 'Authorization': `Bearer ${token}` },
+      });
+
+      if (!response.ok) throw new Error('Erro ao buscar chamados em andamento.');
+
+      const chamados = await response.json();
+      setEmAndamentoCount(chamados.length);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const fetchChamadosConcluidos = async () => {
+    const token = getCookie('token');
+    try {
+      const response = await fetch(`http://localhost:8080/meusChamados?status=concluido`, {
+        headers: { 'Authorization': `Bearer ${token}` },
+      });
+
+      if (!response.ok) throw new Error('Erro ao buscar chamados concluídos.');
+
+      const chamados = await response.json();
+      setConcluidosCount(chamados.length);
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   useEffect(() => {
@@ -30,59 +79,12 @@ export default function UserDashboard() {
       return;
     }
 
-    fetch("http://localhost:8080/chamado", {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Erro ao buscar os chamados.');
-        }
-        return response.json();
-      })
-      .then((informacao) => {
-        const chamadosUser = informacao.filter(
-          (chamado) => chamado.usuario_id === usuarioId
-        );
-        setChamados(chamadosUser);
-      })
-      .catch((err) => {
-        setError(err.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    Promise.all([fetchChamadosRecentes(), fetchChamadosEmAndamento(), fetchChamadosConcluidos()])
+      .finally(() => setLoading(false));
   }, []);
 
-  const ordenarChamados = (listaChamados) => {
-    return [...listaChamados].sort((a, b) => {
-      const statusA = statusPrioridade[a.status];
-      const statusB = statusPrioridade[b.status];
-
-      if (statusA !== statusB) {
-        return statusB - statusA;
-      }
-
-      return parseInt(b.grau_prioridade) - parseInt(a.grau_prioridade);
-    });
-  };
-
-  if (loading) {
-    return <Loader />;
-  }
-
-  if (error) {
-    return <p>Erro: {error}</p>;
-  }
-
-  const chamadosEmAndamento = chamados.filter(
-    (chamado) => chamado.status === 'Em andamento'
-  ).slice(0, 3);
-
-  const chamadosResolvidos = chamados.filter(
-    (chamado) => chamado.status === 'concluído'
-  ).sort((a, b) => new Date(b.criado_em) - new Date(a.criado_em)).slice(0, 3);
+  if (loading) return <Loader />;
+  if (error) return <p>Erro: {error}</p>;
 
   return (
     <div className="container-fluid dashboard-user">
@@ -96,23 +98,26 @@ export default function UserDashboard() {
             <i className="bi bi-caret-right-fill"></i>
           </Link>
         </div>
+
         <div className="col-md-4 mt-4 card-information-col">
           <Link href="/usuario/meusChamados" className="card-information">
             <div className="text-content">
-              <p>{chamadosEmAndamento.length} Chamados</p>
+              <p>{emAndamentoCount} Chamados</p>
               <span>Em andamento</span>
             </div>
             <i className="bi bi-caret-right-fill"></i>
           </Link>
         </div>
+
         <div className="col-md-4 mt-4 card-information-col">
           <div className="card-information">
             <div className="text-content">
-              <p>{chamadosResolvidos.length} Chamados</p>
+              <p>{concluidosCount} Chamados</p>
               <span>Concluídos recentemente</span>
             </div>
           </div>
         </div>
+
         <div className="col-md-12 mt-3 ajuda-container-col">
           <div className="card-ajuda">
             <div className="text-content">
@@ -123,23 +128,19 @@ export default function UserDashboard() {
           </div>
         </div>
       </div>
-      
+
       <div className="row mt-4">
-        <div className="col-12">
-          <h3 className="mb-3">Chamados em Andamento</h3>
-          {chamadosEmAndamento.length > 0 ? (
-            <CardUser chamados={chamadosEmAndamento} />
+        <div className="col-md-12">
+          <p className="dash-user-title mt-2 mb-4">Chamados criados mais recentes</p>
+          {recentes.length > 0 ? (
+            <>
+              <CardUser chamados={recentes} />
+              <a href="/usuario/meusChamados" className='d-flex justify-content-center mt-3'>
+                <button className='btn dash-user-btn'>Ver todos</button>
+              </a>
+            </>
           ) : (
             <p>Nenhum chamado em andamento encontrado.</p>
-          )}
-        </div>
-
-        <div className="col-12 mt-4">
-          <h3 className="mb-3">Chamados Concluídos</h3>
-          {chamadosResolvidos.length > 0 ? (
-            <CardUser chamados={chamadosResolvidos} />
-          ) : (
-            <p>Nenhum chamado concluído encontrado.</p>
           )}
         </div>
       </div>

@@ -37,7 +37,7 @@ const lerChamadoController = async (req, res) => {
         totalItems: total,
         pageSize: limit
       },
-      tipo: areaTecnico
+
     });
   } catch (error) {
     console.error('Erro ao carregar chamados:', error);

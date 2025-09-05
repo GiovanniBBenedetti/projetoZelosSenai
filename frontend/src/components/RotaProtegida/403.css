@@ -14,7 +14,6 @@
 .Logos {
     width: 300px;
     margin-top: 2%;
-    margin-left: 2%;
 }
 
 .ErroImg {
@@ -51,7 +50,7 @@
     cursor: pointer;
 }
 
-.button {
+.button-notfound {
     display: flex;
     justify-content: center;
     margin-top: 2%;

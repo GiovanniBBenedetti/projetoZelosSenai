@@ -131,3 +131,22 @@
   padding-bottom: 2rem;
   margin-bottom: 2rem;
 }
+
+.dash-tec-recentes .dash-tec-title{
+  font-size: 35px;
+  border-left: 4px solid var(--vermelho);
+  padding-left: 10px;
+  margin-left: 1rem;
+}
+
+.dash-tec-btn {
+  background-color: var(--vermelhoMedio);
+  color: var(--branco);
+}
+
+.dash-tec-btn:hover {
+  background-color: var(--vermelhoMedio);
+  color: var(--branco);
+  opacity: .9;
+  transition: all ease .3s;
+}

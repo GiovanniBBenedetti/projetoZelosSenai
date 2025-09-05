@@ -36,10 +36,10 @@ export default function RotaProtegida({ permitido, children }) {
         return (
             <div className="Corpo403">
                 <div className="Pai">
-                    <div className="d-flex justify-content-center flex-wrap">
+                    <div className="d-flex justify-content-center flex-wrap mb-2">
                         <img className="Logos" src="/img/Logos.png" alt="Logo Senai" />
                     </div>
-                    <div className="Filho">
+                    <div className="Filho mt-5">
                         <div className="DivImagem d-flex justify-content-center">
                             <img className="ErroImg" src="/img/Placa403.png" alt="" />
                         </div>
@@ -51,10 +51,11 @@ export default function RotaProtegida({ permitido, children }) {
                                 <h3>volte para a home.</h3>
                             </div>
                         </div>
-                        <div className="button">
+                        <div className="button button-notfound">
                             <a className="notfound-button" href={redirecionar}>
                                 voltar
                             </a>
+
                         </div>
                     </div>
                 </div>

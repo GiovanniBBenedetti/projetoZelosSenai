@@ -233,7 +233,7 @@ export default function TabelaUsuarios() {
               columns={columns}
               paginationModel={paginationModel}
               onPaginationModelChange={setPaginationModel}
-              pageSizeOptions={[10, 40, 80, 100, 200]}
+              pageSizeOptions={[10, 20, 40, 80, 100]}
               getRowId={(row) => row.id}
               disableRowSelectionOnClick
               sx={{

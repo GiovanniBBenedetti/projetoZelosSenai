@@ -1,0 +1,88 @@
+.notfound-page {
+    background-color: #e30613;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-left: 10%;
+    margin-top: 5%;
+  }
+  
+  .notfound-card-shadow {
+    position: absolute;
+    width: 365px;
+    height: 375px;
+    background-color: black;
+    transform: translate(-10px, 10px);
+    z-index: 0;
+  }
+  
+  .notfound-card {
+    position: relative;
+    background-color: #ffffff;
+    height: 360px;
+    width: 350px;
+    padding: 30px 20px;
+    text-align: center;
+    z-index: 1;
+  }
+  
+  .notfound-code {
+    font-size: 100px;
+    color: black;
+    margin: 0;
+  }
+  
+  .notfound-error {
+    color: #e30613;
+    font-weight: bold;
+    font-size: 24px;
+    margin: 10px 0 0 0;
+  }
+  
+  .notfound-message {
+    color: black;
+    font-size: 16px;
+    margin: 10px 0 20px 0;
+  }
+  
+  .notfound-button {
+    background-color: #e30613;
+    color: #ffffff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .Tomada{
+    width: 100%;
+  }
+  
+  .Pai{
+    background-color: #e30613;
+    height: 100vh;
+  }
+
+  @media (max-width: 800px) {
+    .Tomada{
+        display: none;
+    }
+
+    .layer1{
+      margin-top: 5%;
+      margin-right: 13%;
+    }
+  }
+
+  /*img logo*/
+.Logos {
+    width: 300px;
+    margin-top: 2%;
+    margin-left: 2%;
+}
+
+

@@ -239,7 +239,7 @@ export default function TabelaPatrimonios() {
                 getRowId={(row) => row.id}
                 paginationModel={paginationModel}
                 onPaginationModelChange={setPaginationModel}
-                pageSizeOptions={[10, 50, 80, 120, 200]}
+                pageSizeOptions={[10, 20, 40, 80, 100]}
                 disableRowSelectionOnClick
                 sx={{
                   '& .MuiDataGrid-virtualScroller': {

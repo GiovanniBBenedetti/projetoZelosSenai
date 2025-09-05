@@ -88,7 +88,6 @@ const opcoesTipos = {
       console.log(data);
 
       if (response.ok) {
-        alert("Chamado atribuído com sucesso");
         window.location.reload();
       } else {
         alert("Erro ao atribuir chamado");
