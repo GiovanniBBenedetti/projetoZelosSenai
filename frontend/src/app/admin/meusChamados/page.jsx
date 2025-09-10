@@ -50,22 +50,19 @@ export default function Meus_chamados() {
   return (
     <>
       <div>
-        <div className="">
+        <div>
           <img
-            src="/img/meuschamadosDesk.png"
+            src="/img/meusChamadosDesk.png"
             alt=""
             className="bannerChamadosArea d-none d-md-block img-fluid"
           />
-
 
           <img
             src="/img/meuschamadosCel.png"
             alt=""
             className="bannerChamadosArea d-block d-md-none img-fluid"
-
           />
         </div>
-
         {chamados.length === 0 ? (
           <div className="d-grid mt-4 align-items-center justify-content-center">
 

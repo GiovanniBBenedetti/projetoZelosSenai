@@ -50,22 +50,21 @@ export default function Meus_chamados() {
 
   return (
     <>
-      <div>
-          <div className="">
-          <img
-            src="/img/meuschamadosDesk.png"
-            alt=""
-            className="bannerChamadosArea d-none d-md-block img-fluid"
-          />
+<div>
 
+<div>
+  <img
+    src="/img/meusChamadosDesk.png"
+    alt=""
+    className="bannerChamadosArea d-none d-md-block img-fluid"
+  />
 
-          <img
-            src="/img/meuschamadosCel.png"
-            alt=""
-            className="bannerChamadosArea d-block d-md-none img-fluid"
-
-          />
-        </div>
+  <img
+    src="/img/meuschamadosCel.png"
+    alt=""
+    className="bannerChamadosArea d-block d-md-none img-fluid"
+  />
+</div>
 
 
         
