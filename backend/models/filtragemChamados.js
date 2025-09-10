@@ -40,4 +40,16 @@ const leituraChamadosFiltrados = async ({ page = 1, status, tipo, prioridade, da
   }
 }
 
-export { leituraChamadosFiltrados }
+const leituraTecnicoPool = async (idTecnico) => {
+  try {
+      return await readAll(
+          'pool_tecnico',
+          `id_tecnico = ${idTecnico}`
+      );
+  } catch (error) {
+      console.error('Erro ao obter consultas:', error);
+      throw error;
+  }
+}
+
+export { leituraChamadosFiltrados, leituraTecnicoPool }

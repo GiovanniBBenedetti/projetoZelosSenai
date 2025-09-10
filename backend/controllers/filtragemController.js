@@ -1,15 +1,17 @@
-import { leituraChamadosFiltrados } from "../models/filtragemChamados.js";
+import { leituraChamadosFiltrados, leituraTecnicoPool } from "../models/filtragemChamados.js";
 
 const getChamadosArea = async (req, res) => {
   try {
-
+    const usuario = req.usuario.id;
+    const areaTecnicoCompleta = await leituraTecnicoPool(usuario);
+    const areaTecnico = areaTecnicoCompleta[0].id_pool;
     
-    const { page = 1, status, tipo, prioridade, data } = req.query;
+    const { page = 1, status, prioridade, data } = req.query;
 
     const { rows, totalItems, totalPages } = await leituraChamadosFiltrados({
       page: Number(page),
       status,
-      tipo,
+      tipo: areaTecnico,
       prioridade,
       data,
     });
@@ -25,5 +27,8 @@ const getChamadosArea = async (req, res) => {
     return res.status(500).json({ error: "Erro interno do servidor" });
   }
 };
+
+
+
 
 export { getChamadosArea };
