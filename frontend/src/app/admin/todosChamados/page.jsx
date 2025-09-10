@@ -203,7 +203,7 @@ export default function TabelaChamados() {
 
               <div className="col-12 col-md-6 custom-col-1080">
                 <label className="form-label">Filtrar por Prioridade:</label>
-                <div className="input-group borda-filtro-usuario">
+                <div className="input-group-2 borda-filtro-usuario">
                   <button className="btn btn-filtro-adm" type="button">
                     <i className="bi bi-exclamation-triangle"></i>
                   </button>

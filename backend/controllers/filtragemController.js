@@ -2,6 +2,8 @@ import { leituraChamadosFiltrados } from "../models/filtragemChamados.js";
 
 const getChamadosArea = async (req, res) => {
   try {
+
+    
     const { page = 1, status, tipo, prioridade, data } = req.query;
 
     const { rows, totalItems, totalPages } = await leituraChamadosFiltrados({

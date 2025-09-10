@@ -114,6 +114,17 @@ body {
     box-shadow: none !important;
 }
 
+.input-group{
+    width: 100%;
+}
+
+.input-group-2{
+    width: 100%;
+    display: flex;
+    border: 1.4px solid var(--vermelhoEscuro);
+}
+
+
 
 .btn-close {
     --bs-btn-close-focus-shadow: 0 0 0 .25rem rgb(255 0 0 / 25%) !important;

@@ -10,9 +10,30 @@
     --cinza: #eaeaea;
 }
 
-.formularioSuporte{
+
+.formularioSuporte {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
+}
+
+
+@media (min-width: 2100px) {
+    .formularioSuporte {
+        display: flex;
+        justify-content: center;
+        margin-left: -9%;
+        width: 80%;
+    }
+
+    .endereco-suporte{
+        width: 70%;
+        margin-right: 3%;
+    }
+
+    .class-total-3 {
+        flex-wrap: nowrap;
+    }
 }
 
 @media (min-width: 991px) {

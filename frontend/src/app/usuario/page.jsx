@@ -141,8 +141,8 @@ export default function UserDashboard() {
             </>
           ) : (
             <>
-                <p className='dash-user-mesage-null'>Nenhum chamado encontrado, precisa criar um?</p>
-                <a className='dash-user-btn-null d-flex mt-3' href="/usuario/criar"><button className='btn dash-tec-btn'>Criar chamado</button></a>
+                <p className='dash-user-mesage-null fs-5'>Nenhum chamado encontrado, precisa criar um?</p>
+                <a className='dash-user-btn-null d-flex mt-3' href="/usuario/criar"><button className='btn dash-user-btn'>Criar chamado</button></a>
               </>
           )}
         </div>

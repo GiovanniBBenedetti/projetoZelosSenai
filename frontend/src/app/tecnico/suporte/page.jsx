@@ -87,7 +87,7 @@ export default function TecnicoSuporte() {
       <div className="geral-suporte">
         <div className="fundoBrancoSuporte">
           <div className="container">
-            <div className="row">
+            <div className="row class-total-3">
               <div className="col-12 col-lg-6 endereco-suporte">
                 <p className="subtitulo-suporte">Precisa de ajuda?</p>
                 <h1 className="titulo-endereco-suporte">Prontos para ouvir você e oferecer a melhor solução.</h1>
