@@ -51,8 +51,20 @@ export default function Meus_chamados() {
 
   return (
     <div>
-      <div className="d-flex align-items-center justify-content-center">
-        <h2>Meus Chamados</h2>
+      <div className="">
+        <img
+          src="/img/meuschamadosDesk.png"
+          alt=""
+          className="bannerChamadosArea d-none d-md-block img-fluid"
+        />
+
+
+        <img
+          src="/img/meuschamadosCel.png"
+          alt=""
+          className="bannerChamadosArea d-block d-md-none img-fluid"
+          
+        />
       </div>
 
       {chamados.length === 0 ? (

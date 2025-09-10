@@ -32,7 +32,7 @@ const statusOptions = [
 export default function CadastroPatrimonio() {
   const [mounted, setMounted] = useState(false);
 
-  // Estados dos inputs
+
   const [numeroPatrimonio, setNumeroPatrimonio] = useState('');
   const [equipamento, setEquipamento] = useState('');
   const [sala, setSala] = useState('');
@@ -49,42 +49,55 @@ export default function CadastroPatrimonio() {
 
   if (!mounted) return null;
 
-  const handleSubmit = async () => {
-    const token = getCookie('token');
+const handleSubmit = async () => {
+  const token = getCookie('token');
 
-    const payload = {
-      PATRIMONIO: numeroPatrimonio,
-      EQUIPAMENTO: equipamento,
-      SALA: sala,
-      TIPO: tipoEquipamento?.value || '',
-      STATUS: status?.value || '',
-      OBSERVACAO: observacoes
-    };
+  if (
+    !numeroPatrimonio.trim() || !equipamento.trim() || !sala.trim() ||!tipoEquipamento || !status || !observacoes.trim()
+  ) {
+    setConteudoResposta("Preencha todos os campos antes de cadastrar.");
+    setTipoToast("!ok");
+    return; 
+  }
 
-    try {
-      const response = await fetch('http://localhost:8080/patrimonios', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify(payload)
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setConteudoResposta(data.mensagem)
-        setTipoToast('ok')
-      } else {
-        setConteudoResposta('Erro ao cadastrar patrimônio verifique se o número ja existe.')
-        setTipoToast('!ok')
-      }
-    } catch (error) {
-      console.error(error);
-      <Toast conteudo={'Erro ao cadastrar patrimônio.'} tipo={'ok'} />
-    }
+  const payload = {
+    PATRIMONIO: numeroPatrimonio,
+    EQUIPAMENTO: equipamento,
+    SALA: sala,
+    TIPO: tipoEquipamento?.value || "",
+    STATUS: status?.value || "",
+    OBSERVACAO: observacoes
   };
+
+  try {
+    const response = await fetch("http://localhost:8080/patrimonios", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      setConteudoResposta(data.mensagem);
+      setTipoToast("ok");
+
+    } else {
+      setConteudoResposta(
+        "Erro ao cadastrar patrimônio. Verifique se o número já existe."
+      );
+      setTipoToast("!ok");
+    }
+  } catch (error) {
+    console.error(error);
+    setConteudoResposta("Erro de conexão com o servidor.");
+    setTipoToast("!ok");
+  }
+};
+
 
   return (
     <>

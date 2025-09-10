@@ -10,6 +10,11 @@
     --cinza: #eaeaea;
 }
 
+.formularioSuporte{
+    display: flex;
+    justify-content: center;
+}
+
 @media (min-width: 991px) {
     .fundoBrancoSuporte {
         width: 100%;

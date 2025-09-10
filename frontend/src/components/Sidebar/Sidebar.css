@@ -251,7 +251,6 @@ button {
 
 .sidebar__theme span {
   font-size: var(--normal-font-size);
-  font-family: var(--body-font);
 }
 
 /* Show sidebar */

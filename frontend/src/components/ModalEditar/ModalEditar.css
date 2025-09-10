@@ -14,8 +14,15 @@
   box-shadow: 0 0 0 0.25rem rgba(181, 2, 2, 0.297) !important;
 }
 
+.react-select__control.react-select__control--is-disabled.css-4br798-control {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
 .titulo-novo-medico {
   font-size: 30px !important;
+  border-left: 3px solid var(--vermelhoMedio);
+  padding-left: 7px;
 }
 
 .form-select:focus {

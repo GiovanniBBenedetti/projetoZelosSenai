@@ -13,11 +13,17 @@ tecnico:root {
   --normal-font-size: 0.938rem;
 }
 
-.icon-semchamados{
+.icon-semchamados {
   width: 12rem;
 }
 
-.accordion-chamados-tecnico{
+.bannerChamadosArea {
+  width: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.accordion-chamados-tecnico {
   border-radius: 10px;
   margin-left: 1rem;
   margin-right: 1rem;
@@ -27,17 +33,17 @@ tecnico:root {
   color: #000;
 }
 
-.accordion-item{
+.accordion-item {
   background-color: transparent;
-  
+
 }
 
-.accordion-item h2 button{
+.accordion-item h2 button {
   font-size: 35px;
 }
 
-.accordion-headerChamados{
-  border-left:#e30615 solid 4px ;
+.accordion-headerChamados {
+  border-left: #e30615 solid 4px;
   padding-left: 10px;
 }
 
@@ -47,5 +53,6 @@ tecnico:root {
 
 /* Quando o accordion estiver aberto, gira o ícone */
 .accordion-button:not(.collapsed) .bi-chevron-right {
-  transform: rotate(90deg); /* direita -> baixo */
+  transform: rotate(90deg);
+  /* direita -> baixo */
 }

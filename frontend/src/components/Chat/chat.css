@@ -5,12 +5,9 @@
   --vermelho: #e30615;
   --preto: #000000;
   --cinza: #808080;
-  font-family: 'Montserrat', sans-serif;
 }
 
-body {
-  font-family: 'poppins';
-}
+
 
 #offcanvasChatBot {
   width: 100%;

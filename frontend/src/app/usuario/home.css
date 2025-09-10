@@ -147,6 +147,19 @@
   color: var(--branco);
 }
 
+.dash-user-mesage-null {
+  margin-top: 0;
+  padding-left: 10px;
+  margin-left: 1rem;
+  margin-bottom: 1.5rem !important;
+}
+
+.dash-user-btn-null {
+  padding-left: 10px;
+  margin-left: 1rem;
+  margin-bottom: 3.5rem;
+}
+
 /*=============== RESPONSIVIDADE ===============*/
 @media (max-width: 768px) {
   .dashboard-user {

@@ -1,4 +1,4 @@
-'use client'; 
+'use client';
 import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import BotaoNovo from '@/components/BotaoNovo/BotaoNovo';
@@ -16,11 +16,7 @@ const prioridadeOptions = [
   { value: '4', label: 'Imediata' },
 ];
 
-const statusOptions = [
-  { value: 'enviado', label: 'Enviado' },
-  { value: 'em andamento', label: 'Em andamento' },
-  { value: 'concluído', label: 'Concluído' }
-];
+
 
 export default function TabelaChamados() {
   const [chamados, setChamados] = useState([]);
@@ -71,28 +67,6 @@ export default function TabelaChamados() {
     }
   };
 
-  const atualizarCampo = async (id, campo, valor) => {
-    try {
-      const token = getCookie('token');
-      await fetch(`http://localhost:8080/chamado/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ [campo]: valor }),
-      });
-
-      setChamados((prev) =>
-        prev.map((chamado) =>
-          chamado.id === id ? { ...chamado, [campo]: valor } : chamado
-        )
-      );
-    } catch (err) {
-      console.error(`Erro ao atualizar ${campo}:`, err);
-    }
-  };
-
   const columns = [
     { field: 'id', headerName: 'ID', width: 40, disableColumnMenu: true },
     { field: 'titulo', headerName: 'Título', width: 270, disableColumnMenu: true },
@@ -103,72 +77,60 @@ export default function TabelaChamados() {
       headerName: 'Prioridade',
       width: 150,
       disableColumnMenu: true,
-      renderCell: (params) => (
-        <Select
-          options={prioridadeOptions}
-          value={prioridadeOptions.find(opt => opt.value === params.row.grau_prioridade)}
-          onChange={(selectedOption) => atualizarCampo(params.row.id, 'grau_prioridade', selectedOption.value)}
-          menuPortalTarget={document.body}
-          styles={{
-            control: (provided) => ({
-              ...provided,
-              backgroundColor: 'transparent',
-              border: 'none',
-              boxShadow: 'none',
-              minHeight: '30px',
-              fontSize: '0.9rem',
-            }),
-            singleValue: (provided) => ({ ...provided, color: '#000000' }),
-            option: (provided, state) => ({
-              ...provided,
-              backgroundColor: state.isFocused ? '#8e0009' : '#b5000c',
-              color: '#fff',
-              '&:active': { backgroundColor: '#8e0009' },
-            }),
-            indicatorSeparator: () => ({ display: 'none' }),
-            menuPortal: (base) => ({ ...base, zIndex: 9999 }),
-          }}
-          isSearchable={false}
-        />
-      )
+      renderCell: (params) => {
+        const token = getCookie('token');
+
+        const handleChange = async (selectedOption) => {
+          try {
+            await fetch(`http://localhost:8080/chamado/grauPrioridade/${params.row.id}`, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({ grau_prioridade: selectedOption.value }),
+            });
+
+            params.api.updateRows([{ id: params.id, grau_prioridade: selectedOption.value }]);
+          } catch (err) {
+            console.error("Erro ao atualizar prioridade:", err);
+          }
+        };
+
+        return (
+          <Select
+            options={prioridadeOptions}
+            value={prioridadeOptions.find(opt => opt.value === params.row.grau_prioridade)}
+            onChange={handleChange}
+            menuPortalTarget={document.body}
+            styles={{
+              control: (provided) => ({
+                ...provided,
+                backgroundColor: 'transparent',
+                border: 'none',
+                boxShadow: 'none',
+                minHeight: '30px',
+                fontSize: '0.9rem',
+              }),
+              singleValue: (provided) => ({ ...provided, color: '#000000' }),
+              option: (provided, state) => ({
+                ...provided,
+                backgroundColor: state.isFocused ? '#8e0009' : '#b5000c',
+                color: '#fff',
+                '&:active': { backgroundColor: '#8e0009' },
+              }),
+              indicatorSeparator: () => ({ display: 'none' }),
+              menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+            }}
+            isSearchable={false}
+          />
+        );
+      }
     },
     { field: 'tipo_id', headerName: 'Tipo ID', width: 100, disableColumnMenu: true },
     { field: 'tecnico_id', headerName: 'Técnico ID', width: 150, disableColumnMenu: true },
     { field: 'usuario_id', headerName: 'Usuário ID', width: 80, disableColumnMenu: true },
-    {
-      field: 'status',
-      headerName: 'Status',
-      width: 150,
-      disableColumnMenu: true,
-      renderCell: (params) => (
-        <Select
-          options={statusOptions}
-          value={statusOptions.find(opt => opt.value === params.row.status)}
-          onChange={(selectedOption) => atualizarCampo(params.row.id, 'status', selectedOption.value)}
-          menuPortalTarget={document.body}
-          styles={{
-            control: (provided) => ({
-              ...provided,
-              backgroundColor: 'transparent',
-              border: 'none',
-              boxShadow: 'none',
-              minHeight: '30px',
-              fontSize: '0.9rem',
-            }),
-            singleValue: (provided) => ({ ...provided, color: '#000000' }),
-            option: (provided, state) => ({
-              ...provided,
-              backgroundColor: state.isFocused ? '#8e0009' : '#b5000c',
-              color: '#fff',
-              '&:active': { backgroundColor: '#8e0009' },
-            }),
-            indicatorSeparator: () => ({ display: 'none' }),
-            menuPortal: (base) => ({ ...base, zIndex: 9999 }),
-          }}
-          isSearchable={false}
-        />
-      )
-    },
+    { field: 'status', headerName: 'Status', width: 80, disableColumnMenu: true },
     { field: 'criado_em', headerName: 'Criado em', width: 180, disableColumnMenu: true },
     { field: 'atualizado_em', headerName: 'Atualizado em', width: 180, disableColumnMenu: true },
     {
@@ -204,7 +166,6 @@ export default function TabelaChamados() {
       <div className="geral-patrimonios d-flex flex-column">
         <div className="container total-adm flex-grow-1 d-flex flex-column">
           <p className="tituloMedicos mb-3">Controle de Chamados:</p>
-
 
           <div className="container-filtro-pacientes mb-5 mb-sm-4 mt-4 mt-sm-0">
             <div className="row g-3">
@@ -296,7 +257,6 @@ export default function TabelaChamados() {
           </div>
         </div>
       </div>
-
 
       <div className="geral-table-patrimonio flex-grow-1 d-flex ps-4 pe-4 pb-4">
         <Box sx={{ flex: 1, display: 'flex', width: '100%' }}>

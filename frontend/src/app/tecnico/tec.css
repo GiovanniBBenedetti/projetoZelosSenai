@@ -137,6 +137,20 @@
   border-left: 4px solid var(--vermelho);
   padding-left: 10px;
   margin-left: 1rem;
+  margin-bottom: .5rem !important;
+}
+
+.dash-mesage-null {
+  margin-top: 0;
+  padding-left: 10px;
+  margin-left: 1rem;
+  margin-bottom: 1.5rem !important;
+}
+
+.dash-btn-null {
+  padding-left: 10px;
+  margin-left: 1rem;
+  margin-bottom: 3.5rem;
 }
 
 .dash-tec-btn {

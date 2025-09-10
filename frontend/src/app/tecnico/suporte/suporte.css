@@ -10,6 +10,11 @@
     --cinza: #eaeaea;
 }
 
+.formularioSuporte {
+    display: flex;
+    justify-content: center;
+}
+
 @media (min-width: 991px) {
     .fundoBrancoSuporte {
         width: 100%;
@@ -19,7 +24,6 @@
         padding: 20px;
         padding-right: 50px;
         box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-
     }
 }
 
@@ -61,7 +65,6 @@
         margin-left: -10%;
         box-shadow: 0 5px 15px rgba(0, 0, 0, .192);
     }
-
 }
 
 .fundo {
@@ -120,7 +123,6 @@
     color: #0f0f0f;
     font-size: 15px;
 }
-
 
 .fundoBrancoSuporte {
     width: 100%;

@@ -5,6 +5,7 @@ import {
   atribuicaoChamadosVirgens,
   leituraDeTodosChamados,
   obterChamadoStatus,
+  verTecnico,
   atualizarChamados,
   atualizarStatus,
   obterChamadoUsuario
@@ -175,6 +176,15 @@ const atualizarChamadoController = async (req, res) => {
 
   try {
     const id = req.params.id;
+    const area = req.query.area;
+    const tecnicoIdQuery = req.query.id;
+
+    const result = await verTecnico(tecnicoIdQuery, area);
+
+    if (result.length === 0) {
+      return res.status(403).json({ mensagem: 'Este tecnico não existe ou não é desta respectiva área' });
+    }
+
     const {
       TITULO,
       DESCRICAO,
@@ -182,13 +192,11 @@ const atualizarChamadoController = async (req, res) => {
       TECNICO_ID,
     } = req.body;
 
-    console.log(TIPO_ID)
-
     const chamadoData = {
       titulo: TITULO,
       descricao: DESCRICAO,
-      tipo_id: parseInt(TIPO_ID),
-      tecnico_id: parseInt(TECNICO_ID)
+      tipo_id: TIPO_ID,
+      tecnico_id: TECNICO_ID
     };
 
     await atualizarChamados(id, chamadoData);
@@ -200,6 +208,25 @@ const atualizarChamadoController = async (req, res) => {
   }
 };
 
+const atualizarGrauPrioridadeChamadoController = async (req, res) => {
+  try {
+    const chamado = req.params.id;
+    const { grau_prioridade } = req.body;
+
+    if (!grau_prioridade) {
+      return res.status(400).json({ mensagem: "Grau de prioridade é obrigatório" });
+    }
+
+    await atualizarChamados(chamado, { grau_prioridade });
+
+    res.status(200).json({ mensagem: "Grau de prioridade do chamado alterado com sucesso" });
+  } catch (error) {
+    console.error("Erro ao atualizar Grau de prioridade do chamado:", error);
+    res.status(500).json({ mensagem: "Erro ao atualizar Grau de prioridade do chamado" });
+  }
+};
+
+
 export {
   criarChamadoController,
   listarChamadosVirgensController,
@@ -207,5 +234,7 @@ export {
   listarTodosChamadosController,
   atualizarStatusController,
   obterChamadoUsuarioController,
-  atualizarChamadoController
+  atualizarChamadoController,
+  atualizarGrauPrioridadeChamadoController
+
 };

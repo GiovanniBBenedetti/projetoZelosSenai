@@ -44,7 +44,7 @@ export default function GraficoUrgencia() {
   }, []);
 
   const data = {
-    labels: ['Baixa', 'Mínima', 'Prioritária', 'Imediata'],
+    labels: ['Preventiva', 'Sem Urgência', 'Prioritária', 'Imediata'],
     datasets: [
       {
         label: 'Chamados por Prioridade',

@@ -39,7 +39,7 @@ export default function TecDashboard() {
       setLoading(false);
     }
     try {
-    
+
       const semRespRes = await fetch(`http://localhost:8080/chamado?status=enviado`, {
         headers: { 'Authorization': `Bearer ${token}` },
       });
@@ -53,7 +53,7 @@ export default function TecDashboard() {
       const atribuidosData = await atribuidosRes.json();
       setAtribuidos(atribuidosData.length);
 
-    
+
       const finalizadosRes = await fetch(`http://localhost:8080/meusChamados?status=concluido`, {
         headers: { 'Authorization': `Bearer ${token}` },
       });
@@ -103,15 +103,15 @@ export default function TecDashboard() {
     <>
       <div className="container-fluid dashboard-tec">
         <div className="row tec-dash">
-        <div className="col-md-4 mt-4 card-information-col">
-          <Link href="/tecnico/todosChamados" className="card-information">
-            <div className="text-content">
-              <p>{semResponsavel} Chamados</p>
-              <span>Sem responsáveis</span>
-            </div>
-            <i className="bi bi-caret-right-fill"></i>
-          </Link>
-        </div>
+          <div className="col-md-4 mt-4 card-information-col">
+            <Link href="/tecnico/todosChamados" className="card-information">
+              <div className="text-content">
+                <p>{semResponsavel} Chamados</p>
+                <span>Sem responsáveis</span>
+              </div>
+              <i className="bi bi-caret-right-fill"></i>
+            </Link>
+          </div>
           <div className="col-md-4 mt-4 card-information-col">
             <Link href="/tecnico/chamados" className="card-information">
               <div className="text-content">
@@ -122,13 +122,13 @@ export default function TecDashboard() {
             </Link>
           </div>
           <div className="col-md-4 mt-4 card-information-col">
-          <div className="card-information">
-            <div className="text-content">
-              <p>{finalizados} Chamados</p>
-              <span>Finalizados nos últimos 30 dias</span>
+            <div className="card-information">
+              <div className="text-content">
+                <p>{finalizados} Chamados</p>
+                <span>Finalizados nos últimos 30 dias</span>
+              </div>
             </div>
           </div>
-        </div>
           <div className="col-md-12 mt-3 ajuda-container-col">
             <div className="card-ajuda">
               <div className="text-content">
@@ -141,8 +141,17 @@ export default function TecDashboard() {
 
           <div className="col-md-12 mt-4 dash-tec-recentes">
             <p className='dash-tec-title mt-2 mb-4'>Meus chamados mais recentes</p>
-            <Card chamados={recentes} />
-            <a className='d-flex justify-content-center mt-3' href="/tecnico/chamados"><button className='btn dash-tec-btn'>Ver todos</button></a>
+            {recentes.length > 0 ? (
+              <>
+                <Card chamados={recentes} />
+                <a className='d-flex justify-content-center mt-3' href="/tecnico/chamados"><button className='btn dash-tec-btn'>Ver todos</button></a>
+              </>
+            ) : (
+              <>
+                <p className='dash-mesage-null'>Você ainda não tem nenhum chamado recente, que tal se atribuir a um?</p>
+                <a className='dash-btn-null d-flex mt-3' href="/tecnico/chamados"><button className='btn dash-tec-btn'>Veja chamados da sua área</button></a>
+              </>
+            )}
           </div>
         </div>
       </div>

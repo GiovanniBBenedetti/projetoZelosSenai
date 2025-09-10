@@ -50,13 +50,25 @@ export default function Meus_chamados() {
   return (
     <>
       <div>
-        <div className="d-flex align-items-center justify-content-center">
-          <h2>Meus Chamados</h2>
+        <div className="">
+          <img
+            src="/img/meuschamadosDesk.png"
+            alt=""
+            className="bannerChamadosArea d-none d-md-block img-fluid"
+          />
+
+
+          <img
+            src="/img/meuschamadosCel.png"
+            alt=""
+            className="bannerChamadosArea d-block d-md-none img-fluid"
+
+          />
         </div>
 
         {chamados.length === 0 ? (
           <div className="d-grid mt-4 align-items-center justify-content-center">
-          
+
             <h3 className="text-center">Ops! Você não possui nenhum chamado criado</h3>
             <div className="align-items-center mt-2 mb-3 d-flex justify-content-center">
               <BtnVenhaCriar />
@@ -66,10 +78,10 @@ export default function Meus_chamados() {
         ) : (
           <div>
             {ordenarChamados(chamados).map((chamado) => {
-              return(
+              return (
                 <CardUser key={chamado.id} chamados={[chamado]} />
               )
-              
+
             })}
           </div>
         )}

@@ -97,10 +97,20 @@ const atualizarChamados = async (id, chamadoData) => {
   }
 };
 
+const verTecnico = async (id, funcao) => {
+  try {
+    return await readAll('pool_tecnico', `id_tecnico  = ${id} AND id_pool  = ${funcao}`);
+  } catch (error) {
+    console.error('Erro ao obter chamado por ID:', error);
+    throw error;
+  }
+};
+
 export {
   criarChamado,
   leituraDeTodosChamados,
   leituraChamados,
+  verTecnico,
   chamadosVirgens,
   atribuicaoChamadosVirgens,
   obterChamadoStatus,

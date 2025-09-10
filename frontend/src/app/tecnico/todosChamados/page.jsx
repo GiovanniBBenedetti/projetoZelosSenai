@@ -79,14 +79,14 @@ export default function Meus_chamados() {
       <div className="">
         <img
           src="/img/FundoChamadoArea.png"
-          alt="Aplicar filtro"
+          alt=""
           className="bannerChamadosArea d-none d-md-block img-fluid"
         />
 
 
         <img
           src="/img/ChamadosAreaResponsivo.png"
-          alt="Aplicar filtro"
+          alt=""
           className="bannerChamadosArea d-block d-md-none img-fluid"
           
         />
@@ -96,9 +96,6 @@ export default function Meus_chamados() {
         <div className="col-12 col-md-3 order-0 order-md-2 mb-3 mb-md-0">
           <div className="filtros p-3 shadow rounded">
             <h3>Filtrar Chamados</h3>
-
-
-
 
             <div className="mb-3">
               <label className="form-label">Grau de Prioridade</label>
@@ -147,9 +144,7 @@ export default function Meus_chamados() {
                 />
               </div>
               <h3 className="text-center">Ops! Não possui chamados na sua área</h3>
-              <div className="align-items-center mt-2 mb-3 d-flex justify-content-center">
-                <BtnVenhaCriar />
-              </div>
+        
             </div>
           ) : (
             chamados.map((chamado) => (

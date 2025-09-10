@@ -47,7 +47,9 @@ body {
 .tituloMedicos {
     margin-top: 2%;
     font-size: 40px;
-    color: var(--vermelhoMedio);
+    color: var(--perto);
+    border-left: 3px solid var(--vermelhoMedio);
+    padding-left: 7px;
 }
 
 .borda-filtro-usuario {

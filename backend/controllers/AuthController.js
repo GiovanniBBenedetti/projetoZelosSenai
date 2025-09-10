@@ -17,8 +17,6 @@ const loginController = async (req, res) => {
       return res.status(401).json({ mensagem: 'Senha Incorreta' })
     }
 
-
-
     const token = jwt.sign(
       {
         id: usuario.id,
@@ -28,10 +26,7 @@ const loginController = async (req, res) => {
       },
       JWT_SECRET,
       { expiresIn: "12h" }
-    );
-
-
-
+    )
     res.json({
       message: "Autenticado com sucesso",
       token,
@@ -44,6 +39,7 @@ const loginController = async (req, res) => {
         funcao: usuario.funcao
       }
     });
+
   } catch (err) {
     console.error('Erro ao fazer login: ', err)
     res.status(500).json({ mensagem: 'Erro ao fazer login' })
@@ -51,7 +47,3 @@ const loginController = async (req, res) => {
 }
 
 export { loginController }
-
-
-
-

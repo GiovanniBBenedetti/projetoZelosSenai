@@ -27,7 +27,7 @@
     background-color: transparent !important;
 }
 
-.optionRed{
+.optionRed {
     background-color: var(--vermelhoEscuro);
     color: var(--branco);
 }
@@ -35,7 +35,9 @@
 .tituloMedicos {
     margin-top: 2%;
     font-size: 40px;
-    color: var(--vermelhoMedio);
+    color: var(--perto);
+    border-left: 3px solid var(--vermelhoMedio);
+    padding-left: 7px;
 }
 
 .btn-filtro-adm {
@@ -118,7 +120,7 @@
 
 
 
-.css-1qmqbjp-control{
+.css-1qmqbjp-control {
     border: none !important;
     background-color: transparent !important;
 }

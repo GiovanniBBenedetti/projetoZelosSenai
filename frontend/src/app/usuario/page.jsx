@@ -13,7 +13,7 @@ export default function UserDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [recentes, setRecentes] = useState([]);
-  const [emAndamentoCount, setEmAndamentoCount] = useState(0); // novos estados
+  const [emAndamentoCount, setEmAndamentoCount] = useState(0); 
   const [concluidosCount, setConcluidosCount] = useState(0);
 
   const fetchChamadosRecentes = async () => {
@@ -140,7 +140,10 @@ export default function UserDashboard() {
               </a>
             </>
           ) : (
-            <p>Nenhum chamado em andamento encontrado.</p>
+            <>
+                <p className='dash-user-mesage-null'>Nenhum chamado encontrado, precisa criar um?</p>
+                <a className='dash-user-btn-null d-flex mt-3' href="/usuario/criar"><button className='btn dash-tec-btn'>Criar chamado</button></a>
+              </>
           )}
         </div>
       </div>
