@@ -1,0 +1,48 @@
+📌 Registro de Usuários - Sistema ZELOS SENAI
+
+Este arquivo contém informações dos usuários já cadastrados no sistema, 
+bem como a regra de inserção automática de novos usuários provenientes do login SENAI.
+
+─────────────────────────────────────────────
+🔹 Regras de Inserção Automática
+─────────────────────────────────────────────
+- Sempre que um usuário SENAI realizar login pela primeira vez e não estiver registrado no banco de dados,
+  ele será automaticamente inserido na tabela de usuários com o perfil padrão Usuário.
+- Perfis especiais como Admin e Técnico devem ser configurados manualmente por um administrador.
+- Caso um usuário já exista no banco, apenas seu acesso será validado.
+
+─────────────────────────────────────────────
+🔹 Usuários Existentes (para testes e login)
+─────────────────────────────────────────────
+
+👨‍🔧 Giovanni - Técnico (Apoio Técnico)
+- RA: 24166117
+- Senha: vObB1N
+
+👤 Bruno - Usuário
+- RA: 24166195
+- Senha: UPvqSB
+
+👤 Fábio - Usuário
+- RA: 24166154
+- Senha: 0Jke54
+
+👩‍💻 Giulia - Admin
+- RA: 24166198
+- Senha: RzIUmJ
+
+👩‍🔧 Duda - Técnico (Manutenção)
+- RA: 24166206
+- Senha: CfcHRz
+
+👤 Davi - Usuário
+- RA: 24166170
+- Senha: vr1lte
+
+─────────────────────────────────────────────
+📢 Observação Importante
+─────────────────────────────────────────────
+- Para acessar como Admin, utilize as credenciais da Giulia.
+- Para acessar como Técnico, utilize as credenciais de Giovanni ou Duda.
+- Para acessar como Usuário comum, utilize Bruno, Fábio ou Davi.
+

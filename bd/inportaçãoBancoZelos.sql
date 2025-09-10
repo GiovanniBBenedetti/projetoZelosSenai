@@ -3,6 +3,9 @@
 -- Host: 127.0.0.1    Database: zelos
 -- ------------------------------------------------------
 -- Server version	5.5.5-10.4.32-MariaDB
+create database zelos;
+use zelos
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
