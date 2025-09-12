@@ -24,7 +24,7 @@
 
 }
 
-.avatar-card-user{
+.avatar-card-user {
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -49,15 +49,15 @@
 }
 
 .borderColorPrioridade-2-virgem {
-  border-left: solid #4cc78b  15px;
+  border-left: solid #4cc78b 15px;
 }
 
 .borderColorPrioridade-3-virgem {
-  border-left: solid #ff9d59  15px;
+  border-left: solid #ff9d59 15px;
 }
 
 .borderColorPrioridade-4-virgem {
-  border-left: solid #d83d65  15px;
+  border-left: solid #d83d65 15px;
 }
 
 .prioridadeP {
@@ -180,31 +180,31 @@
     font-size: 1.4rem;
   }
 
-  
-   .info-ficha-virgem{
-    gap: 0 !important;
-   }
 
-   .modal-body .infos-ficha-virgem{
+  .info-ficha-virgem {
     gap: 0 !important;
-   }
+  }
 
- .info-ficha-virgem>p {
+  .modal-body .infos-ficha-virgem {
+    gap: 0 !important;
+  }
+
+  .info-ficha-virgem>p {
     width: 100%;
   }
 }
 
 @media (max-width: 575px) {
 
-   .info-ficha-virgem{
+  .info-ficha-virgem {
     gap: 0 !important;
-   }
+  }
 
-   .modal-body .infos-ficha-virgem{
+  .modal-body .infos-ficha-virgem {
     gap: 0 !important;
-   }
+  }
 
- .info-ficha-virgem>p {
+  .info-ficha-virgem>p {
     width: 100%;
   }
 }
@@ -231,7 +231,7 @@
 }
 
 
-.BotaoCriarChamado{
+.BotaoCriarChamado {
   button {
     display: flex;
     justify-content: center;
@@ -242,12 +242,10 @@
     font-size: 17px;
     padding: 0.5em 0.5em;
     color: white;
-    background: linear-gradient(
-      to right,
-      var(--vermelho),
-      var(--vermelhoMedio),
-      var(--vermelhoEscuro)
-    );
+    background: linear-gradient(to right,
+        var(--vermelho),
+        var(--vermelhoMedio),
+        var(--vermelhoEscuro));
     border: none;
     letter-spacing: 0.05em;
     border-radius: 20px;
@@ -272,5 +270,13 @@
 
   button:hover span {
     transform: translateX(7px);
+  }
+}
+
+@media (min-width: 576px) and (max-width: 650px) {
+  .rounded-circle {
+    width: 80px !important;
+    height: 65px !important;
+    object-fit: cover;
   }
 }

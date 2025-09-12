@@ -164,3 +164,8 @@
   opacity: .9;
   transition: all ease .3s;
 }
+
+.dash-tec-btn:active {
+  background-color: var(--vermelhoMedio) !important;
+  color: var(--branco) !important;
+}

@@ -62,7 +62,7 @@ export default function CriarChamado() {
         imageWidth: 310,
         imageHeight: 270,
         title: 'Ops...',
-        text: `Por favaor, preencha todos os campos!`,
+        text: `Por favor, preencha todos os campos!`,
         showConfirmButton: false,
         showCloseButton: true,
       });

@@ -106,6 +106,24 @@ const verTecnico = async (id, funcao) => {
   }
 };
 
+const verTecnicoFuncao = async (id) => {
+  try {
+    return await readAll('pool_tecnico', `id_tecnico  = ${id}`);
+  } catch (error) {
+    console.error('Erro ao obter chamado por ID:', error);
+    throw error;
+  }
+};
+
+const semResponsavel = async (area) => {
+  try {
+    return await readAll('chamados', `tipo_id  = ${area} AND status = 'enviado'`);
+  } catch (error) {
+    console.error('Erro ao obter chamado por ID:', error);
+    throw error;
+  }
+};
+
 export {
   criarChamado,
   leituraDeTodosChamados,
@@ -116,5 +134,7 @@ export {
   obterChamadoStatus,
   atualizarStatus,
   obterChamadoUsuario,
-  atualizarChamados
+  atualizarChamados,
+  semResponsavel,
+  verTecnicoFuncao
 };

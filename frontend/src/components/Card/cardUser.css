@@ -13,7 +13,7 @@
   --normal-font-size: 0.938rem;
 }
 
-.avatar-card-user{
+.avatar-card-user {
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -60,15 +60,15 @@
 }
 
 .borderColorPrioridade-2-user {
-  border-left: solid #4cc78b  15px;
+  border-left: solid #4cc78b 15px;
 }
 
 .borderColorPrioridade-3-user {
-  border-left: solid #ff9d59  15px;
+  border-left: solid #ff9d59 15px;
 }
 
 .borderColorPrioridade-4-user {
-  border-left: solid #d83d65  15px;
+  border-left: solid #d83d65 15px;
 }
 
 .prioridadeP {
@@ -101,7 +101,7 @@
   padding: 10px;
 }
 
-.prioridadeP{
+.prioridadeP {
   color: #fff;
 }
 
@@ -149,15 +149,15 @@
   width: 40%;
 }
 
-.infos-ficha-user{
+.infos-ficha-user {
   max-width: 100%;
 }
 
 .info-descricao-user {
-  max-width: 100%;       
-  word-wrap: break-word; 
-  overflow-wrap: break-word; 
-  white-space: normal;   
+  max-width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 @media (min-width: 576px) and (max-width: 767px) {
@@ -206,31 +206,31 @@
     font-size: 1.4rem;
   }
 
-  
-   .info-ficha-user{
-    gap: 0 !important;
-   }
 
-   .modal-body .infos-ficha-user{
+  .info-ficha-user {
     gap: 0 !important;
-   }
+  }
 
- .info-ficha-user>p {
+  .modal-body .infos-ficha-user {
+    gap: 0 !important;
+  }
+
+  .info-ficha-user>p {
     width: 100%;
   }
 }
 
 @media (max-width: 575px) {
 
-   .info-ficha-user{
+  .info-ficha-user {
     gap: 0 !important;
-   }
+  }
 
-   .modal-body .infos-ficha-user{
+  .modal-body .infos-ficha-user {
     gap: 0 !important;
-   }
+  }
 
- .info-ficha-user>p {
+  .info-ficha-user>p {
     width: 100%;
   }
 }
@@ -256,3 +256,10 @@
   margin: 0;
 }
 
+@media (min-width: 576px) and (max-width: 650px) {
+  .rounded-circle {
+    width: 80px!important;
+    height: 65px!important;
+    object-fit: cover;
+  }
+}

@@ -1,8 +1,10 @@
-body{
+body {
   background-color: #eaeaea;
 }
 
-
+.icon-semchamados {
+  width: 12rem;
+}
 
 .bannerChamadosArea {
   width: 100%;
@@ -11,34 +13,34 @@ body{
 }
 
 
-.cards-meus-chamados{
- 
+.cards-meus-chamados {
+
   margin-top: 3rem;
 }
 
 
 .conteudo-com-sidebar {
   padding: 1rem;
-  width: calc(100% - 20rem); 
+  width: calc(100% - 20rem);
 }
 
 
 .cards-meus-chamados {
   max-width: 100%;
-  justify-content: flex-start ; 
+  justify-content: flex-start;
 }
 
-.sem-chamados img{
+.sem-chamados img {
   margin-left: 6rem;
   width: 14rem;
 }
 
-.sem-chamados p{
+.sem-chamados p {
   font-weight: 500;
   font-size: 24px;
 }
 
-.sem-chamados div{
+.sem-chamados div {
   margin-left: 4.5rem;
 }
 
@@ -47,16 +49,16 @@ body{
   .conteudo-com-sidebar {
     margin-left: 0;
     width: 100%;
-   
+
   }
 
-  .cards-meus-chamados{
+  .cards-meus-chamados {
     align-items: center;
     justify-content: center;
     display: grid;
   }
 
-  .ficha-user{
+  .ficha-user {
     margin-top: 6rem !important;
     align-items: center;
     justify-content: center;

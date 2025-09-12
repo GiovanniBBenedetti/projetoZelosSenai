@@ -6,13 +6,16 @@ import {
   listarTodosChamadosController,
   atualizarStatusController,
   obterChamadoUsuarioController,
-  atualizarChamadoController, 
-  atualizarGrauPrioridadeChamadoController
+  atualizarChamadoController,
+  atualizarGrauPrioridadeChamadoController,
+  listarTodosChamadosAreaController
 } from '../controllers/ChamadoController.js';
 import authMiddleware from '../middlewares/authMiddleware.js';
 const router = express.Router();
 
 router.get('/', listarChamadosVirgensController);
+
+router.get('/area', authMiddleware, listarTodosChamadosAreaController);
 
 router.get('/todos', listarTodosChamadosController);
 
@@ -26,7 +29,7 @@ router.put('/:id', authMiddleware, atribuirChamadoController);
 
 router.put('/uptade/:id', authMiddleware, atualizarChamadoController);
 
-router.put('/grauPrioridade/:id',authMiddleware, atualizarGrauPrioridadeChamadoController)
+router.put('/grauPrioridade/:id', authMiddleware, atualizarGrauPrioridadeChamadoController)
 
 router.options('/', (req, res) => {
   res.setHeader('Allow', 'POST');

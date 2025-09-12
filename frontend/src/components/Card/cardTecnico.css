@@ -13,7 +13,7 @@ tecnico:root {
   --normal-font-size: 0.938rem;
 }
 
-.avatar-card-tecnico{
+.avatar-card-tecnico {
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -60,15 +60,15 @@ tecnico:root {
 }
 
 .borderColorPrioridade-2-tecnico {
-  border-left: solid #4cc78b  15px;
+  border-left: solid #4cc78b 15px;
 }
 
 .borderColorPrioridade-3-tecnico {
-  border-left: solid #ff9d59  15px;
+  border-left: solid #ff9d59 15px;
 }
 
 .borderColorPrioridade-4-tecnico {
-  border-left: solid #d83d65  15px;
+  border-left: solid #d83d65 15px;
 }
 
 .prioridadeP {
@@ -145,15 +145,15 @@ tecnico:root {
   width: 40%;
 }
 
-.infos-ficha-tecnico{
+.infos-ficha-tecnico {
   max-width: 100%;
 }
 
 .info-descricao-tecnico {
-  max-width: 100%;       
-  word-wrap: break-word; 
-  overflow-wrap: break-word; 
-  white-space: normal;   
+  max-width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 @media (min-width: 576px) and (max-width: 767px) {
@@ -202,42 +202,42 @@ tecnico:root {
     font-size: 1.4rem;
   }
 
-  
-   .info-ficha-tecnico{
-    gap: 0 !important;
-   }
 
-   .modal-body .infos-ficha-tecnico{
+  .info-ficha-tecnico {
     gap: 0 !important;
-   }
+  }
 
- .info-ficha-tecnico>p {
+  .modal-body .infos-ficha-tecnico {
+    gap: 0 !important;
+  }
+
+  .info-ficha-tecnico>p {
     width: 100%;
   }
 }
 
 @media (max-width: 575px) {
 
-   .info-ficha-tecnico{
+  .info-ficha-tecnico {
     gap: 0 !important;
-   }
+  }
 
-   .modal-body .infos-ficha-tecnico{
+  .modal-body .infos-ficha-tecnico {
     gap: 0 !important;
-   }
+  }
 
- .info-ficha-tecnico>p {
+  .info-ficha-tecnico>p {
     width: 100%;
   }
 }
 
-.linhaVermelha{
+.linhaVermelha {
   background-color: var(--vermelho-principal);
   width: 100%;
   height: 2px;
 }
 
-p{
+p {
   margin-bottom: 0rem !important;
 }
 
@@ -261,3 +261,10 @@ p{
   margin: 0;
 }
 
+@media (min-width: 576px) and (max-width: 650px) {
+  .rounded-circle {
+    width: 80px !important;
+    height: 65px !important;
+    object-fit: cover;
+  }
+}

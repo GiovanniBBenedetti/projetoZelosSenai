@@ -1,43 +1,47 @@
-.titulo-meus-chamados-tecnico{
+.titulo-meus-chamados-tecnico {
   padding-top: 30px;
   padding-top: 20px;
   padding-left: 25px;
 }
-.bannerChamadosArea{
+
+.bannerChamadosArea {
   width: 100%;
   padding-left: 15px;
   padding-right: 15px;
 
 }
 
-.icon-semchamados{
+.icon-semchamados {
   width: 12rem;
 }
 
-.btn-paginacao{
+.btn-paginacao {
   background-color: #000;
   color: #fff;
   border: #000;
 }
 
-.btn-paginacao:hover{
+.btn-paginacao:hover {
   background-color: #000;
   color: #fff;
   border: #000;
 }
 
-.btn-paginacao:focus{
+.btn-paginacao:focus {
   background-color: #000;
   color: #fff;
   border: #000;
 }
+
 /* ===================== FILTRO ===================== */
 .filtros {
   margin-top: 8px;
   margin-right: 15px;
-   margin-left: 15px;
-  background-color: #1f1d1d; /* fundo preto */
-  color: #fff; /* texto branco */
+  margin-left: 15px;
+  background-color: #1f1d1d;
+  /* fundo preto */
+  color: #fff;
+  /* texto branco */
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
@@ -110,7 +114,8 @@
 /* ==================== BOTÃO ==================== */
 .btn-verperfil {
   font-weight: bold;
-  background-color: #e30615; /* vermelho vibrante */
+  background-color: #e30615;
+  /* vermelho vibrante */
   color: #fff;
   border: none;
   padding: 15px 0;
@@ -121,7 +126,8 @@
 }
 
 .btn-verperfil:hover {
-  background-color: #b6010d; /* vermelho mais escuro no hover */
+  background-color: #b6010d;
+  /* vermelho mais escuro no hover */
   color: #fff;
 }
 
@@ -160,7 +166,8 @@
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background-color: #eb123a; /* vermelho thumb */
+  background-color: #eb123a;
+  /* vermelho thumb */
   cursor: pointer;
   transition: 0.3s ease-in-out;
 }
@@ -184,8 +191,10 @@
 
 /* ==================== CHECKBOX ==================== */
 .ui-checkbox {
-  --primary-color: #eb123a; /* vermelho */
-  --secondary-color: #000; /* fundo checkbox */
+  --primary-color: #eb123a;
+  /* vermelho */
+  --secondary-color: #000;
+  /* fundo checkbox */
 }
 
 .filtros label {
@@ -264,6 +273,7 @@
 .PB-range-slidervalue {
   font-weight: 600;
 }
+
 /* ////////////////////Range idade///////////////  */
 
 
@@ -386,3 +396,14 @@
 }
 
 /* /////////////////////////Fim estilizaçãao CheckBox //////////////////////////////*/
+
+@media (min-width: 768px) and (max-width: 900px) {
+  .d-flex.flex-column.flex-md-row.gap-4.mt-4 {
+    display: flex !important;
+    flex-direction: column-reverse !important;
+  }
+
+  .col-12.col-md-3.order-0.order-md-2.mb-3.mb-md-0 {
+    width: 100% !important;
+  }
+}

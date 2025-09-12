@@ -147,6 +147,11 @@
   color: var(--branco);
 }
 
+.dash-user-btn:active{
+  background-color: var(--vermelhoMedio)!important;
+  color: var(--branco)!important;
+}
+
 .dash-user-mesage-null {
   margin-top: 0;
   padding-left: 10px;

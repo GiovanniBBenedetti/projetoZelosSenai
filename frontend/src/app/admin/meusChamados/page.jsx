@@ -65,6 +65,9 @@ export default function Meus_chamados() {
         </div>
         {chamados.length === 0 ? (
           <div className="d-grid mt-4 align-items-center justify-content-center">
+            <div className="justify-content-center d-flex">
+              <img src="/img/iconeSemChamados.png" className='img-fluid icon-semchamados' alt="" />
+            </div>
 
             <h3 className="text-center">Ops! Você não possui nenhum chamado criado</h3>
             <div className="align-items-center mt-2 mb-3 d-flex justify-content-center">

@@ -4,7 +4,8 @@ import {
   chamadosVirgens,
   atribuicaoChamadosVirgens,
   leituraDeTodosChamados,
-  obterChamadoStatus,
+  semResponsavel,
+  verTecnicoFuncao,
   verTecnico,
   atualizarChamados,
   atualizarStatus,
@@ -31,7 +32,7 @@ const criarChamadoController = async (req, res) => {
     if (chamadosExistentes.length > 0) {
       return res.status(409).json({
         mensagem:
-          'Não foi possível criar seu chamado, pois já existe um registro para este mesmo patrimônio e tipo solicitado em aberto.',
+          'Seu chamado não pôde ser criado pois já existe um registro em aberto para este patrimônio e tipo de solicitação.',
       });
     }
 
@@ -54,7 +55,7 @@ const criarChamadoController = async (req, res) => {
     const chamadoId = await criarChamado(chamadoData);
     res.status(201).json({
       mensagem:
-        'Seu chamado foi registrado, aguarde que jajá um tecníco responsavél ja vai resolver',
+        'Registramos seu chamado! Nossa equipe já está ciente e um técnico cuidará da sua solicitação o mais breve possível.',
       chamadoId,
     });
   } catch (error) {
@@ -132,8 +133,6 @@ const atualizarStatusController = async (req, res) => {
     res.status(500).json({ mensagem: "Erro ao atualizar chamado", atualizado });
   }
 };
-
-
 
 const listarTodosChamadosController = async (req, res) => {
   try {
@@ -226,6 +225,22 @@ const atualizarGrauPrioridadeChamadoController = async (req, res) => {
   }
 };
 
+const listarTodosChamadosAreaController = async (req, res) => {
+  if (!req.usuario?.id) {
+    return res.status(401).json({ mensagem: 'Usuário não autenticado' });
+  }
+  try {
+    const id = req.usuario.id;
+    const area = await verTecnicoFuncao(id);
+    const areaTec = area[0].id_pool
+
+    const chamados = await semResponsavel(areaTec)
+    res.status(200).json(chamados);
+  } catch (err) {
+    console.error(`Erro ao listar todos os chamados: `, err);
+    res.status(500).json({ mensagem: 'Erro ao listar chamados' });
+  }
+};
 
 export {
   criarChamadoController,
@@ -235,6 +250,6 @@ export {
   atualizarStatusController,
   obterChamadoUsuarioController,
   atualizarChamadoController,
-  atualizarGrauPrioridadeChamadoController
-
+  atualizarGrauPrioridadeChamadoController,
+  listarTodosChamadosAreaController
 };

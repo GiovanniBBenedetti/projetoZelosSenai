@@ -13,6 +13,7 @@ export default function TecDashboard() {
   const [semResponsavel, setSemResponsavel] = useState(0);
   const [atribuidos, setAtribuidos] = useState(0);
   const [finalizados, setFinalizados] = useState(0);
+  const [id, setId] = useState(0);
 
 
   const fetchChamados = async () => {
@@ -40,7 +41,7 @@ export default function TecDashboard() {
     }
     try {
 
-      const semRespRes = await fetch(`http://localhost:8080/chamado?status=enviado`, {
+      const semRespRes = await fetch(`http://localhost:8080/chamado/area`, {
         headers: { 'Authorization': `Bearer ${token}` },
       });
       const semRespData = await semRespRes.json();
@@ -79,6 +80,9 @@ export default function TecDashboard() {
 
     const tecnicoId = parseInt(getCookie('idUsuario'));
     const token = getCookie('token');
+    const idToken = getCookie('idUsuario');
+
+    setId(idToken)
 
     if (!tecnicoId || !token) {
       setError('Técnico não autenticado.');

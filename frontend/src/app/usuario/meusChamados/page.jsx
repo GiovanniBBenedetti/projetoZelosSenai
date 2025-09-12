@@ -5,7 +5,6 @@ import { getCookie } from 'cookies-next/client';
 import CardUser from "@/components/Card/CardUser";
 import BtnVenhaCriar from "@/components/BtnVenhaCriar/BtnVenhaCriar"
 
-
 export default function Meus_chamados() {
   const [chamados, setChamados] = useState([]);
 
@@ -50,30 +49,28 @@ export default function Meus_chamados() {
 
   return (
     <>
-<div>
+      <div>
 
-<div>
-  <img
-    src="/img/meusChamadosDesk.png"
-    alt=""
-    className="bannerChamadosArea d-none d-md-block img-fluid"
-  />
+        <div>
+          <img
+            src="/img/meusChamadosDesk.png"
+            alt=""
+            className="bannerChamadosArea d-none d-md-block img-fluid"
+          />
 
-  <img
-    src="/img/meuschamadosCel.png"
-    alt=""
-    className="bannerChamadosArea d-block d-md-none img-fluid"
-  />
-</div>
+          <img
+            src="/img/meuschamadosCel.png"
+            alt=""
+            className="bannerChamadosArea d-block d-md-none img-fluid"
+          />
+        </div>
 
-
-        
         {chamados.length === 0 ? (
           <div className="d-grid mt-4 align-items-center justify-content-center mb-5">
-          <div className="justify-content-center d-flex">
-             <img src="/img/iconeSemChamados.png" className='img-fluid icon-semchamados' alt="" />
-          </div>
-           
+            <div className="justify-content-center d-flex">
+              <img src="/img/iconeSemChamados.png" className='img-fluid icon-semchamados' alt="" />
+            </div>
+
             <h3 className="text-center">Ops! Você não possui nenhum chamado criado</h3>
             <div className="align-items-center mt-2 mb-3 d-flex justify-content-center">
               <BtnVenhaCriar />

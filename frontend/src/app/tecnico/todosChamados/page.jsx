@@ -1,7 +1,6 @@
 "use client";
 import "./chamados.css";
 import CardVirgem from "@/components/Card/CardVirgem";
-import BtnVenhaCriar from "@/components/BtnVenhaCriar/BtnVenhaCriar";
 import { getCookie } from "cookies-next";
 import { useEffect, useState } from "react";
 
