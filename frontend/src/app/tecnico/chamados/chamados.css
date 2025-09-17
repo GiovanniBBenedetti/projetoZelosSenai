@@ -51,8 +51,9 @@ tecnico:root {
   transition: transform 0.2s;
 }
 
-/* Quando o accordion estiver aberto, gira o ícone */
+
 .accordion-button:not(.collapsed) .bi-chevron-right {
   transform: rotate(90deg);
-  /* direita -> baixo */
+  margin-left: 1rem;
+  margin-top: 0.5rem;
 }

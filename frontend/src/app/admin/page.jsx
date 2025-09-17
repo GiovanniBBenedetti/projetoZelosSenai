@@ -1,21 +1,23 @@
 'use client';
 
 import './dash.css';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Loader from '@/components/Loader/Loader';
 import CardTecnicoDestaque from '@/components/CardTecnicoDestaque/CardTecnicoDestaque';
 import GraficoUrgencia from '@/components/Graficos/GraficoUrgencia';
 import GraficoTipoProblema from '@/components/Graficos/GraficoTipoProblema';
-import GraficoChamadosPorTecnico from '@/components/Graficos/GraficoChamadosPorTecnico';
 import GraficoTotalChamados from '@/components/Graficos/GraficoTotalChamados';
 import { getCookie } from 'cookies-next';
+
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import { utils, writeFile } from 'xlsx';
 
 export default function DashboardZeloPage() {
     const [patrimonios, setPatrimonios] = useState([]);
     const [usuarios, setUsuarios] = useState([]);
     const [chamadosAtrasados, setChamadosAtrasados] = useState(0);
-    const [tecnicos, setTecnicos] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const [chamadosTotais, setChamadosTotais] = useState(0);
@@ -104,24 +106,51 @@ export default function DashboardZeloPage() {
             setChamadosAtrasados(data.length || 0);
         };
 
-        const fetchTecnicosDestaque = async () => {
-            const res = await fetch('http://localhost:8080/dashboard/tecnicosDestaque', {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-            if (!res.ok) throw new Error('Erro ao buscar técnicos em destaque');
-            setTecnicos(await res.json());
-        };
-
         setLoading(true);
         Promise.all([
             fetchUsuariosAtivos(),
             fetchPatrimoniosAtivos(),
             fetchChamadosAtrasados(),
-            fetchTecnicosDestaque(),
         ])
             .catch(err => console.error(err))
             .finally(() => setLoading(false));
     }, []);
+
+    const exportPDF = () => {
+        const doc = new jsPDF();
+        doc.text('Relatório Dashboard Zelos', 14, 15);
+
+        autoTable(doc, {
+            startY: 25,
+            head: [['Métrica', 'Valor']],
+            body: [
+                ['Patrimônios Ativos', patrimonios.length],
+                ['Usuários Ativos', usuarios.length],
+                ['Chamados Totais', chamadosTotais],
+                ['Chamados em Aberto', chamadosAbertos],
+                ['Chamados Não Iniciados', chamadosNaoIniciados],
+                ['Chamados em Atraso', chamadosAtrasados],
+            ],
+        });
+
+        doc.save('dashboard-zelos.pdf');
+    };
+
+    const exportCSV = () => {
+        const data = [
+            { Métrica: 'Patrimônios Ativos', Valor: patrimonios.length },
+            { Métrica: 'Usuários Ativos', Valor: usuarios.length },
+            { Métrica: 'Chamados Totais', Valor: chamadosTotais },
+            { Métrica: 'Chamados em Aberto', Valor: chamadosAbertos },
+            { Métrica: 'Chamados Não Iniciados', Valor: chamadosNaoIniciados },
+            { Métrica: 'Chamados em Atraso', Valor: chamadosAtrasados },
+        ];
+
+        const ws = utils.json_to_sheet(data);
+        const wb = utils.book_new();
+        utils.book_append_sheet(wb, ws, "Relatório");
+        writeFile(wb, "dashboard-zelos.csv");
+    };
 
     if (loading) {
         return <Loader />;
@@ -178,17 +207,6 @@ export default function DashboardZeloPage() {
                 </div>
             </div>
 
-            {/* <div className="row mt-3">
-                <div className="col-md-12">
-                    <div className="chart-card">
-                        <h3 className="chart-title">Chamados abertos por mais tempo</h3>
-                        <div className="chart-wrapper">
-                            <GraficoChamadosPorTecnico />
-                        </div>
-                    </div>
-                </div>
-            </div> */}
-
             <div className="row mt-5">
                 <div className="col-md-4 mb-4">
                     <div className="info-box info-box-1">
@@ -240,6 +258,18 @@ export default function DashboardZeloPage() {
                         <p className="section-subtitle">Os 3 técnicos com o maior número de chamados resolvidos</p>
                         <CardTecnicoDestaque />
                     </div>
+                </div>
+            </div>
+
+            {/* Botões de exportação */}
+            <div className="row mt-5 mb-5 text-center">
+                <div className="col-12">
+                    <button className="btn btn-danger me-3" onClick={exportPDF}>
+                        <i className="bi bi-file-earmark-pdf"></i> Exportar PDF
+                    </button>
+                    <button className="btn btn-success" onClick={exportCSV}>
+                        <i className="bi bi-file-earmark-excel"></i> Exportar CSV
+                    </button>
                 </div>
             </div>
         </div>

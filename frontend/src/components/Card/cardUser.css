@@ -27,6 +27,20 @@
   letter-spacing: 1px;
 }
 
+.avatar-card-user-tecnico {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--vermelho), var(--vermelhoEscuro));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  color: var(--branco);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
 .card-user {
   border-radius: 10px;
   margin-right: 1rem;

@@ -1,11 +1,10 @@
-import { listarTodosUsuarios, listarUsuarioPorId, atualizarUsuario } from "../models/Usuarios.js"
+import { listarTodosUsuarios, listarUsuarioPorId, atualizarUsuario, listarTecnicosArea } from "../models/Usuarios.js"
 import { fileURLToPath } from 'url';
 import path from 'path'
 
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 
 
 const listarUsuariosController = async (req, res) => {
@@ -46,8 +45,6 @@ const listarUsuarioPorIdControllerPerfil = async (req, res) => {
         res.status(500).json({ mensagem: 'Erro ao obter Usuário por ID' })
     }
 }
-
-
 
 const atualizarStatusUsuarioController = async (req, res) => {
     try {
@@ -95,7 +92,21 @@ const atualizarFotoUsuarioController = async (req, res) => {
     }
 };
 
+const listarTecPorArea = async (req, res) => {
+    try {
+        const id_pool = req.query
+        console.log(id_pool.area)
+        const encontrarUsuario = await listarTecnicosArea(id_pool.area)
+        if (encontrarUsuario) {
+            res.json(encontrarUsuario)
+        } else {
+            res.status(404).json({ mensagem: `Usuário não encontrado` })
+        }
+    } catch (err) {
+        console.error('Erro ao obter Usuário por ID: ', err)
+        res.status(500).json({ mensagem: 'Erro ao obter Usuário por ID' })
+    }
+}
 
 
-
-export { listarUsuariosController, listarUsuarioPorIdController, atualizarStatusUsuarioController, listarUsuarioPorIdControllerPerfil, atualizarFotoUsuarioController }
+export { listarUsuariosController, listarUsuarioPorIdController, atualizarStatusUsuarioController, listarTecPorArea, listarUsuarioPorIdControllerPerfil, atualizarFotoUsuarioController }

@@ -16,6 +16,10 @@ body {
     flex-direction: column;
 }
 
+#modalNovoPatrimonio{
+    padding: 0!important;
+}
+
 .total-adm {
     flex: 1;
     display: flex;

@@ -117,7 +117,7 @@ export default function Carrosel({ chamados = [] }) {
     };
 
     fetchTecnicos();
- 
+
 
   }, []);
 

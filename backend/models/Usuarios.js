@@ -35,6 +35,7 @@ const listarUsuarioPorId = async (id) => {
         throw error;
     }
 }
+
 const atualizarUsuario = async (id, usuarioData) => {
     try {
         await update('usuarios', usuarioData, `id = ${id}`);
@@ -44,5 +45,14 @@ const atualizarUsuario = async (id, usuarioData) => {
     }
 };
 
+const listarTecnicosArea = async (id_pool) => {
+    try {
+        return await readAll('pool_tecnico', `id_pool = ${id_pool}`);
+    } catch (err) {
+        console.error('Erro ao listar tecnicos por função: ', err)
+        throw err
+    }
+};
 
-export { obterUsuario, criarUsuario, listarTodosUsuarios, listarUsuarioPorId, atualizarUsuario };
+
+export { obterUsuario, criarUsuario, listarTodosUsuarios, listarUsuarioPorId, atualizarUsuario, listarTecnicosArea };

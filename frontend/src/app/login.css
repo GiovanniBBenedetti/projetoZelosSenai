@@ -71,24 +71,6 @@
   width: 100%;
 }
 
-.loginButton { 
-  background: var(--vermelhoMedio);
-  border: none;
-  border-radius: 12px;
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  width: 100%;
-}
-
-.loginButton:hover {
-  background: var(--vermelhoEscuro);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;

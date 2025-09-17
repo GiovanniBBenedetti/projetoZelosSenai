@@ -33,40 +33,104 @@ export default function TabelaChamados() {
     fetchChamados();
   }, []);
 
+
   const fetchChamados = async () => {
     try {
-      const token = getCookie('token');
-      const response = await fetch('http://localhost:8080/chamado/todos', {
+      const tiposMap = {
+        1: "Externo",
+        2: "Manutenção",
+        3: "Apoio Tecnico",
+        4: "Limpeza"
+      };
+
+      const token = getCookie("token");
+      const response = await fetch("http://localhost:8080/chamado/todos", {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       });
 
-      if (!response.ok) throw new Error('Erro ao buscar chamados');
+      if (!response.ok) throw new Error("Erro ao buscar chamados");
 
       const data = await response.json();
 
-      const mapped = data.map((item) => ({
-        id: item.id,
-        titulo: item.titulo,
-        descricao: item.descricao,
-        patrimonio: item.patrimonio,
-        grau_prioridade: item.grau_prioridade,
-        tipo_id: item.tipo_id,
-        tecnico_id: item.tecnico_id ? item.tecnico_id : 'Sem técnico ainda',
-        usuario_id: item.usuario_id,
-        status: item.status,
-        criado_em: new Date(item.criado_em).toLocaleString('pt-BR'),
-        atualizado_em: new Date(item.atualizado_em).toLocaleString('pt-BR')
-      }));
+      const chamadosComUsuarios = await Promise.all(
+        data.map(async (item) => {
+          let tecnicoNome = "Sem técnico ainda";
+          let usuarioNome = "Usuário não encontrado";
 
-      setChamados(mapped);
+          
+          if (item.tecnico_id) {
+            try {
+              const resTec = await fetch(
+                `http://localhost:8080/usuarios/${item.tecnico_id}`,
+                {
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                  },
+                }
+              );
+
+              if (resTec.ok) {
+                const tecnicoData = await resTec.json();
+                tecnicoNome =
+                  tecnicoData.nome ||
+                  tecnicoData.username ||
+                  `ID ${item.tecnico_id}`;
+              }
+            } catch (err) {
+              console.error("Erro ao buscar técnico:", err);
+            }
+          }
+
+    
+          if (item.usuario_id) {
+            try {
+              const resUsu = await fetch(
+                `http://localhost:8080/usuarios/${item.usuario_id}`,
+                {
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                  },
+                }
+              );
+
+              if (resUsu.ok) {
+                const usuarioData = await resUsu.json();
+                usuarioNome =
+                  usuarioData.nome ||
+                  usuarioData.username ||
+                  `ID ${item.usuario_id}`;
+              }
+            } catch (err) {
+              console.error("Erro ao buscar usuário:", err);
+            }
+          }
+
+          return {
+            id: item.id,
+            titulo: item.titulo,
+            descricao: item.descricao,
+            patrimonio: item.patrimonio,
+            grau_prioridade: item.grau_prioridade,
+            tipo_nome: tiposMap[item.tipo_id],
+            tecnico_nome: tecnicoNome,
+            usuario_nome: usuarioNome,
+            status: item.status,
+            criado_em: new Date(item.criado_em).toLocaleString("pt-BR"),
+            atualizado_em: new Date(item.atualizado_em).toLocaleString("pt-BR"),
+          };
+        })
+      );
+
+      setChamados(chamadosComUsuarios);
     } catch (error) {
       console.error(error);
     }
   };
-
   const columns = [
     { field: 'id', headerName: 'ID', width: 40, disableColumnMenu: true },
     { field: 'titulo', headerName: 'Título', width: 270, disableColumnMenu: true },
@@ -127,9 +191,9 @@ export default function TabelaChamados() {
         );
       }
     },
-    { field: 'tipo_id', headerName: 'Tipo ID', width: 100, disableColumnMenu: true },
-    { field: 'tecnico_id', headerName: 'Técnico ID', width: 150, disableColumnMenu: true },
-    { field: 'usuario_id', headerName: 'Usuário ID', width: 80, disableColumnMenu: true },
+   { field: 'tipo_nome', headerName: 'Tipo', width: 150, disableColumnMenu: true },
+    { field: 'tecnico_nome', headerName: 'Técnico', width: 180, disableColumnMenu: true },
+    { field: 'usuario_nome', headerName: 'Usuário', width: 180, disableColumnMenu: true },
     { field: 'status', headerName: 'Status', width: 80, disableColumnMenu: true },
     { field: 'criado_em', headerName: 'Criado em', width: 180, disableColumnMenu: true },
     { field: 'atualizado_em', headerName: 'Atualizado em', width: 180, disableColumnMenu: true },

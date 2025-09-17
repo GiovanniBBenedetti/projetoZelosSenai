@@ -11,6 +11,10 @@
     --cinza: #eaeaea;
 }
 
+.lados-todos-tec {
+    padding-left: calc(var(--bs-gutter-x) * .5) !important;
+}
+
 .geral-perfil{
     padding-left: 10px;
     padding-right: 10px;

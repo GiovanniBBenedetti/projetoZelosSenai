@@ -11,7 +11,7 @@
     --cinza: #eaeaea;
 }
 
-.row>* {
+.lados-todos-tec {
     padding-left: calc(var(--bs-gutter-x) * .5) !important;
 }
 .geral-perfil{

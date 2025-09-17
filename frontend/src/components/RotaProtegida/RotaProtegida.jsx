@@ -53,7 +53,7 @@ export default function RotaProtegida({ permitido, children }) {
                         </div>
                         <div className="button button-notfound">
                             <a className="notfound-button" href={redirecionar}>
-                                voltar
+                                Voltar
                             </a>
 
                         </div>

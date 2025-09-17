@@ -169,36 +169,39 @@ const obterChamadoUsuarioController = async (req, res) => {
 };
 
 const atualizarChamadoController = async (req, res) => {
-  if (!req.usuario?.id) {
-    return res.status(401).json({ mensagem: 'Usuário não autenticado' });
-  }
+  if (!req.usuario?.id) return res.status(401).json({ mensagem: 'Usuário não autenticado' });
 
   try {
     const id = req.params.id;
-    const area = req.query.area;
-    const tecnicoIdQuery = req.query.id;
+    const tipoValue = parseInt(req.query.tipo, 10);
 
-    const result = await verTecnico(tecnicoIdQuery, area);
+    const { TITULO, DESCRICAO, TIPO_ID, TECNICO_ID } = req.body;
 
-    if (result.length === 0) {
-      return res.status(403).json({ mensagem: 'Este tecnico não existe ou não é desta respectiva área' });
+    if (tipoValue === 2) {
+      const chamadoData = {
+        titulo: TITULO,
+        descricao: DESCRICAO,
+        tipo_id: TIPO_ID,
+        tecnico_id: TECNICO_ID
+      };
+      const tecnicoDesignado = {
+        status: 'em andamento'
+      };
+      if (TECNICO_ID) {
+        await atribuicaoChamadosVirgens(id, tecnicoDesignado);
+      }
+      await atualizarChamados(id, chamadoData);
+      console.log("tipo atualizado completo")
+    } else if (tipoValue === 1) {
+      const chamadoData = {
+        titulo: TITULO,
+        descricao: DESCRICAO,
+      };
+      await atualizarChamados(id, chamadoData);
+      console.log("tipo atualizado incompleto")
+    } else {
+      return res.status(400).json({ mensagem: 'Tipo inválido' });
     }
-
-    const {
-      TITULO,
-      DESCRICAO,
-      TIPO_ID,
-      TECNICO_ID,
-    } = req.body;
-
-    const chamadoData = {
-      titulo: TITULO,
-      descricao: DESCRICAO,
-      tipo_id: TIPO_ID,
-      tecnico_id: TECNICO_ID
-    };
-
-    await atualizarChamados(id, chamadoData);
 
     res.status(200).json({ mensagem: 'Chamado atualizado com sucesso' });
   } catch (error) {

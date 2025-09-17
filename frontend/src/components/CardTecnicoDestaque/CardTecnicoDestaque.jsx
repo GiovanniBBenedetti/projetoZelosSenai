@@ -56,7 +56,7 @@ export default function CardTecnicoDestaque() {
                                         <img
                                             src={`http://localhost:8080${tecnico.foto}`}
                                             alt={`Foto de ${tecnico.nome}`}
-                                            className="avatar-img"
+                                            className="avatar-img img-fluid"
                                         />
                                     ) : (
                                         <p>{iniciais}</p>
@@ -70,7 +70,7 @@ export default function CardTecnicoDestaque() {
                             <div className="tecnico-body">
                                 <p>Chamados resolvidos</p>
                                 <h5>{tecnico.chamados_resolvidos}</h5>
-                                <p>Email: {tecnico.email}</p>
+                                <p className='text-truncate'>Email: {tecnico.email}</p>
                             </div>
                             <div className="tecnico-footer">
                                 <Link href={`mailto:${tecnico.email}`} className="btn-email">

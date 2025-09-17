@@ -49,36 +49,49 @@ export default function Perfil() {
         : ''
         }`;
 
-    const handlePhotoUpload = async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
+   const handlePhotoUpload = async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
 
-        setUploading(true);
-        const token = getCookie('token');
-        const formData = new FormData();
-        formData.append('foto', file);
+  setUploading(true);
+  const token = getCookie('token');
+  const formData = new FormData();
+  formData.append('foto', file);
 
-        try {
-            const res = await fetch('http://localhost:8080/usuarios/perfil/foto', {
-                method: 'PUT',
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-                body: formData,
-            });
+  try {
+    const res = await fetch('http://localhost:8080/usuarios/perfil/foto', {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
 
+    if (!res.ok) throw new Error("Erro no upload");
 
-            console.log(res)
+    // tenta pegar a URL que a API retorna
+    const data = await res.json();
 
-            setPhotoPreview(URL.createObjectURL(file));
-            setUserData({ ...userData, foto: URL.createObjectURL(file) });
+    if (data.fotoUrl) {
+      setPhotoPreview(data.fotoUrl);
+      setUserData({ ...userData, foto: data.fotoUrl });
+    } else {
+      // fallback para preview local
+      const previewUrl = URL.createObjectURL(file);
+      setPhotoPreview(previewUrl);
+      setUserData({ ...userData, foto: previewUrl });
+    }
 
-        } catch (err) {
-            console.error(err);
-        } finally {
-            setUploading(false);
-        }
-    };
+   
+    window.location.reload();
+
+  } catch (err) {
+    console.error(err);
+  } finally {
+    setUploading(false);
+  }
+};
+
 
     return (
         <>
@@ -134,7 +147,7 @@ export default function Perfil() {
                 <div className='inferior-perfil'>
                     <div className='inferior-esquerda-perfil me-2'>
                         <div className='cima-inferior-esquerda-perfil p-4 m-2'>
-                            <div className="row">
+                            <div className="row lados-todos-tec">
                                 <div className="col-md-6 lado1">
                                     <label className="">Email:</label>
                                     <input type="text" className="fw-bolder form-control form-controlPerfil InputPerfil fst-italic" value={userData.email || ''} readOnly disabled />

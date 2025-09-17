@@ -1,5 +1,5 @@
 import express from 'express'
-import { listarUsuariosController,listarUsuarioPorIdController, atualizarStatusUsuarioController, listarUsuarioPorIdControllerPerfil, atualizarFotoUsuarioController } from '../controllers/UsuariosController.js' 
+import { listarUsuariosController, listarUsuarioPorIdController, atualizarStatusUsuarioController, listarTecPorArea, listarUsuarioPorIdControllerPerfil, atualizarFotoUsuarioController } from '../controllers/UsuariosController.js'
 import authMiddleware from '../middlewares/authMiddleware.js'
 import multer from 'multer';
 import path from 'path';
@@ -24,23 +24,25 @@ const upload = multer({ storage: storage });
 
 router.get('/', authMiddleware, listarUsuariosController)
 
+router.get('/tecArea', listarTecPorArea)
+
 router.get('/perfil', authMiddleware, listarUsuarioPorIdControllerPerfil)
 
 router.put('/perfil/foto', authMiddleware, upload.single('foto'), atualizarFotoUsuarioController)
 
 router.get('/:id', listarUsuarioPorIdController)
 
-router.put('/:id',authMiddleware, atualizarStatusUsuarioController)
+router.put('/:id', authMiddleware, atualizarStatusUsuarioController)
 
 
 router.options('/', (req, res) => {
-    res.setHeader('Allow', 'GET, OPTIONS');
-    res.status(204).send();
+  res.setHeader('Allow', 'GET, OPTIONS');
+  res.status(204).send();
 })
 
 router.options('/:id', (req, res) => {
-    res.setHeader('Allow', 'GET, PUT, OPTIONS');
-    res.status(204).send();
+  res.setHeader('Allow', 'GET, PUT, OPTIONS');
+  res.status(204).send();
 })
 
 

@@ -38,7 +38,9 @@ export default function Login() {
       } else {
         toast.error('Número de cadastro ou senha incorreto', {
           position: 'top-right',
-          autoClose: 3000,
+          autoClose: 2000,
+          closeButton: false,
+          hideProgressBar: false,
         });
       }
     } catch (error) {
@@ -52,6 +54,28 @@ export default function Login() {
 
   return (
     <>
+      <style>
+        {`
+        button{
+          all: inherit;
+        }
+        .loginButtonnnnn { 
+          background: var(--vermelhoMedio);
+          border: none;
+          border-radius: 12px;
+          color: #fff;
+          font-size: 1rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          width: 100%!important;
+        }
+        .loginButtonnnnn:hover {
+          background: var(--vermelhoEscuro);
+          transform: translateY(-2px);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }`}
+      </style>
       <div className="loginWrapper">
         <ToastContainer />
 
@@ -83,7 +107,7 @@ export default function Login() {
             />
             <button
               type="submit"
-              className="loginButton"
+              className="loginButtonnnnn"
               style={{ padding: "1rem" }}
             >
               Entrar

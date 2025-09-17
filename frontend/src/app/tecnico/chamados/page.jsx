@@ -100,7 +100,7 @@ export default function Meus_chamados() {
                     aria-controls="flush-collapseOne"
                   >
                     Chamados Concluídos
-                    <i className="bi bi-chevron-right"></i>
+                    <i className="bi bi-chevron-right pt-2 ps-md-2"></i>
                   </button>
                   
                 </h2>

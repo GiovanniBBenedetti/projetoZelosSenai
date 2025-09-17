@@ -16,28 +16,89 @@ export default function ModalEditar({ chamado }) {
   const [chamadoId, setChamadoId] = useState('');
   const [tecnicoInicialVazio, setTecnicoInicialVazio] = useState(false);
   const [erro, setErro] = useState('');
+  const [tecnicosArea, setTecnicosArea] = useState([]);
 
   const tipoOptions = [
-    { value: 1, label: 'Externo' },
-    { value: 2, label: 'Manutenção' },
-    { value: 3, label: 'Apoio Técnico' },
-    { value: 4, label: 'Limpeza' }
+    { value: "Externo", label: 'Externo' },
+    { value: "Manutenção", label: 'Manutenção' },
+    { value: "Apoio Tecnico", label: 'Apoio Técnico' },
+    { value: "Limpeza", label: 'Limpeza' }
   ];
 
   useEffect(() => {
     setMounted(true);
     if (chamado) {
+      console.log(chamado)
       setNumeroPatrimonio(chamado.patrimonio || '');
       setTitulo(chamado.titulo || '');
       setDescricao(chamado.descricao || '');
-      const option = tipoOptions.find(opt => opt.value === chamado.tipo_id);
+      const option = tipoOptions.find(opt => opt.value === chamado.tipo_nome);
       setTipoId(option || null);
       setChamadoId(chamado.id || '');
-      setTecnicoId(chamado.tecnico_id || '');
+      setTecnicoId(chamado.tecnico_nome || '');
 
-      setTecnicoInicialVazio(chamado.tecnico_id === "Sem técnico ainda");
+      setTecnicoInicialVazio(chamado.tecnico_nome === "Sem técnico ainda");
     }
   }, [chamado]);
+
+  useEffect(() => {
+    handleBuscarTecnicos()
+  }, [tipo_id]);
+
+  const handleBuscarTecnicos = async () => {
+    setErro('');
+    const token = getCookie('token');
+
+    const tipo = tipo_id?.value;
+
+    let areaValue = 0;
+    if (tipo === "Externo") areaValue = 1;
+    else if (tipo === "Manutenção") areaValue = 2;
+    else if (tipo === "Apoio Tecnico") areaValue = 3;
+    else if (tipo === "Limpeza") areaValue = 4;
+
+    try {
+      const response = await fetch(`http://localhost:8080/usuarios/tecArea?area=${areaValue}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        setErro(result.mensagem || 'Erro ao buscar técnicos');
+        return;
+      }
+
+      // Para cada técnico, buscar o nome pelo id
+      const tecnicosComNome = await Promise.all(
+        result.map(async (t) => {
+          try {
+            const resNome = await fetch(`http://localhost:8080/usuarios/${t.id_tecnico}`, {
+              headers: { Authorization: `Bearer ${token}` }
+            });
+            const dadosNome = await resNome.json();
+            return {
+              value: t.id_tecnico,
+              label: dadosNome.nome || `Técnico ${t.id_tecnico}`
+            };
+          } catch {
+            return { value: t.id_tecnico, label: `Técnico ${t.id_tecnico}` };
+          }
+        })
+      );
+
+      setTecnicosArea(tecnicosComNome);
+    } catch (error) {
+      console.error('Erro ao buscar técnicos:', error);
+      setErro('Erro na requisição');
+    }
+  };
+
+
 
   if (!mounted) return null;
 
@@ -50,15 +111,26 @@ export default function ModalEditar({ chamado }) {
       tecnicoParaEnviar = parseInt(tecnico_id);
     }
 
+    let areaValue = 0;
+    if (tipo_id?.value === "Externo") areaValue = 1;
+    else if (tipo_id?.value === "Manutenção") areaValue = 2;
+    else if (tipo_id?.value === "Apoio Tecnico") areaValue = 3;
+    else if (tipo_id?.value === "Limpeza") areaValue = 4;
+
+    let tipo = 1
+
+    if (tecnicoInicialVazio === false) tipo = 1
+    else if (tecnicoInicialVazio === true) tipo = 2
+
     const dadosNovos = {
       TITULO: titulo,
       DESCRICAO: descricao,
-      TIPO_ID: parseInt(tipo_id?.value),
+      TIPO_ID: parseInt(areaValue),
       TECNICO_ID: tecnicoParaEnviar,
     };
 
     try {
-      const response = await fetch(`http://localhost:8080/chamado/uptade/${chamadoId}?area=${parseInt(tipo_id?.value)}&id=${tecnicoParaEnviar}`, {
+      const response = await fetch(`http://localhost:8080/chamado/uptade/${chamadoId}?tipo=${tipo}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -83,10 +155,8 @@ export default function ModalEditar({ chamado }) {
     const modalEl = document.getElementById('modalEditar');
     const modal = window.bootstrap.Modal.getInstance(modalEl);
 
-    // Se não houver modal inicializado, não faz nada
     if (!modal) return;
 
-    // Verifica se o clique foi diretamente no backdrop
     if (e.target && e.target.classList && e.target.classList.contains('modal-backdrop')) {
       modal.hide();
     }
@@ -115,7 +185,6 @@ export default function ModalEditar({ chamado }) {
 
           <div className="modal-body">
             <div className="inputsCadastro">
-              {/* Patrimônio */}
               <label htmlFor="patrimonio" className="form-label">Patrimonio (Leitura):</label>
               <div className="input-group mb-3 rounded-start-pill rounded-end-pill">
                 <span className="input-group-text rounded-start-pill">
@@ -132,7 +201,6 @@ export default function ModalEditar({ chamado }) {
                 />
               </div>
 
-              {/* Título */}
               <label htmlFor="titulo" className="form-label">Título:</label>
               <div className="input-group mb-3 rounded-start-pill rounded-end-pill">
                 <span className="input-group-text rounded-start-pill">
@@ -148,7 +216,107 @@ export default function ModalEditar({ chamado }) {
                 />
               </div>
 
-              {/* Descrição */}
+              <label htmlFor="tipo" className="form-label">Área do Chamado {tecnicoInicialVazio ? '' : '(Leitura)'}:</label>
+              <div className="input-group mb-3 rounded-start-pill rounded-end-pill align-items-center">
+                <span className="input-group-text rounded-start-pill">
+                  <i className="bi bi-tools"></i>
+                </span>
+                <div className="flex-grow-1">
+                  <Select
+                    id="tipo"
+                    options={tipoOptions}
+                    value={tipo_id}
+                    isDisabled={!tecnicoInicialVazio}
+                    onChange={(option) => {
+                      setTipoId(option);
+                      setTecnicoId('');
+                    }}
+                    className="react-select-container"
+                    classNamePrefix="react-select"
+                    styles={{
+                      control: (base, state) => ({
+                        ...base,
+                        borderColor: "transparent",
+                        outline: "none",
+                        boxShadow: state.isFocused
+                          ? "0 0 0 0.25rem rgba(181, 2, 2, 0.297)"
+                          : "none", "&:hover": { borderColor: "transparent" },
+                        borderTopRightRadius: "18px",
+                        borderBottomRightRadius: "18px",
+                      }),
+                      menu: (base) => ({ ...base, overflow: "hidden" }),
+                      option: (base, state) => ({
+                        ...base,
+                        backgroundColor: state.isSelected
+                          ? "#b5000c"
+                          : state.isFocused
+                            ? "#f5c4c7"
+                            : "white",
+                        color: state.isSelected ? "white" : "#333",
+                      }),
+                    }}
+                  />
+                </div>
+              </div>
+
+              <label htmlFor="tecnicoId" className="form-label">
+                Técnico {tecnicoInicialVazio ? '' : '(Leitura)'}:
+              </label>
+              <div className="input-group mb-3 rounded-start-pill rounded-end-pill">
+                <span className="input-group-text rounded-start-pill">
+                  <i className="bi bi-person-bounding-box"></i>
+                </span>
+                {tecnicoInicialVazio ? (
+                  <div className="flex-grow-1">
+                    <Select
+                      id="tecnicoId"
+                      options={tecnicosArea}
+                      value={
+                        tecnico_id
+                          ? tecnicosArea.find(t => t.value === tecnico_id) || null
+                          : null
+                      }
+                      onChange={(option) => setTecnicoId(option?.value || '')}
+                      className="react-select-container"
+                      classNamePrefix="react-select"
+                      styles={{
+                        control: (base, state) => ({
+                          ...base,
+                          borderColor: "transparent",
+                          outline: "none",
+                          boxShadow: state.isFocused
+                            ? "0 0 0 0.25rem rgba(181, 2, 2, 0.297)"
+                            : "none",
+                          "&:hover": { borderColor: "transparent" },
+                          borderTopRightRadius: "18px",
+                          borderBottomRightRadius: "18px",
+                        }),
+                        menu: (base) => ({ ...base, overflow: "hidden" }),
+                        option: (base, state) => ({
+                          ...base,
+                          backgroundColor: state.isSelected
+                            ? "#b5000c"
+                            : state.isFocused
+                              ? "#f5c4c7"
+                              : "white",
+                          color: state.isSelected ? "white" : "#333",
+                        }),
+                      }}
+                    />
+
+                  </div>
+                ) : (
+                  <input
+                    type="text"
+                    id="tecnicoId"
+                    className="form-control form-disabled rounded-5 rounded-start-0"
+                    placeholder="Tecnico Id"
+                    value={tecnico_id}
+                    disabled
+                  />
+                )}
+              </div>
+
               <label htmlFor="descricao" className="form-label">Descrição:</label>
               <div className="input-group mb-3 rounded-4">
                 <span className="input-group-text rounded-start-pill">
@@ -175,71 +343,6 @@ export default function ModalEditar({ chamado }) {
                       backgroundColor: "transparent",
                     }}
                   />
-                </div>
-              </div>
-
-              <div className="row">
-                {/* Select Área */}
-                <div className="col-6">
-                  <label htmlFor="tipo" className="form-label">Área do Chamado {tecnicoInicialVazio ? '' : '(Leitura)'}:</label>
-                  <div className="input-group mb-3 rounded-start-pill rounded-end-pill align-items-center">
-                    <span className="input-group-text rounded-start-pill">
-                      <i className="bi bi-tools"></i>
-                    </span>
-                    <div className="flex-grow-1">
-                      <Select
-                        id="tipo"
-                        options={tipoOptions}
-                        value={tipo_id}
-                        isDisabled={!tecnicoInicialVazio}
-                        onChange={(option) => setTipoId(option)}
-                        className="react-select-container"
-                        classNamePrefix="react-select"
-                        styles={{
-                          control: (base, state) => ({
-                            ...base,
-                            borderColor: "transparent",
-                            outline: "none",
-                            boxShadow: state.isFocused
-                              ? "0 0 0 0.25rem rgba(181, 2, 2, 0.297)"
-                              : "none", "&:hover": { borderColor: "transparent" },
-                            borderTopRightRadius: "18px",
-                            borderBottomRightRadius: "18px",
-                          }),
-                          menu: (base) => ({ ...base, overflow: "hidden" }),
-                          option: (base, state) => ({
-                            ...base,
-                            backgroundColor: state.isSelected
-                              ? "#b5000c"
-                              : state.isFocused
-                                ? "#f5c4c7"
-                                : "white",
-                            color: state.isSelected ? "white" : "#333",
-                          }),
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-6">
-                  <label htmlFor="tecnicoId" className="form-label">
-                    Técnico ID {tecnicoInicialVazio ? '' : '(Leitura)'}:
-                  </label>
-                  <div className="input-group mb-3 rounded-start-pill rounded-end-pill">
-                    <span className="input-group-text rounded-start-pill">
-                      <i className="bi bi-person-bounding-box"></i>
-                    </span>
-                    <input
-                      type="text"
-                      id="tecnicoId"
-                      className="form-control form-disabled rounded-5 rounded-start-0"
-                      placeholder="Tecnico Id"
-                      value={tecnico_id}
-                      onChange={(e) => setTecnicoId(e.target.value)}
-                      disabled={!tecnicoInicialVazio}
-                    />
-                  </div>
                 </div>
               </div>
 

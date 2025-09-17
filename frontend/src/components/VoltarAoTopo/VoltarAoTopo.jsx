@@ -21,12 +21,31 @@ export default function VoltarAoTopo() {
 
   return (
     visivel && (
-      <button
-        onClick={irParaTopo}
-        className="btn-voltar-topo btn btn-danger rounded-circle shadow"
-      >
-        <i className="bi bi-arrow-up-short fs-3"></i>
-      </button>
+      <>
+        <button
+          onClick={irParaTopo}
+          className="btn-voltar-topo rounded-circle shadow"
+        >
+          <i className="bi bi-arrow-up-short fs-3 icon-btn-topo"></i>
+        </button>
+        <style>
+          {`
+          .btn-voltar-topo {
+          position: fixed;
+          bottom: 30px;
+          right: 30px;
+          z-index: 999;
+          width: 50px;
+          height: 50px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: var(--vermelho);
+          padding: 5px;
+          color: var(--branco);
+          }`}
+        </style>
+      </>
     )
   );
 }

@@ -10,6 +10,7 @@ export default function Chat({ idChamado, possuiTecnico, isConcluido }) {
   const [carregandoMensagens, setCarregandoMensagens] = useState(true);
   const [novoApontamento, setNovoApontamento] = useState('');
   const [funcao, setFuncao] = useState('');
+  const [textoInput, setTextoInput] = useState('')
 
   const fimDasMensagensRef = (fim) => {
     if (fim) {
@@ -46,6 +47,11 @@ export default function Chat({ idChamado, possuiTecnico, isConcluido }) {
 
     const funcaoCookie = getCookie('funcao');
     setFuncao(funcaoCookie);
+
+    console.log(funcao)
+    if (funcao === 'tecnico') {
+      setTextoInput('Resgate o chamado primeiro, ou o chamado já foi concluído')
+    }
   }, []);
 
   if (carregandoMensagens) {
@@ -86,9 +92,31 @@ export default function Chat({ idChamado, possuiTecnico, isConcluido }) {
       alert('Erro ao enviar os dados.');
     }
   }
-console.log(isConcluido)
+  console.log(isConcluido)
   return (
     <>
+      <style>
+        {`
+      .message-box.left {
+        background-color: var(--cinza);
+        font-size: 13px;
+        border-radius: 0px 10px 10px 10px;
+        align-self: flex-start;
+        text-align: left;
+        color: #fff;
+        min-width: 38vh;
+      }
+
+      .message-box.right {
+      background-color: var(--vermelhoMedio);
+      font-size: 13px;
+      border-radius: 10px 0px 10px 10px;
+      align-self: flex-end;
+      text-align: right;
+      color: var(--branco);
+      min-width: 38vh;
+      }`}
+      </style>
       <div className="">
         <div className="card-container">
           <div className="card-body">
@@ -155,7 +183,7 @@ console.log(isConcluido)
             <input
               type="text"
               className="form-control input-nova-chat w-100"
-              placeholder="Digite sua mensagem..."
+              placeholder={textoInput}
               value={novoApontamento}
               onChange={(e) => setNovoApontamento(e.target.value)}
               required
@@ -164,7 +192,7 @@ console.log(isConcluido)
           </>
         )}
 
-        <button className="btn btn-modal-chat ms-2" onClick={mensagem}>
+        <button className="btn-modal-chat" onClick={mensagem}>
           <i className="bi bi-arrow-right"></i>
         </button>
       </div>

@@ -13,7 +13,7 @@ export default function Carrosel({ chamados = [] }) {
   const [page, setPage] = useState(1);
   const [tipoChamado, setTipoChamado] = useState();
   const [tecnicos, setTecnicos] = useState();
-    const [userChamadoData, setUserChamadoData] = useState({});
+  const [userChamadoData, setUserChamadoData] = useState({});
 
 
   function page1() {
@@ -147,6 +147,8 @@ export default function Carrosel({ chamados = [] }) {
           iniciais = (primeiroNome?.charAt(0).toUpperCase() || '') + (ultimoNome?.charAt(0).toUpperCase() || '');
         }
         const nomeUsuario = usuario.nome ? usuario.nome.split(' ').map(name => capitalizeFirst(name)).join(' ') : 'Usuário';
+
+
         return (
           <div key={index}>
             <div
@@ -306,8 +308,20 @@ export default function Carrosel({ chamados = [] }) {
                   ) : (
                     <div className="modal-body">
                       <div className="d-flex aling-items-center gap-3">
-                        <i className="bi bi-person-circle text-center fs-5"></i>
-                        <h4>{chamado.tecnico_id
+                        {chamado.tecnico_id ? (
+                          <div className="avatar-card-user-tecnico">
+                            {(() => {
+                              const partes = tecnicos[chamado.tecnico_id].nome.trim().split(" ");
+                              const iniciaisTecnico =
+                                (partes[0]?.charAt(0).toUpperCase() || "") +
+                                (partes[partes.length - 1]?.charAt(0).toUpperCase() || "");
+                              return iniciaisTecnico;
+                            })()}
+                          </div>
+                        ) : (
+                          <div className="avatar-card-user-tecnico"></div>
+                        )}
+                        <h4 className="align-items-center justify-content-center d-flex pt-1">{chamado.tecnico_id
                           ? tecnicos[chamado.tecnico_id]?.nome || "Carregando..."
                           : "Sem técnico"}</h4>
                       </div>
