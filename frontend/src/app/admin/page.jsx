@@ -10,14 +10,15 @@ import GraficoTipoProblema from '@/components/Graficos/GraficoTipoProblema';
 import GraficoTotalChamados from '@/components/Graficos/GraficoTotalChamados';
 import { getCookie } from 'cookies-next';
 
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
 import { utils, writeFile } from 'xlsx';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 export default function DashboardZeloPage() {
     const [patrimonios, setPatrimonios] = useState([]);
     const [usuarios, setUsuarios] = useState([]);
     const [chamadosAtrasados, setChamadosAtrasados] = useState(0);
+    const [tecnicos, setTecnicos] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const [chamadosTotais, setChamadosTotais] = useState(0);
@@ -106,55 +107,59 @@ export default function DashboardZeloPage() {
             setChamadosAtrasados(data.length || 0);
         };
 
+        const fetchTecnicosDestaque = async () => {
+            const res = await fetch('http://localhost:8080/dashboard/tecnicosDestaque', {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            if (!res.ok) throw new Error('Erro ao buscar técnicos em destaque');
+            setTecnicos(await res.json());
+        };
+
         setLoading(true);
         Promise.all([
             fetchUsuariosAtivos(),
             fetchPatrimoniosAtivos(),
             fetchChamadosAtrasados(),
+            fetchTecnicosDestaque(),
         ])
             .catch(err => console.error(err))
             .finally(() => setLoading(false));
     }, []);
 
+    if (loading) {
+        return <Loader />;
+    }
+
+    // Exportar PDF como print da página
     const exportPDF = () => {
-        const doc = new jsPDF();
-        doc.text('Relatório Dashboard Zelos', 14, 15);
-
-        autoTable(doc, {
-            startY: 25,
-            head: [['Métrica', 'Valor']],
-            body: [
-                ['Patrimônios Ativos', patrimonios.length],
-                ['Usuários Ativos', usuarios.length],
-                ['Chamados Totais', chamadosTotais],
-                ['Chamados em Aberto', chamadosAbertos],
-                ['Chamados Não Iniciados', chamadosNaoIniciados],
-                ['Chamados em Atraso', chamadosAtrasados],
-            ],
+        const input = document.querySelector(".dashboard-admin");
+        html2canvas(input, { scale: 2 }).then((canvas) => {
+            const imgData = canvas.toDataURL("image/png");
+            const pdf = new jsPDF("p", "mm", "a4");
+            const imgProps = pdf.getImageProperties(imgData);
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+            pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+            pdf.save("dashboard-zelos.pdf");
         });
-
-        doc.save('dashboard-zelos.pdf');
     };
 
+    // Exportar CSV (Excel)
     const exportCSV = () => {
         const data = [
-            { Métrica: 'Patrimônios Ativos', Valor: patrimonios.length },
-            { Métrica: 'Usuários Ativos', Valor: usuarios.length },
-            { Métrica: 'Chamados Totais', Valor: chamadosTotais },
-            { Métrica: 'Chamados em Aberto', Valor: chamadosAbertos },
-            { Métrica: 'Chamados Não Iniciados', Valor: chamadosNaoIniciados },
-            { Métrica: 'Chamados em Atraso', Valor: chamadosAtrasados },
+            { Nome: "Patrimônios Ativos", Valor: patrimonios.length },
+            { Nome: "Usuários Ativos", Valor: usuarios.length },
+            { Nome: "Chamados em Atraso", Valor: chamadosAtrasados },
+            { Nome: "Chamados Totais", Valor: chamadosTotais },
+            { Nome: "Chamados em Aberto", Valor: chamadosAbertos },
+            { Nome: "Chamados Não Iniciados", Valor: chamadosNaoIniciados },
         ];
 
         const ws = utils.json_to_sheet(data);
         const wb = utils.book_new();
-        utils.book_append_sheet(wb, ws, "Relatório");
-        writeFile(wb, "dashboard-zelos.csv");
+        utils.book_append_sheet(wb, ws, "Dashboard");
+        writeFile(wb, "dashboard-zelos.xlsx");
     };
-
-    if (loading) {
-        return <Loader />;
-    }
 
     return (
         <div className="container-fluid dashboard-admin">
@@ -261,10 +266,10 @@ export default function DashboardZeloPage() {
                 </div>
             </div>
 
-            {/* Botões de exportação */}
-            <div className="row mt-5 mb-5 text-center">
-                <div className="col-12">
-                    <button className="btn btn-danger me-3" onClick={exportPDF}>
+            {/* Botões de Exportação */}
+            <div className="row mt-5 mb-5">
+                <div className="col-md-12 d-flex gap-3 justify-content-center">
+                    <button className="btn btn-danger" onClick={exportPDF}>
                         <i className="bi bi-file-earmark-pdf"></i> Exportar PDF
                     </button>
                     <button className="btn btn-success" onClick={exportCSV}>

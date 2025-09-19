@@ -37,6 +37,9 @@
     object-fit: cover;
   }
   
+  .tecnico-avatar p {
+    margin-bottom: 0;
+  }
 
 .tecnico-info {
     flex-grow: 1;

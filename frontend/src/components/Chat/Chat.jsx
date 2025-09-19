@@ -183,7 +183,7 @@ export default function Chat({ idChamado, possuiTecnico, isConcluido }) {
             <input
               type="text"
               className="form-control input-nova-chat w-100"
-              placeholder={textoInput}
+              placeholder={textoInput || "Digite sua mensagem..."}
               value={novoApontamento}
               onChange={(e) => setNovoApontamento(e.target.value)}
               required

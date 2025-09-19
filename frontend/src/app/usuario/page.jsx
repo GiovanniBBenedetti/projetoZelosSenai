@@ -92,7 +92,7 @@ export default function UserDashboard() {
         <div className="col-md-4 mt-4 card-information-col">
           <Link href="/usuario/criar" className="card-information">
             <div className="text-content">
-              <p>Criar chamado</p>
+              <p>Abrir chamado</p>
               <span>Informe sua demanda</span>
             </div>
             <i className="bi bi-caret-right-fill"></i>
@@ -142,7 +142,7 @@ export default function UserDashboard() {
           ) : (
             <>
                 <p className='dash-user-mesage-null fs-5'>Nenhum chamado encontrado, precisa criar um?</p>
-                <a className='dash-user-btn-null d-flex mt-3' href="/usuario/criar"><button className='btn dash-user-btn'>Criar chamado</button></a>
+                <a className='dash-user-btn-null d-flex mt-3' href="/usuario/criar"><button className='btn dash-user-btn'>Abrir Chamado</button></a>
               </>
           )}
         </div>

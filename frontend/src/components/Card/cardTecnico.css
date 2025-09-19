@@ -268,3 +268,7 @@ p {
     object-fit: cover;
   }
 }
+
+.btn-close {
+  --bs-btn-close-focus-shadow: 0 0 0 .25rem rgb(253 13 13 / 25%);
+}

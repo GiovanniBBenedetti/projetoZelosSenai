@@ -127,7 +127,7 @@ export default function CriarChamado() {
         <div className="inputs-criar mb-4">
           <div className="titulo-criar">
             <p style={{ marginBottom: '0rem' }}>
-              Criar <span>Chamados</span>
+              Abrir <span>Chamado</span>
             </p>
           </div>
           <div className="">

@@ -166,7 +166,7 @@ const opcoesTipos = {
                 aria-hidden="true"
               >
                 <div className="modal-dialog  modal-lg modal-dialog-centered">
-                  <div className="modal-content pb-5">
+                  <div className="modal-content">
                     <div className="modal-header gap-4">
                       {page === 1 ? (
                         <>

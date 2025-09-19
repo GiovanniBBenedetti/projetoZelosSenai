@@ -21,7 +21,7 @@ Este sistema permite que os usuários registrem chamados de manutenção e outro
 
 ### Funcionalidades Principais:
 
-- **Criação de Chamados**: Usuários podem criar chamados informando o número de patrimônio ou descrição de item e o tipo de serviço necessário.
+- **Criação de Chamados**: Usuários podem Abrir Chamado informando o número de patrimônio ou descrição de item e o tipo de serviço necessário.
 - **Acompanhamento de Chamados**: Técnicos e usuários podem visualizar o status dos chamados e acompanhar as atualizações feitas pelos responsáveis.
 - **Apontamentos de Técnicos**: Técnicos podem adicionar apontamentos detalhados sobre o serviço realizado.
 - **Relatórios**: O sistema permite a geração de relatórios sobre os chamados, tipos de serviços e técnicos envolvidos.

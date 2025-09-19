@@ -53,7 +53,7 @@ export default function Meus_chamados() {
     <div>
       <div className="">
         <img
-          src="/img/meuschamadosDesk.png"
+          src="/img/meusChamadosDesk.png"
           alt=""
           className="bannerChamadosArea d-none d-md-block img-fluid"
         />
@@ -88,7 +88,7 @@ export default function Meus_chamados() {
 
           {/* Accordion Chamados Concluídos */}
           {chamadosConcluidos.length > 0 && (
-            <div className="accordion-chamados-tecnico accordion-flush mt-5" id="accordionFlushExample">
+            <div className="accordion-chamados-tecnico accordion-flush mt-2" id="accordionFlushExample">
               <div className="accordion-item">
                 <h2 className="accordion-header accordion-headerChamados">
                   <button

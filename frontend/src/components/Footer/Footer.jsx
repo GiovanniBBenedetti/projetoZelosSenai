@@ -7,7 +7,7 @@ export default function Footer({ funcao }) {
     const footerLinks = {
         admin: [
             { link: `/${funcao}`, label: 'Dashboard' },
-            { link: `/${funcao}/criar`, label: 'Criar Chamado' },
+            { link: `/${funcao}/criar`, label: 'Abrir Chamado' },
             { link: `/${funcao}/todosChamados`, label: 'Todos os Chamados' },
             { link: `/${funcao}/meusChamados`, label: 'Meus Chamados' },
             { link: `/${funcao}/usuarios`, label: 'Usuários' },
@@ -22,7 +22,7 @@ export default function Footer({ funcao }) {
         ],
         usuario: [
             { link: `/${funcao}/dashboard`, label: 'Dashboard' },
-            { link: `/${funcao}/criar`, label: 'Criar Chamado' },
+            { link: `/${funcao}/criar`, label: 'Abrir Chamado' },
             { link: `/${funcao}/meusChamados`, label: 'Meus Chamados' },
             { link: `/${funcao}/suporte`, label: 'Ajuda' },
         ],

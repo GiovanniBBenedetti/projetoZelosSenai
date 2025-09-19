@@ -95,7 +95,7 @@ export default function Perfil() {
 
     return (
         <>
-            <div className='geral-perfil p-4'>
+            <div className='geral-perfil py-4'>
                 <div className='superior-perfil me-4 ms-2'>
                     <div className="col-md-12 photo-perfil d-flex flex-column flex-md-row align-items-center mb-4">
                         <div className="photo-img-perfil me-md-4 mb-3 mb-md-0">

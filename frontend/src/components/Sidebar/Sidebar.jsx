@@ -83,7 +83,7 @@ const Sidebar = ({ isSidebarOpen }) => {
         icon: 'bi bi-gear-fill',
         label: 'Chamados',
         items: [
-          { link: '/admin/criar', icon: 'bi bi-pencil-square', label: 'Criar Chamado' },
+          { link: '/admin/criar', icon: 'bi bi-pencil-square', label: 'Abrir Chamado' },
           { link: '/admin/todosChamados', icon: 'bi bi-border-all', label: 'Todos os Chamados' },
           { link: '/admin/meusChamados', icon: 'bi bi-folder-fill', label: 'Meus Chamados' },
         ],
@@ -100,7 +100,7 @@ const Sidebar = ({ isSidebarOpen }) => {
         icon: 'bi bi-gear-fill',
         label: 'Chamados',
         items: [
-          { link: '/usuario/criar', icon: 'bi bi-pencil-square', label: 'Criar Chamado' },
+          { link: '/usuario/criar', icon: 'bi bi-pencil-square', label: 'Abrir Chamado' },
           { link: '/usuario/meusChamados', icon: 'bi bi-folder-fill', label: 'Meus Chamados' },
         ],
       },
