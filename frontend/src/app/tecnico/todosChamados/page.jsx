@@ -153,7 +153,7 @@ export default function Meus_chamados() {
         </div>
       </div>
 
-      {/* Paginação */}
+      
       <div className="d-flex justify-content-center align-items-center gap-3 my-4">
         <button
           className="btn btn-paginacao"

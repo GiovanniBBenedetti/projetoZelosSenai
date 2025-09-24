@@ -138,17 +138,18 @@ const listarchamadosParamsController = async (req, res) => {
 const getChamadosPorSemana = async (req, res) => {
     try {
         const sql = `
-            SELECT 
-                DAYNAME(criado_em) as dia,
-                status,
-                COUNT(*) as total
-            FROM chamados
-            WHERE criado_em >= CURDATE() - INTERVAL 6 DAY
-            GROUP BY dia, status
-            ORDER BY FIELD(
-                DAYNAME(criado_em),
-                'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'
-            );
+       SELECT 
+    DAYNAME(criado_em) as dia,
+    status,
+    COUNT(*) as total
+FROM chamados
+WHERE criado_em >= CURDATE() - INTERVAL 6 DAY
+GROUP BY dia, status
+ORDER BY FIELD(
+    dia,
+    'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'
+);
+
         `;
 
         const rows = await executeRawQuery(sql);
@@ -164,14 +165,14 @@ const getChamadosPorSemana = async (req, res) => {
         };
 
         const diasSemana = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"];
-        
+
         const result = {
             labels: diasSemana,
             datasets: {
                 enviados: [],
                 andamento: [],
                 concluidos: [],
-            
+
             }
         };
 
@@ -183,7 +184,7 @@ const getChamadosPorSemana = async (req, res) => {
             result.datasets.enviados.push(enviados ? enviados.total : 0);
             result.datasets.andamento.push(andamento ? andamento.total : 0);
             result.datasets.concluidos.push(concluidos ? concluidos.total : 0);
-            
+
         });
 
         res.json(result);

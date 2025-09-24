@@ -11,3 +11,25 @@
   padding-right: 15px;
 }
 
+
+
+.btn-paginacao {
+  background-color: #000;
+  color: #fff;
+  border: #000;
+}
+
+.btn-paginacao:hover {
+  background-color: #000;
+  color: #fff;
+  border: #000;
+}
+
+.btn-paginacao:focus {
+  background-color: #000;
+  color: #fff;
+  border: #000;
+}
+
+
+

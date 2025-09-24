@@ -9,7 +9,6 @@ export default function Carrosel({ chamados = [] }) {
   const [funcao, setFuncao] = useState("");
   const [iniciais, setIniciais] = useState("");
   const [nomeExibido, setNomeExibido] = useState("");
-  const [photoUrl, setPhotoUrl] = useState(null);
   const [page, setPage] = useState(1);
   const [tipoChamado, setTipoChamado] = useState();
   const [tecnicos, setTecnicos] = useState();
